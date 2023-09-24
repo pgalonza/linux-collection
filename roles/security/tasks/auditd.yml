@@ -1,0 +1,13 @@
+---
+# tasks file for auditd
+
+- name: Install auditd
+  ansible.builtin.dnf:
+    name: audit
+    state: present
+
+- name: Start auditd
+  ansible.builtin.service:
+    name: auditd
+    state: started
+    enabled: true

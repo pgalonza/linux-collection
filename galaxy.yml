@@ -1,0 +1,39 @@
+namespace: pgalonza
+
+name: linux
+
+version: 1.0.0
+
+readme: README.md
+
+authors:
+- Peter Galonza <p.galonza@evaron.ru>
+
+description: This collection will help you to customize your Linux experience.
+
+license:
+- Apache-2.0
+
+license_file: LICENSE
+
+tags:
+  - linux
+  - security
+  - audit
+  - prompt
+  - crowdsec
+  - sshd
+  - sysctl
+  - firewalld
+
+dependencies: {}
+
+repository: https://github.com/pgalonza/linux-collection
+
+documentation: None
+
+homepage: None
+
+issues: None
+
+build_ignore: []

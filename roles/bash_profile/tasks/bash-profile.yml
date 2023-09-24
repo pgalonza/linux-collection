@@ -1,0 +1,25 @@
+---
+# tasks file for bash profile
+
+- name: Copy login message script
+  ansible.builtin.template:
+    src: on-login-message.sh.j2
+    dest: /etc/profile.d/on-login-message.sh
+    backup: yes
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Make sure PS1 not in profile
+  become: false
+  ansible.builtin.lineinfile:
+    path: ~/.bash_profile
+    state: absent
+    regexp: '^PS1=.*$'
+
+- name: Add PS1
+  become: false
+  ansible.builtin.lineinfile:
+    path: ~/.bash_profile
+    line: "{{ bash_prompt }}"
+    insertafter: '^#\sUser specific environment and startup programs$'

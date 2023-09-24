@@ -1,0 +1,23 @@
+---
+# handlers file for security
+
+- name: Reload ssh server
+  ansible.builtin.systemd:
+    state: reloaded
+    name: sshd
+  listen: restart_sshd
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Reload crowdsec
+  ansible.builtin.systemd:
+    state: reloaded
+    name: crowdsec
+  listen: restart_crowdsec
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Reload Firewalld
+  ansible.builtin.systemd:
+    state: reloaded
+    name: firewalld
+  listen: restart_firewalld
+  when: ansible_facts['os_family'] == "RedHat"

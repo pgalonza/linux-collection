@@ -1,0 +1,25 @@
+---
+# tasks file for lynis
+
+- name: Unarchive lynis
+  ansible.builtin.unarchive:
+    src: "https://github.com/CISOfy/lynis/archive/refs/tags/{{ lynis_version }}.tar.gz"
+    dest: /tmp
+    remote_src: yes
+    creates: "/tmp/lynis-{{ lynis_version }}"
+
+- name: Execute lynis
+  ansible.builtin.command:
+    cmd: ./lynis audit system --no-colors --auditor "{{ ansible_user }}"
+  args:
+    chdir: "/tmp/lynis-{{ lynis_version }}"
+  register: lynis_report
+
+- name: Creating a file with content
+  become: false
+  ansible.builtin.copy:
+    dest: "{{ audit_dir }}/{{ inventory_hostname }}-lynis-report.txt"
+    content: >
+      {{ lynis_report.stdout|regex_replace("\u001b\[[0-9]{1,3}C", '', multiline=True) }}
+    mode: '0600'
+  delegate_to: localhost

@@ -1,0 +1,9 @@
+---
+# tasks file for audit
+
+- name: Execute audit
+  import_tasks: audit.yml
+
+- name: Execute lynis
+  import_tasks: lynis.yml
+

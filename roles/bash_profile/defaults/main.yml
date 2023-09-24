@@ -1,0 +1,5 @@
+---
+# defaults file for bash_profile
+
+server_role: Development
+on_login_message: "This is a {{ server_role }} server"

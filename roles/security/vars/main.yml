@@ -1,0 +1,5 @@
+---
+# vars file for security
+
+crowdsec_package: crowdsec-1.5.2-*
+crowdsec_firewall_bouncer_package: crowdsec-firewall-bouncer-nftables-0.0.27-*

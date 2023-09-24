@@ -1,0 +1,127 @@
+---
+# tasks file for audit
+
+- name: Gather facts on listening ports
+  community.general.listen_ports_facts:
+
+# - name: List all ports
+#   ansible.builtin.debug:
+#     msg: "{{ item.port }} {{ item.protocol }} {{ item.pid }} {{ item.name }}"
+#   loop: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) }}"
+#   loop_control:
+#     label: "{{ item.port }}"
+
+
+- name: Check empty password
+  ansible.builtin.command:
+    cmd: >
+      awk -F: '($2 == "") {print}' /etc/shadow
+  register: empty_passwords
+
+# - name: List users wuth empty password
+#   ansible.builtin.debug:
+#     msg: "{{ empty_passwords.stdout_lines }}"
+
+
+- name: Check root uid
+  ansible.builtin.command:
+    cmd: >
+      awk -F: '($3 == "0") {print}' /etc/passwd
+  register: root_uid
+
+# - name: List users with UID=0
+#   ansible.builtin.debug:
+#     msg: "{{ root_uid.stdout_lines }}"
+
+
+- name: Check SUID binaries
+  ansible.builtin.shell:
+    cmd: >
+      find / -perm /4000 -print 2> /dev/null || true
+  register: suid_binaries
+
+- name: Check SGID binaries
+  ansible.builtin.shell:
+    cmd: >
+      find / -perm /2000 -print 2> /dev/null || true
+  register: sgid_binaries
+
+# - name: List SUID binaries
+#   ansible.builtin.debug:
+#     msg: "{{ suid_binaries.stdout_lines }}"
+
+# - name: List SGID binaries
+#   ansible.builtin.debug:
+#     msg: "{{ sgid_binaries.stdout_lines }}"
+
+
+- name: Check World-Writable files
+  ansible.builtin.shell:
+    cmd: >
+      find / -xdev -type f \( -perm -0002 -a ! -perm -1000 \) -print
+  register: world_writable_files
+
+- name: Check World-Writable directories
+  ansible.builtin.shell:
+    cmd: >
+      find / -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print
+  register: world_writable_directories
+
+# - name: List World-Writable files
+#   ansible.builtin.debug:
+#     msg: "{{ world_writable_files.stdout_lines }}"
+
+# - name: List World-Writable directories
+#   ansible.builtin.debug:
+#     msg: "{{ world_writable_directories.stdout_lines }}"
+
+
+- name: Check noowner files
+  ansible.builtin.shell:
+    cmd: >
+      find / -xdev -type f \( -nouser -o -nogroup \) -print
+  register: noowner_files
+
+- name: Check noowner directories
+  ansible.builtin.shell:
+    cmd: >
+      find / -xdev -type d \( -nouser -o -nogroup \) -print
+  register: noowner_directories
+
+# - name: List noowner files
+#   ansible.builtin.debug:
+#     msg: "{{ noowner_files.stdout_lines }}"
+
+# - name: List noowner directories
+#   ansible.builtin.debug:
+#     msg: "{{ noowner_directories.stdout_lines }}"
+
+
+- name: Create audit dir
+  become: false
+  ansible.builtin.file:
+    path: "{{ audit_dir }}"
+    state: directory
+    mode: '0700'
+  delegate_to: localhost
+
+
+- name: Creating a file with content
+  become: false
+  ansible.builtin.copy:
+    dest: "{{ audit_dir }}/{{ item.name }}"
+    content: "{{ item.value }}"
+    mode: '0600'
+  loop:
+    - { name: "{{ inventory_hostname }}-ports.json", value: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) | to_nice_json }}" }
+    - { name: "{{ inventory_hostname }}-empty-passwords.txt", value: "{{ empty_passwords.stdout }}" }
+    - { name: "{{ inventory_hostname }}-root-uids.txt", value: "{{ root_uid.stdout }}" }
+    - { name: "{{ inventory_hostname }}-suid.txt", value: "{{ suid_binaries.stdout }}" }
+    - { name: "{{ inventory_hostname }}-sgid.txt", value: "{{ sgid_binaries.stdout }}" }
+    - { name: "{{ inventory_hostname }}-world-writeble-files.txt", value: "{{ world_writable_files.stdout }}" }
+    - { name: "{{ inventory_hostname }}-world-writeble-directories.txt", value: "{{ world_writable_directories.stdout }}" }
+    - { name: "{{ inventory_hostname }}-noowner-files.txt", value: "{{ noowner_files.stdout_lines }}" }
+    - { name: "{{ inventory_hostname }}-noowner-directories.txt", value: "{{ noowner_directories.stdout_lines }}" }
+  delegate_to: localhost
+  loop_control:
+    label: "audit"

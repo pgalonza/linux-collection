@@ -1,0 +1,36 @@
+---
+# defaults file for security
+sshd_log_level: VERBOSE
+sshd_port: 22
+sshd_address_famaly: any
+sshd_login_grace_time: 1m
+sshd_max_auth_tries: 3
+sshd_max_sessions: 10
+sshd_allow_agent_forwarding: 'yes'
+sshd_allow_tcp_forwarding: 'yes'
+sshd_x11_forwarding: 'no'
+sshd_print_motd: 'no'
+sshd_tcp_keep_alive: 'yes'
+sshd_client_alive_interval: 300
+sshd_client_alive_count_max: 3
+sshd_use_dns: 'no'
+sshd_allow_users:
+  - "{{ ansible_user }}"
+sshd_sftp_server_path: /usr/libexec/openssh/sftp-server
+sshd_listen_address_ipv4: '0.0.0.0'
+sshd_listen_address_ipv6: '::'
+sshd_deny_users:
+  - root
+  - admin
+  - sa
+
+crowdsec_use_wal: 'true'
+crowdsec_whitelist:
+  name: external/whitelists
+  description: "Whitelist events from global addresses"
+  whitelist:
+    reason: "global ipv4/ipv6 ip/ranges"
+    ip: []
+    cidr: []
+
+sysctl_forwarding: 1

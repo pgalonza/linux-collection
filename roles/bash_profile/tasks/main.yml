@@ -1,0 +1,5 @@
+---
+# tasks file for bash_profile
+
+- name: Configure bash profile
+  import_tasks: bash-profile.yml

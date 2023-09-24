@@ -1,0 +1,34 @@
+---
+# tasks file for firewalld
+
+- name: Reload ssh server
+  ansible.builtin.systemd:
+    state: started
+    name: firewalld
+    enabled: true
+
+- name: Add ssh custom service
+  ansible.builtin.template:
+    src: firewalld/ssh-custom.xml.j2
+    dest: /etc/firewalld/services/ssh-custom.xml
+    mode: '0644'
+  notify:
+    - restart_firewalld
+
+- name: Disable ssh
+  ansible.posix.firewalld:
+    zone: public
+    service: ssh
+    permanent: true
+    state: disabled
+  notify:
+    - restart_firewalld
+
+- name: Enable ssh-custom
+  ansible.posix.firewalld:
+    zone: public
+    service: ssh-custom
+    permanent: true
+    state: enabled
+  notify:
+    - restart_firewalld

@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Peter Galonza
+  description: Gathering security status reports using third-Party utilities and general recommendations
+
+  license: Apache-2.0
+
+  min_ansible_version: 2.9.10
+
+  galaxy_tags:
+    - linux
+    - lynix
+    - audit
+    - security report
+
+dependencies: []
