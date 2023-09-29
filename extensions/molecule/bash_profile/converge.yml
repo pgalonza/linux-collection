@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Testing role
+      ansible.builtin.include_role:
+        name: pgalonza.linux.bash_profile
+        tasks_from: main.yml
