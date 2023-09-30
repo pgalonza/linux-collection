@@ -4,8 +4,9 @@ platforms:
     image: docker.io/almalinux:8
     # privileged: true
     pre_build_image: true
-  # - name: Ubuntu
-  #   image: docker.io/ubuntu:23.10
+  - name: Ubuntu
+    image: docker.io/ubuntu:23.10
+    pre_build_image: false
 
 driver:
   name: docker
