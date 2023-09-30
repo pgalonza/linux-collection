@@ -1,5 +1,25 @@
 ---
 # tasks file for bash_profile
 
-- name: Configure bash profile
-  import_tasks: bash-profile.yml
+- name: Collect only os_family facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - os_family
+
+- name: Copy login message script
+  ansible.builtin.template:
+    src: on-login-message.sh.j2
+    dest: /etc/profile.d/on-login-message.sh
+    backup: yes
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Configure bash profile RedHat
+  import_tasks: bash-profile-redhat.yml
+  when: ansible_os_family in ["RedHat"]
+
+- name: Configure bash profile Debian
+  import_tasks: bash-profile-debian.yml
+  when: ansible_os_family in ["Debian"]
