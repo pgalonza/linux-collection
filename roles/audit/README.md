@@ -10,8 +10,8 @@ None
 
 Role Variables
 --------------
-* audit_dir - local report directory
-* lynis_version: 3.0.9
+* audit_dir - local report directory.
+* lynis_version - lynis version number.
 
 Dependencies
 ------------
