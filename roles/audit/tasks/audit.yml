@@ -103,15 +103,15 @@
     content: "{{ item.value }}"
     mode: '0600'
   loop:
-    - { name: "{{ inventory_hostname }}-ports.json", value: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) | to_nice_json }}" }
-    - { name: "{{ inventory_hostname }}-empty-passwords.txt", value: "{{ empty_passwords.stdout }}" }
-    - { name: "{{ inventory_hostname }}-root-uids.txt", value: "{{ root_uid.stdout }}" }
-    - { name: "{{ inventory_hostname }}-suid.txt", value: "{{ suid_binaries.stdout }}" }
-    - { name: "{{ inventory_hostname }}-sgid.txt", value: "{{ sgid_binaries.stdout }}" }
-    - { name: "{{ inventory_hostname }}-world-writeble-files.txt", value: "{{ world_writable_files.stdout }}" }
-    - { name: "{{ inventory_hostname }}-world-writeble-directories.txt", value: "{{ world_writable_directories.stdout }}" }
-    - { name: "{{ inventory_hostname }}-noowner-files.txt", value: "{{ noowner_files.stdout_lines }}" }
-    - { name: "{{ inventory_hostname }}-noowner-directories.txt", value: "{{ noowner_directories.stdout_lines }}" }
+    - { name: "ports.json", value: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) | to_nice_json }}" }
+    - { name: "empty-passwords.txt", value: "{{ empty_passwords.stdout }}" }
+    - { name: "root-uids.txt", value: "{{ root_uid.stdout }}" }
+    - { name: "suid.txt", value: "{{ suid_binaries.stdout }}" }
+    - { name: "sgid.txt", value: "{{ sgid_binaries.stdout }}" }
+    - { name: "world-writeble-files.txt", value: "{{ world_writable_files.stdout }}" }
+    - { name: "world-writeble-directories.txt", value: "{{ world_writable_directories.stdout }}" }
+    - { name: "noowner-files.txt", value: "{{ noowner_files.stdout_lines }}" }
+    - { name: "noowner-directories.txt", value: "{{ noowner_directories.stdout_lines }}" }
   delegate_to: localhost
   loop_control:
     label: "audit"

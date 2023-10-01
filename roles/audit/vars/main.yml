@@ -1,5 +1,5 @@
 ---
 # vars file for audit
 
-audit_dir: ./audit
+audit_dir: ./audit/{{ inventory_hostname }}
 lynis_version: 3.0.9
