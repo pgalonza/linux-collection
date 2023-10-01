@@ -1,0 +1,12 @@
+---
+- name: Cleanup
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Remove audit dir
+      become: false
+      ansible.builtin.file:
+        path: "./audit"
+        state: absent
+      delegate_to: localhost
+      run_once: true
