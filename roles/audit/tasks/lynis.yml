@@ -30,4 +30,3 @@
     src: /var/log/lynis-report.dat
     dest: "{{ audit_dir }}/{{ inventory_hostname }}-lynis-report.dat"
     mode: '0600'
-  delegate_to: localhost
