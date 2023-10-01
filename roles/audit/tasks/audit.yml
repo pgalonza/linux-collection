@@ -96,16 +96,6 @@
 #   ansible.builtin.debug:
 #     msg: "{{ noowner_directories.stdout_lines }}"
 
-
-- name: Create audit dir
-  become: false
-  ansible.builtin.file:
-    path: "{{ audit_dir }}"
-    state: directory
-    mode: '0700'
-  delegate_to: localhost
-
-
 - name: Creating a file with content
   become: false
   ansible.builtin.copy:

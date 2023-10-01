@@ -1,6 +1,14 @@
 ---
 # tasks file for audit
 
+- name: Create audit dir
+  become: false
+  ansible.builtin.file:
+    path: "{{ audit_dir }}"
+    state: directory
+    mode: '0700'
+  delegate_to: localhost
+
 - name: Execute audit
   import_tasks: audit.yml
 
