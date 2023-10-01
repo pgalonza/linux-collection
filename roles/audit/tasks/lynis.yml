@@ -15,7 +15,7 @@
     chdir: "/tmp/lynis-{{ lynis_version }}"
   register: lynis_report
 
-- name: Creating a file with content
+- name: Create report from output
   become: false
   ansible.builtin.copy:
     dest: "{{ audit_dir }}/{{ inventory_hostname }}-lynis-report.txt"
