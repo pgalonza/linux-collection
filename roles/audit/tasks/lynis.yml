@@ -10,7 +10,7 @@
 
 - name: Execute lynis
   ansible.builtin.command:
-    cmd: ./lynis audit system --no-colors --auditor "{{ ansible_user }}"
+    cmd: ./lynis audit system --no-colors --auditor "{{ auditor_name }}"
   args:
     chdir: "/tmp/lynis-{{ lynis_version }}"
   register: lynis_report
