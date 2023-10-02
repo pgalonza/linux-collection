@@ -1,15 +1,25 @@
 ---
 # tasks file for linux-security
 
+- name: Collect only os_family facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - os_family
+
 - name: Enable CRB
   ansible.builtin.command:
     cmd: dnf config-manager --set-enabled crb
-  when: ansible_facts['distribution_major_version'] == '9'
+  when: >
+    ansible_facts['os_family'] == "RedHat"
+    and ansible_facts['distribution_major_version'] == '9'
 
 - name: Enable Powertools
   ansible.builtin.command:
     cmd: dnf config-manager --set-enabled powertools
-  when: ansible_facts['distribution_major_version'] == '8'
+  when: >
+    ansible_facts['os_family'] == "RedHat"
+    and ansible_facts['distribution_major_version'] == '8'
 
 - name: Install EPEL
   ansible.builtin.dnf:
@@ -17,6 +27,7 @@
     state: present
   loop:
     - elrepo-release
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Configure SSHD
   import_tasks: sshd.yml
