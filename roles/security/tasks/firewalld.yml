@@ -1,11 +1,12 @@
 ---
 # tasks file for firewalld
 
-- name: Reload ssh server
+- name: Enable Firewalld
   ansible.builtin.systemd:
     state: started
     name: firewalld
     enabled: true
+  when: docker == false
 
 - name: Add ssh custom service
   ansible.builtin.template:
