@@ -48,8 +48,9 @@ Role Variables
 * sshd_listen_address_ipv6
 * sshd_deny_users
 
-
 * sysctl_forwarding -  enable or disable forwarding.
+
+docker - excluding task with error in docker.
 
 Dependencies
 ------------
