@@ -1,0 +1,40 @@
+---
+platforms:
+  - name: Almalinux
+    image: docker.io/almalinux:8
+    privileged: false
+    pre_build_image: false
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: Debian
+    image: docker.io/debian:12.1
+    privileged: false
+    pre_build_image: false
+  # - name: Ubuntu
+  #   image: docker.io/ubuntu:23.10
+  #   privileged: false
+  #   pre_build_image: false
+
+driver:
+  name: docker
+dependency:
+  name: galaxy
+provisioner:
+  name: ansible
+verifier:
+  name: testinfra
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
