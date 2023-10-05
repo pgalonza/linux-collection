@@ -1,5 +1,7 @@
 ---
 # defaults file for security
+docker: false
+
 sshd_log_level: VERBOSE
 sshd_port: 22
 sshd_address_famaly: any
