@@ -11,7 +11,7 @@
     mode: 0600
   notify: restart_sshd
 
-- name: Copy sshd_config
+- name: Copy ssh banner
   ansible.builtin.copy:
     src: ssh-banner.j2
     dest: /etc/ssh/ssh-banner
