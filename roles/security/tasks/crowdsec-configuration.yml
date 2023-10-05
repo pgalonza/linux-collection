@@ -1,29 +1,6 @@
 ---
 # tasks file for crowdsec
 
-- name: Download script.rpm.sh
-  become: false
-  ansible.builtin.get_url:
-    url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.rpm.sh
-    dest: /tmp/script.rpm.sh
-    mode: '700'
-
-- name: Execute install crowdsec repository
-  ansible.builtin.command:
-    cmd: /tmp/script.rpm.sh
-  args:
-    creates: /etc/crowdsec
-
-- name: Install crowdsec
-  ansible.builtin.dnf:
-    name: "{{ crowdsec_package }}"
-    state: present
-
-- name: Install crowdsec bouncer
-  ansible.builtin.dnf:
-    name: "{{ crowdsec_firewall_bouncer_package }}"
-    state: present
-
 - name: Copy crowdsec configuration
   ansible.builtin.template:
     src: crowdsec/config.yaml.j2
@@ -33,6 +10,8 @@
     group: root
     mode: 0600
   notify: restart_crowdsec
+  tags:
+    - molecule-notest
 
 - name: Create crowdsec whitelist
   ansible.builtin.copy:
@@ -44,3 +23,5 @@
     mode: 0600
   notify: restart_crowdsec
   when: crowdsec_whitelist.whitelist.ip or crowdsec_whitelist.whitelist.cidr
+  tags:
+    - molecule-notest

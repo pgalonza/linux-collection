@@ -1,0 +1,25 @@
+---
+# tasks file for crowdsec
+
+- name: Download script
+  become: false
+  ansible.builtin.get_url:
+    url: "https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh"
+    dest: /tmp/script.deb.sh
+    mode: '700'
+
+- name: Execute install crowdsec repository
+  ansible.builtin.command:
+    cmd: "/tmp/script.deb.sh"
+
+- name: Install crowdsec
+  ansible.builtin.apt:
+    name: "crowdsec={{ crowdsec_version }}"
+    state: present
+  when: docker == false
+
+- name: Install crowdsec bouncer
+  ansible.builtin.apt:
+    name: "{{ crowdsec_firewall_bouncer_debian_package }}"
+    state: present
+  when: docker == false
