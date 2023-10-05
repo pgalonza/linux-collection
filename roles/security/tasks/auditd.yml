@@ -11,3 +11,4 @@
     name: auditd
     state: started
     enabled: true
+  when: docker == false
