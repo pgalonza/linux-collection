@@ -6,29 +6,30 @@
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
     sysctl_file: /etc/sysctl.d/90-kernel.conf
   loop:
-  - name: kernel.randomize_va_space
-    value: 2
-  - name: kernel.dmesg_restrict
-    value: 1
-  - name: kernel.perf_event_paranoid
-    value: 2
-  - name: kernel.core_uses_pid
-    value: 1
-  - name: kernel.panic
-    value: 10
+    - name: kernel.randomize_va_space
+      value: 2
+    - name: kernel.dmesg_restrict
+      value: 1
+    - name: kernel.perf_event_paranoid
+      value: 2
+    - name: kernel.core_uses_pid
+      value: 1
+    - name: kernel.panic
+      value: 10
+  when: docker == false
 
 - name: Harden network parameters
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
     sysctl_file: /etc/sysctl.d/90-net.conf
   loop:
    - name: net.ipv4.tcp_syncookies
@@ -53,15 +54,15 @@
      value: 1
    - name: net.ipv4.conf.default.rp_filter
      value: 1
-     
+  when: docker == false
 
 - name: Disable ICMP echo and redirects
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
     sysctl_file: /etc/sysctl.d/90-icmp.conf
   loop:
     - name: net.ipv4.conf.default.accept_redirects
@@ -80,29 +81,30 @@
       value: 0
     - name: net.ipv4.icmp_ignore_bogus_error_responses
       value: 1
+  when: docker == false
 
 - name: Configure ip forwarding
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
     sysctl_file: /etc/sysctl.d/90-forward.conf
   loop:
     - name: net.ipv4.ip_forward
       value: "{{ sysctl_forwarding }}"
     - name: net.ipv6.conf.all.forwarding
       value: "{{ sysctl_forwarding }}"
-
+  when: docker == false
 
 - name: Configure limits
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
     sysctl_file: /etc/sysctl.d/90-limits.conf
   loop:
     - name: fs.file-max
@@ -111,3 +113,4 @@
       value: 65536
     - name: net.ipv4.ip_local_port_range
       value: 2000 65000
+  when: docker == false
