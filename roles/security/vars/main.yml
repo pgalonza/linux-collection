@@ -1,5 +1,6 @@
 ---
 # vars file for security
 
-crowdsec_package: crowdsec-1.5.2-*
-crowdsec_firewall_bouncer_package: crowdsec-firewall-bouncer-nftables-0.0.27-*
+crowdsec_version: 1.5.4
+crowdsec_firewall_bouncer_redhat_package: crowdsec-firewall-bouncer-nftables-0.0.27-*
+crowdsec_firewall_bouncer_debian_package: crowdsec-firewall-bouncer=0.0.25-*
