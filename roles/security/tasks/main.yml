@@ -7,33 +7,19 @@
       - '!all'
       - os_family
 
-- name: Enable CRB
-  ansible.builtin.command:
-    cmd: dnf config-manager --set-enabled crb
-  when: >
-    ansible_facts['os_family'] == "RedHat"
-    and ansible_facts['distribution_major_version'] == '9'
-
-- name: Enable Powertools
-  ansible.builtin.command:
-    cmd: dnf config-manager --set-enabled powertools
-  when: >
-    ansible_facts['os_family'] == "RedHat"
-    and ansible_facts['distribution_major_version'] == '8'
-
-- name: Install EPEL
-  ansible.builtin.dnf:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - elrepo-release
-  when: ansible_facts['os_family'] == "RedHat"
-
 - name: Configure SSHD
   import_tasks: sshd.yml
 
-- name: Install crowdsec
-  import_tasks: crowdsec.yml
+- name: Install crowdsec RedHat
+  import_tasks: crowdsec-install-redhat.yml
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Install crowdsec Debian
+  import_tasks: crowdsec-install-debian.yml
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Configuration crowdsec
+  import_tasks: crowdsec-configuration.yml
 
 - name: Install auditd
   import_tasks: auditd.yml
@@ -45,7 +31,3 @@
 
 - name: Configure sysctl
   import_tasks: sysctl.yml
-
-- name: Debug
-  ansible.builtin.debug:
-    msg: "{{ ansible_facts }}"
