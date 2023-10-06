@@ -10,8 +10,6 @@
     group: root
     mode: 0600
   notify: restart_crowdsec
-  tags:
-    - molecule-notest
 
 - name: Create crowdsec whitelist
   ansible.builtin.copy:
@@ -23,5 +21,3 @@
     mode: 0600
   notify: restart_crowdsec
   when: crowdsec_whitelist.whitelist.ip or crowdsec_whitelist.whitelist.cidr
-  tags:
-    - molecule-notest
