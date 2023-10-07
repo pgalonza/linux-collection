@@ -33,3 +33,6 @@
 
 - name: Configure PAM
   import_tasks: pam.yml
+
+- name: File permissions
+  import_tasks: file-permissions.yml

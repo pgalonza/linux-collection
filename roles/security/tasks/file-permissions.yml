@@ -1,0 +1,15 @@
+---
+# tasks file for permissions
+
+- name: Set correct permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: '0644'
+  loop:
+    - /etc/passwd
+    - /etc/group
+
+- name: Set correct permissions
+  ansible.builtin.file:
+    path: /etc/shadow
+    mode: '0600'
