@@ -30,3 +30,6 @@
 
 - name: Configure sysctl
   import_tasks: sysctl.yml
+
+- name: Configure PAM
+  import_tasks: pam.yml

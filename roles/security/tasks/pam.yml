@@ -1,0 +1,28 @@
+---
+# tasks file for PAM
+
+- name: PAM wheel
+  community.general.pamd:
+    name: su
+    type: auth
+    control: sufficient
+    module_path: pam_rootok.so
+    new_type: auth
+    new_control: required
+    new_module_path: pam_wheel.so
+    module_arguments: 'use_uid'
+    state: after
+
+- name: Ensure group "wheel" exists
+  ansible.builtin.group:
+    name: wheel
+    system: true
+    state: present
+
+- name: Add users to wheel group
+  ansible.builtin.user:
+    name: "{{ item }}"
+    append: true
+    groups:
+      - wheel
+  loop: "{{ wheel_users }}"

@@ -36,3 +36,7 @@ crowdsec_whitelist:
     cidr: []
 
 sysctl_forwarding: 1
+
+wheel_users:
+  - root
+  - "{{ ansible_user }}"
