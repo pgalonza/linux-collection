@@ -36,3 +36,6 @@
 
 - name: File permissions
   import_tasks: file-permissions.yml
+
+- name: Grub configuration
+  import_tasks: grub.yml
