@@ -20,8 +20,7 @@ None
 Role Variables
 --------------
 
-* crowdsec_package - crowdsed package version.
-* crowdsec_firewall_bouncer_package crowdsec baunce package.
+### Default
 
 [Crowdsec documentation](https://doc.crowdsec.net/docs/next/intro)
 * crowdsec_use_wal
@@ -48,9 +47,32 @@ Role Variables
 * sshd_listen_address_ipv6
 * sshd_deny_users
 
-* sysctl_forwarding -  enable or disable forwarding.
+Sysctl
 
-docker - excluding task with error in docker.
+* unprivileged_bpf_enabled - enable or disable BPF.
+* forwarding_enabled - enable or disable ipv4/ipv6 forwarding.
+* user_namespace_enabled - enable or disable user namespace. true = 28633, false = 0
+
+Molecule
+
+* docker - excluding task with error in docker.
+
+### Vars
+
+Sysctl
+
+* sysctl_max_user_namespaces - user.max_user_namespaces.
+* sysctl_forwarding_enabled - net.ipv4.ip_forward and net.ipv6.conf.all.forwarding.
+* sysctl_unprivileged_bpf_disabled - kernel.unprivileged_bpf_disabled.
+
+Crowdsec
+
+* crowdsec_package - crowdsed package version.
+* crowdsec_firewall_bouncer_package crowdsec baunce package.
+
+* crowdsec_version - crowdsed package version.
+* crowdsec_firewall_bouncer_redhat_package - crowdsec bounce package for RedHat family.
+* crowdsec_firewall_bouncer_debian_package - crowdsec bounce package for Debian family.
 
 Dependencies
 ------------
