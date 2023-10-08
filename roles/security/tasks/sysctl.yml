@@ -11,12 +11,6 @@
     reload: true
     sysctl_file: /etc/sysctl.d/90-kernel.conf
   loop:
-    - name: kernel.randomize_va_space
-      value: 2
-    - name: kernel.dmesg_restrict
-      value: 1
-    - name: kernel.perf_event_paranoid
-      value: 2
     - name: kernel.core_uses_pid
       value: 1
     - name: kernel.panic
@@ -93,9 +87,9 @@
     sysctl_file: /etc/sysctl.d/90-forward.conf
   loop:
     - name: net.ipv4.ip_forward
-      value: "{{ sysctl_forwarding }}"
+      value: "{{ sysctl_forwarding_enabled }}"
     - name: net.ipv6.conf.all.forwarding
-      value: "{{ sysctl_forwarding }}"
+      value: "{{ sysctl_forwarding_enabled }}"
   when: docker == false
 
 - name: Configure limits
@@ -113,4 +107,49 @@
       value: 65536
     - name: net.ipv4.ip_local_port_range
       value: 2000 65000
+  when: docker == false
+
+- name: FSTEC recomendations
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: '{{ item.value }}'
+    sysctl_set: true
+    state: present
+    reload: true
+    sysctl_file: /etc/sysctl.d/90-fstec.conf
+  loop:
+    - name: fs.suid_dumpable
+      value: 0
+    - name: fs.protected_regular
+      value: 2
+    - name: fs.protected_fifos
+      value: 2
+    - name: fs.protected_hardlinks
+      value: 1
+    - name: fs.protected_symlinks
+      value: 1
+    - name: kernel.yama.ptrace_scope
+      value: 3
+    - name: kernel.randomize_va_space
+      value: 2
+    - name: vm.mmap_min_addr
+      value: 4096
+    - name: dev.tty.lldisc_autoload
+      value: 0
+    - name: vm.unprivileged_userfaultfd
+      value: 0
+    - name: kernel.unprivileged_bpf_disabled
+      value: "{{ sysctl_unprivileged_bpf_disabled }}"
+    - name: user.max_user_namespaces
+      value: "{{ sysctl_max_user_namespaces }}"
+    - name: kernel.kexec_load_disabled
+      value: 1
+    - name: kernel.perf_event_paranoid
+      value: 3
+    - name: net.core.bpf_jit_harden
+      value: 2
+    - name: kernel.kptr_restrict
+      value: 2
+    - name: kernel.dmesg_restrict
+      value: 1
   when: docker == false

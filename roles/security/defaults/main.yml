@@ -35,7 +35,9 @@ crowdsec_whitelist:
     ip: []
     cidr: []
 
-sysctl_forwarding: 1
+unprivileged_bpf_enabled: false
+forwarding_enabled: true
+user_namespace_enabled: true
 
 wheel_users:
   - root
