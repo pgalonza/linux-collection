@@ -1,7 +1,10 @@
 ---
 # defaults file for security
+
+# Molecule
 docker: false
 
+# SSHD
 sshd_log_level: VERBOSE
 sshd_port: 22
 sshd_address_famaly: any
@@ -26,6 +29,7 @@ sshd_deny_users:
   - admin
   - sa
 
+# Crowdsec
 crowdsec_use_wal: 'true'
 crowdsec_whitelist:
   name: external/whitelists
@@ -35,10 +39,13 @@ crowdsec_whitelist:
     ip: []
     cidr: []
 
+
+# Sysctl
 unprivileged_bpf_enabled: false
 forwarding_enabled: true
 user_namespace_enabled: true
 
+# PAM
 wheel_users:
   - root
   - "{{ ansible_user }}"

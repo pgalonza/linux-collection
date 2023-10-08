@@ -1,10 +1,12 @@
 ---
 # vars file for security
 
+# Crowdsec
 crowdsec_version: 1.5.4
 crowdsec_firewall_bouncer_redhat_package: crowdsec-firewall-bouncer-nftables-0.0.27-*
 crowdsec_firewall_bouncer_debian_package: crowdsec-firewall-bouncer=0.0.25-*
 
+# Sysctl
 sysctl_max_user_namespaces: "{% if user_namespace_enabled == true %}28633{% elif user_namespace_enabled == false %}0{% endif %}"
 sysctl_forwarding_enabled: "{% if forwarding_enabled == true %}1{% elif forwarding_enabled == false %}0{% endif %}"
 sysctl_unprivileged_bpf_enabled: "{% if unprivileged_bpf_enabled == true %}0{% elif unprivileged_bpf_enabled == false %}1{% endif %}"
