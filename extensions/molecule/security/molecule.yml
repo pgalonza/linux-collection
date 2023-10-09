@@ -2,13 +2,11 @@
 platforms:
   - name: Almalinux
     image: docker.io/almalinux:8
-    privileged: false
+    privileged: true
     pre_build_image: false
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: Debian
     image: docker.io/debian:12.1
-    privileged: false
+    privileged: true
     pre_build_image: false
   # - name: Ubuntu
   #   image: docker.io/ubuntu:23.10

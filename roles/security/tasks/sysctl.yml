@@ -15,7 +15,6 @@
       value: 1
     - name: kernel.panic
       value: 10
-  when: docker == false
 
 - name: Harden network parameters
   ansible.posix.sysctl:
@@ -48,7 +47,6 @@
      value: 1
    - name: net.ipv4.conf.default.rp_filter
      value: 1
-  when: docker == false
 
 - name: Disable ICMP echo and redirects
   ansible.posix.sysctl:
@@ -75,7 +73,6 @@
       value: 0
     - name: net.ipv4.icmp_ignore_bogus_error_responses
       value: 1
-  when: docker == false
 
 - name: Configure ip forwarding
   ansible.posix.sysctl:
@@ -90,7 +87,6 @@
       value: "{{ sysctl_forwarding_enabled }}"
     - name: net.ipv6.conf.all.forwarding
       value: "{{ sysctl_forwarding_enabled }}"
-  when: docker == false
 
 - name: Configure limits
   ansible.posix.sysctl:
@@ -107,9 +103,8 @@
       value: 65536
     - name: net.ipv4.ip_local_port_range
       value: 2000 65000
-  when: docker == false
 
-- name: FSTEC recomendations
+- name: FSTEC recomendations v1
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
@@ -134,7 +129,7 @@
       value: 2
     - name: vm.mmap_min_addr
       value: 4096
-    - name: dev.tty.lldisc_autoload
+    - name: dev.tty.ldisc_autoload
       value: 0
     - name: vm.unprivileged_userfaultfd
       value: 0
@@ -146,10 +141,20 @@
       value: 1
     - name: kernel.perf_event_paranoid
       value: 3
-    - name: net.core.bpf_jit_harden
-      value: 2
     - name: kernel.kptr_restrict
       value: 2
     - name: kernel.dmesg_restrict
       value: 1
+
+- name: FSTEC recomendations v2
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: '{{ item.value }}'
+    sysctl_set: true
+    state: present
+    reload: true
+    sysctl_file: /etc/sysctl.d/90-fstec.conf
+  loop:
+    - name: net.core.bpf_jit_harden
+      value: 2
   when: docker == false

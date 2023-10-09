@@ -16,6 +16,7 @@
         - firewalld
         - openssh-server
         - dnf-plugins-core
+        - procps-ng
       when: ansible_facts['os_family'] == "RedHat"
     - name: Install Debian packages
       ansible.builtin.apt:
