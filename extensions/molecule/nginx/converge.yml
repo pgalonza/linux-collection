@@ -1,0 +1,14 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Collect only os_family facts
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - os_family
+    - name: Testing role
+      ansible.builtin.include_role:
+        name: pgalonza.linux.nginx
+        tasks_from: main.yml
