@@ -24,10 +24,6 @@
 - name: Install auditd
   import_tasks: auditd.yml
 
-- name: Configure firewalld
-  import_tasks: firewalld.yml
-  when: ansible_facts['os_family'] == "RedHat"
-
 - name: Configure sysctl
   import_tasks: sysctl.yml
 
@@ -39,3 +35,7 @@
 
 - name: Grub configuration
   import_tasks: grub.yml
+
+- name: Configure firewalld
+  import_tasks: firewalld.yml
+  when: ansible_facts['os_family'] == "RedHat"

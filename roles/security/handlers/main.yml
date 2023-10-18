@@ -6,18 +6,16 @@
     state: reloaded
     name: sshd
   listen: restart_sshd
-  when: docker == false
 
 - name: Reload crowdsec
   ansible.builtin.systemd:
     state: reloaded
     name: crowdsec
   listen: restart_crowdsec
-  when: docker == false
 
 - name: Reload Firewalld
   ansible.builtin.systemd:
     state: reloaded
     name: firewalld
   listen: restart_firewalld
-  when: ansible_facts['os_family'] == "RedHat" and docker == false
+  when: ansible_facts['os_family'] == "RedHat"

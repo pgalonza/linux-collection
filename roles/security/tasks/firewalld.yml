@@ -6,15 +6,12 @@
     state: started
     name: firewalld
     enabled: true
-  when: docker == false
 
 - name: Add ssh custom service
   ansible.builtin.template:
     src: firewalld/ssh-custom.xml.j2
     dest: /etc/firewalld/services/ssh-custom.xml
     mode: '0644'
-  notify:
-    - restart_firewalld
 
 - name: Disable ssh
   ansible.posix.firewalld:
@@ -22,8 +19,11 @@
     service: ssh
     permanent: true
     state: disabled
-  notify:
-    - restart_firewalld
+
+- name: Reload Firewalld
+  ansible.builtin.systemd:
+    state: reloaded
+    name: firewalld
 
 - name: Enable ssh-custom
   ansible.posix.firewalld:
