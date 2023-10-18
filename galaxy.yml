@@ -26,7 +26,8 @@ tags:
   - sysctl
   - firewalld
 
-dependencies: {}
+dependencies:
+  nginxinc.nginx_core: ">=0.8.0"
 
 repository: https://github.com/pgalonza/linux-collection
 

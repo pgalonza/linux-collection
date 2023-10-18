@@ -1,0 +1,8 @@
+---
+# handlers file for roles/nginx
+
+- name: Reload NGINX
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+  listen: nginx_reload
