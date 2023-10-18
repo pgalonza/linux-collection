@@ -9,4 +9,4 @@
         tasks_from: main.yml
       vars:
         ansible_user: root
-        docker: true
+        docker_molecule: true

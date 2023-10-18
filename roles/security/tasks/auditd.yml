@@ -18,4 +18,4 @@
     name: auditd
     state: started
     enabled: true
-  when: docker == false
+  when: docker_molecule == false

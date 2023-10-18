@@ -157,4 +157,4 @@
   loop:
     - name: net.core.bpf_jit_harden
       value: 2
-  when: docker == false
+  when: docker_molecule == false
