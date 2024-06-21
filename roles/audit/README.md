@@ -13,6 +13,7 @@ Role Variables
 * audit_dir - local report directory.
 * lynis_version - lynis version number.
 * auditor_name - name of auditor.
+* kvrt_report_dir - KVRT report directory.
 
 Dependencies
 ------------

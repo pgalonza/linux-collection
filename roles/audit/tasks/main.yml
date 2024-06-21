@@ -15,3 +15,5 @@
 - name: Execute lynis
   import_tasks: lynis.yml
 
+- name: Execute kvrt
+  import_tasks: kvrt.yml

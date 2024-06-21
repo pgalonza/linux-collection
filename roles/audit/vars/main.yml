@@ -2,4 +2,5 @@
 # vars file for audit
 
 audit_dir: ./audit/{{ inventory_hostname }}
+kvrt_report_dir: /tmp/kvrt-report
 lynis_version: 3.0.9

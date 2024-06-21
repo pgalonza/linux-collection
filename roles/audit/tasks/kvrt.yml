@@ -1,0 +1,30 @@
+---
+# tasks file for kvrt
+
+- name: Download KVRT
+  become: false
+  ansible.builtin.get_url:
+    url: "https://devbuilds.s.kaspersky-labs.com/kvrt_linux/latest/kvrt.run"
+    dest: /tmp/kvrt.run
+    mode: '700'
+
+- name: Execute KVRT
+  ansible.builtin.command:
+    cmd: "./kvrt.run --noprogress -- -accepteula -silent -dontencrypt -details -d \"{{ kvrt_report_dir }}\""
+  args:
+    chdir: "/tmp"
+
+- name: Archive KVRT reports
+  community.general.archive:
+    path: "{{ kvrt_report_dir }}/Reports"
+    dest: "{{ kvrt_report_dir }}/kvrt-reports.tar"
+    format: tar
+    mode: '0600'
+    owner: "{{ ansible_user }}"
+
+- name: Copy KVRT reports
+  become: false
+  ansible.builtin.fetch:
+    src: "{{ kvrt_report_dir }}/kvrt-reports.tar"
+    dest: "{{ audit_dir }}/kvrt-reports.tar"
+    mode: '0600'
