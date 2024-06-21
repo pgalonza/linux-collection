@@ -17,9 +17,9 @@
     mode: 0755
 
 - name: Configure bash profile RedHat
-  import_tasks: bash-profile-redhat.yml
+  ansible.builtin.import_tasks: bash-profile-redhat.yml
   when: ansible_os_family in ["RedHat"]
 
 - name: Configure bash profile Debian
-  import_tasks: bash-profile-debian.yml
+  ansible.builtin.import_tasks: bash-profile-debian.yml
   when: ansible_os_family in ["Debian"]

@@ -8,34 +8,34 @@
       - os_family
 
 - name: Configure SSHD
-  import_tasks: sshd.yml
+  ansible.builtin.import_tasks: sshd.yml
 
 - name: Install crowdsec RedHat
-  import_tasks: crowdsec-install-redhat.yml
+  ansible.builtin.import_tasks: crowdsec-install-redhat.yml
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: Install crowdsec Debian
-  import_tasks: crowdsec-install-debian.yml
+  ansible.builtin.import_tasks: crowdsec-install-debian.yml
   when: ansible_facts['os_family'] == "Debian"
 
 - name: Configuration crowdsec
-  import_tasks: crowdsec-configuration.yml
+  ansible.builtin.import_tasks: crowdsec-configuration.yml
 
 - name: Install auditd
-  import_tasks: auditd.yml
+  ansible.builtin.import_tasks: auditd.yml
 
 - name: Configure sysctl
-  import_tasks: sysctl.yml
+  ansible.builtin.import_tasks: sysctl.yml
 
 - name: Configure PAM
-  import_tasks: pam.yml
+  ansible.builtin.import_tasks: pam.yml
 
 - name: File permissions
-  import_tasks: file-permissions.yml
+  ansible.builtin.import_tasks: file-permissions.yml
 
 - name: Grub configuration
-  import_tasks: grub.yml
+  ansible.builtin.import_tasks: grub.yml
 
 - name: Configure firewalld
-  import_tasks: firewalld.yml
+  ansible.builtin.import_tasks: firewalld.yml
   when: ansible_facts['os_family'] == "RedHat"

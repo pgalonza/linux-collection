@@ -10,10 +10,10 @@
   delegate_to: localhost
 
 - name: Execute audit
-  import_tasks: audit.yml
+  ansible.builtin.import_tasks: audit.yml
 
 - name: Execute lynis
-  import_tasks: lynis.yml
+  ansible.builtin.import_tasks: lynis.yml
 
 - name: Execute kvrt
-  import_tasks: kvrt.yml
+  ansible.builtin.import_tasks: kvrt.yml
