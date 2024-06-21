@@ -22,11 +22,13 @@ Roles:
 Example Playbook
 ----------------
 
+```yaml
 - hosts: servers
   collections:
     - pgalonza.linux
   roles:
-      - role: nginx
+    - role: nginx
+```
 
 License
 -------

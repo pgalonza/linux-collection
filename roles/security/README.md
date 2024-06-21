@@ -82,13 +82,15 @@ None
 Example Playbook
 ----------------
 
+```yaml
 - hosts: servers
   collections:
     - pgalonza.linux
   roles:
-      - role: security
-        vars:
-          sshd_port: 2222
+    - role: security
+  vars:
+    sshd_port: 2222
+```
 
 License
 -------

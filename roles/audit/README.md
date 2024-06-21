@@ -23,11 +23,13 @@ None
 Example Playbook
 ----------------
 
+```yaml
 - hosts: servers
   collections:
     - pgalonza.linux
   roles:
-      - role: audit
+    - role: audit
+```
 
 License
 -------
