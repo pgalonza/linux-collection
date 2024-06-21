@@ -1,0 +1,8 @@
+- hosts: all
+  become: true
+  collections:
+    - pgalonza.linux
+  roles:
+    - security
+    - bash_profile
+    - audit
