@@ -9,7 +9,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     command: /usr/sbin/init
-    dockerfile: ../common/Dockerfile.j2
+    dockerfile: ../common/Dockerfile-systemd.j2
   - name: Debian
     image: docker.io/debian:12.1
     platform: x86_64
@@ -19,7 +19,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     command: /sbin/init
-    dockerfile: ../common/Dockerfile.j2
+    dockerfile: ../common/Dockerfile-systemd.j2
 
 driver:
   name: docker

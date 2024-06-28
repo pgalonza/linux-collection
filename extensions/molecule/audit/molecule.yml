@@ -2,12 +2,12 @@
 platforms:
   - name: Almalinux
     image: docker.io/almalinux:8
-    # privileged: true
     pre_build_image: false
+    dockerfile: ../common/Dockerfile.j2
   - name: Ubuntu
     image: docker.io/ubuntu:23.10
     pre_build_image: false
-
+    dockerfile: ../common/Dockerfile.j2
 driver:
   name: docker
 dependency:

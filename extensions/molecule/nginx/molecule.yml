@@ -9,7 +9,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     command: /usr/sbin/init
-    dockerfile: ../common/Dockerfile.j2
+    dockerfile: ../common/Dockerfile-systemd.j2
   - name: Ubuntu
     image: docker.io/ubuntu:jammy
     platform: x86_64
@@ -19,7 +19,7 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     command: /sbin/init
-    dockerfile: ../common/Dockerfile.j2
+    dockerfile: ../common/Dockerfile-systemd.j2
 
 driver:
   name: docker
