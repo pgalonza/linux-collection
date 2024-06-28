@@ -28,6 +28,8 @@ tags:
 
 dependencies:
   nginxinc.nginx_core: ">=0.8.0"
+  community.general: ">=8.6.2"
+  community.crypto: ">=1.9.25"
 
 repository: https://github.com/pgalonza/linux-collection
 
