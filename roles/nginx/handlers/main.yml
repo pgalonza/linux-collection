@@ -5,4 +5,4 @@
   ansible.builtin.service:
     name: nginx
     state: reloaded
-  listen: nginx_reload
+  listen: reload_nginx
