@@ -1,8 +1,20 @@
 ---
 # tasks file for audit
 
-- name: Gather facts on listening ports
-  community.general.listen_ports_facts:
+# - name: Gather facts on listening ports
+#   community.general.listen_ports_facts:
+
+- name: Check connections
+  ansible.builtin.command:
+    cmd: >
+      ss -tupn
+  register: ss_ports
+
+- name: Check ports
+  ansible.builtin.command:
+    cmd: >
+      ss -tupnl
+  register: ss_connections
 
 # - name: List all ports
 #   ansible.builtin.debug:
@@ -75,7 +87,6 @@
 #   ansible.builtin.debug:
 #     msg: "{{ world_writable_directories.stdout_lines }}"
 
-
 - name: Check noowner files
   ansible.builtin.shell:
     cmd: >
@@ -96,6 +107,18 @@
 #   ansible.builtin.debug:
 #     msg: "{{ noowner_directories.stdout_lines }}"
 
+- name: Check mounts
+  ansible.builtin.shell:
+    cmd: >
+      cat /proc/mounts
+  register: mounts
+
+- name: Check crontab
+  ansible.builtin.shell:
+    cmd: >
+      cat /etc/crontab  || true
+  register: crontab
+
 - name: Creating a file with content
   become: false
   ansible.builtin.copy:
@@ -103,7 +126,9 @@
     content: "{{ item.value }}"
     mode: '0600'
   loop:
-    - { name: "ports.json", value: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) | to_nice_json }}" }
+    # - { name: "ports.json", value: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) | to_nice_json }}" }
+    - { name: "connections.txt", value: "{{ ss_connections.stdout }}" }
+    - { name: "ports.txt", value: "{{ ss_ports.stdout }}" }
     - { name: "empty-passwords.txt", value: "{{ empty_passwords.stdout }}" }
     - { name: "root-uids.txt", value: "{{ root_uid.stdout }}" }
     - { name: "suid.txt", value: "{{ suid_binaries.stdout }}" }
@@ -112,6 +137,8 @@
     - { name: "world-writeble-directories.txt", value: "{{ world_writable_directories.stdout }}" }
     - { name: "noowner-files.txt", value: "{{ noowner_files.stdout_lines }}" }
     - { name: "noowner-directories.txt", value: "{{ noowner_directories.stdout_lines }}" }
+    - { name: "mounts.txt", value: "{{ mounts.stdout }}" }
+    - { name: "crontab.txt", value: "{{ crontab.stdout }}" }
   delegate_to: localhost
   loop_control:
     label: "audit"
