@@ -1,6 +1,12 @@
 ---
 # tasks file for audit
 
+- name: Collect only os_family facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - os_family
+
 # - name: Gather facts on listening ports
 #   community.general.listen_ports_facts:
 
@@ -119,6 +125,26 @@
       cat /etc/crontab  || true
   register: crontab
 
+- name: Check processes
+  ansible.builtin.shell:
+    cmd: >
+      ps auxeww
+  register: processes
+
+- name: Check DEB-packages
+  ansible.builtin.shell:
+    cmd: >
+      dpkg —verify
+  register: package_check
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Check RPM-packages
+  ansible.builtin.shell:
+    cmd: >
+      dnf check
+  register: package_check
+  when: ansible_facts['os_family'] == "RedHat"
+
 - name: Creating a file with content
   become: false
   ansible.builtin.copy:
@@ -139,6 +165,8 @@
     - { name: "noowner-directories.txt", value: "{{ noowner_directories.stdout_lines }}" }
     - { name: "mounts.txt", value: "{{ mounts.stdout }}" }
     - { name: "crontab.txt", value: "{{ crontab.stdout }}" }
+    - { name: "processes.txt", value: "{{ processes.stdout }}" }
+    - { name: "package-check.txt", value: "{{ package_check.stdout }}" }
   delegate_to: localhost
   loop_control:
     label: "audit"
