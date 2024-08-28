@@ -134,7 +134,7 @@
 - name: Check DEB-packages
   ansible.builtin.shell:
     cmd: >
-      dpkg —verify
+      dpkg --verify
   register: package_check
   when: ansible_facts['os_family'] == "Debian"
 
