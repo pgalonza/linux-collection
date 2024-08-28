@@ -153,20 +153,20 @@
     mode: '0600'
   loop:
     # - { name: "ports.json", value: "{{ (ansible_facts.tcp_listen + ansible_facts.udp_listen) | to_nice_json }}" }
-    - { name: "connections.txt", value: "{{ ss_connections.stdout }}" }
-    - { name: "ports.txt", value: "{{ ss_ports.stdout }}" }
-    - { name: "empty-passwords.txt", value: "{{ empty_passwords.stdout }}" }
-    - { name: "root-uids.txt", value: "{{ root_uid.stdout }}" }
-    - { name: "suid.txt", value: "{{ suid_binaries.stdout }}" }
-    - { name: "sgid.txt", value: "{{ sgid_binaries.stdout }}" }
-    - { name: "world-writeble-files.txt", value: "{{ world_writable_files.stdout }}" }
-    - { name: "world-writeble-directories.txt", value: "{{ world_writable_directories.stdout }}" }
+    - { name: "connections.txt", value: "{{ ss_connections.stdout|default(\"no information\") }}" }
+    - { name: "ports.txt", value: "{{ ss_ports.stdout|default(\"no information\") }}" }
+    - { name: "empty-passwords.txt", value: "{{ empty_passwords.stdout|default(\"no information\") }}" }
+    - { name: "root-uids.txt", value: "{{ root_uid.stdout|default(\"no information\") }}" }
+    - { name: "suid.txt", value: "{{ suid_binaries.stdout|default(\"no information\") }}" }
+    - { name: "sgid.txt", value: "{{ sgid_binaries.stdout|default(\"no information\") }}" }
+    - { name: "world-writeble-files.txt", value: "{{ world_writable_files.stdout|default(\"no information\") }}" }
+    - { name: "world-writeble-directories.txt", value: "{{ world_writable_directories.stdout|default(\"no information\") }}" }
     - { name: "noowner-files.txt", value: "{{ noowner_files.stdout_lines }}" }
     - { name: "noowner-directories.txt", value: "{{ noowner_directories.stdout_lines }}" }
-    - { name: "mounts.txt", value: "{{ mounts.stdout }}" }
-    - { name: "crontab.txt", value: "{{ crontab.stdout }}" }
-    - { name: "processes.txt", value: "{{ processes.stdout }}" }
-    - { name: "package-check.txt", value: "{{ package_check.stdout }}" }
+    - { name: "mounts.txt", value: "{{ mounts.stdout|default(\"no information\") }}" }
+    - { name: "crontab.txt", value: "{{ crontab.stdout|default(\"no information\") }}" }
+    - { name: "processes.txt", value: "{{ processes.stdout|default(\"no information\") }}" }
+    - { name: "package-check.txt", value: "{{ package_check.stdout|default(\"no information\") }}" }
   delegate_to: localhost
   loop_control:
     label: "audit"
