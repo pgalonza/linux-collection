@@ -1,0 +1,5 @@
+---
+# defaults file for prepare
+
+sshd_port: 22
+deploy_user: ansible

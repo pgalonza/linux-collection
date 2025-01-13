@@ -1,0 +1,25 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Collect only os_family facts
+      ansible.builtin.setup:
+        gather_subset:
+          - '!all'
+          - os_family
+    - name: Install RedHat packages
+      ansible.builtin.dnf:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - openssh-server
+      when: ansible_facts['os_family'] == "RedHat"
+    - name: Install Debian packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: true
+      loop:
+        - openssh-server
+      when: ansible_facts['os_family'] == "Debian"
