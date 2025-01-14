@@ -27,6 +27,8 @@ jobs:
           python-version: 3.x
       - name: Install Molecule dependencies
         run: pip3 install -r ./extensions/molecule/requirements.txt
+      - name: Install requirements
+        run: ansible-galaxy install -r ./requirements.yml
       - name: Install collection
         run: ansible-galaxy collection install ./
       - name: Run Molecule tests

@@ -1,0 +1,5 @@
+---
+roles:
+  - name: nginxinc.nginx
+    version: 0.25.0
+...
