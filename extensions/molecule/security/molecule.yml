@@ -11,7 +11,7 @@ platforms:
     command: /usr/sbin/init
     dockerfile: ../common/Dockerfile-systemd.j2
   - name: Ubuntu
-    image: docker.io/ubuntu:22.04
+    image: docker.io/ubuntu:24.04
     platform: x86_64
     privileged: true
     pre_build_image: false
