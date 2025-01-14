@@ -1,5 +1,5 @@
 ansible-compat==25.0.0
-ansible-core==2.18.1
+ansible-core==2.16.14
 attrs==24.3.0
 bracex==2.5.post1
 certifi==2024.12.14
@@ -11,7 +11,9 @@ cryptography==44.0.0
 distro==1.9.0
 docker==7.1.0
 enrich==1.2.7
+exceptiongroup==1.2.2
 idna==3.10
+iniconfig==2.0.0
 Jinja2==3.1.5
 jsonschema==4.23.0
 jsonschema-specifications==2024.10.1
@@ -24,6 +26,8 @@ packaging==24.2
 pluggy==1.5.0
 pycparser==2.22
 Pygments==2.19.1
+pytest==8.3.4
+pytest-testinfra==10.1.1
 PyYAML==6.0.2
 referencing==0.35.1
 requests==2.32.3
@@ -32,5 +36,7 @@ rich==13.9.4
 rpds-py==0.22.3
 selinux==0.3.0
 subprocess-tee==0.4.2
+tomli==2.2.1
+typing_extensions==4.12.2
 urllib3==2.3.0
 wcmatch==10.0
