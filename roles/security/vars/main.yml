@@ -2,9 +2,9 @@
 # vars file for security
 
 # Crowdsec
-crowdsec_version: 1.5.4
-crowdsec_firewall_bouncer_redhat_package: crowdsec-firewall-bouncer-nftables-0.0.27-*
-crowdsec_firewall_bouncer_debian_package: crowdsec-firewall-bouncer=0.0.25-*
+crowdsec_version: 1.6.4
+crowdsec_firewall_bouncer_redhat_package: crowdsec-firewall-bouncer-nftables-0.0.31-*
+crowdsec_firewall_bouncer_debian_package: crowdsec-firewall-bouncer-nftables=0.0.31-*
 
 # Sysctl
 sysctl_max_user_namespaces: "{% if user_namespace_enabled == true %}28633{% elif user_namespace_enabled == false %}0{% endif %}"
