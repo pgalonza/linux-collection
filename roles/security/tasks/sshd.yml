@@ -1,16 +1,6 @@
 ---
 # tasks file for sshd
 
-- name: Copy sshd_config
-  ansible.builtin.template:
-    src: sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    backup: yes
-    owner: root
-    group: root
-    mode: 0600
-  notify: restart_sshd
-
 - name: Copy ssh banner
   ansible.builtin.copy:
     src: ssh-banner.j2
@@ -19,4 +9,15 @@
     owner: root
     group: root
     mode: 0600
+  notify: restart_sshd
+
+- name: Copy sshd_config
+  ansible.builtin.template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    backup: yes
+    owner: root
+    group: root
+    mode: 0600
+    validate: /usr/sbin/sshd -t -f %s
   notify: restart_sshd
