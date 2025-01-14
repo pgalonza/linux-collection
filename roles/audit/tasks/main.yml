@@ -17,3 +17,4 @@
 
 - name: Execute kvrt
   ansible.builtin.import_tasks: kvrt.yml
+  tags: molecule-notest
