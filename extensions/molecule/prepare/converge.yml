@@ -7,3 +7,5 @@
       ansible.builtin.include_role:
         name: pgalonza.linux.prepare
         tasks_from: main.yml
+      vars:
+        ansible_user: ansible
