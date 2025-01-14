@@ -12,4 +12,4 @@
 
 - name: Update grub configuration
   ansible.builtin.command: "grub-mkconfig -o /boot/grub/grub.cfg"
-  when: docker_molecule == false
+  tags: molecule-notest
