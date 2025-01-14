@@ -4,7 +4,7 @@
   ansible.posix.authorized_key:
     user: "{{ ansible_user }}"
     state: present
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', '{{ ssh_key_dir }}/id_rsa.pub') }}"
 
 - name: Add the deploy user
   ansible.builtin.user:
@@ -18,7 +18,7 @@
   ansible.posix.authorized_key:
     user: "{{ deploy_user }}"
     state: present
-    key: "{{ lookup('file', '~/.ssh/{{ deploy_user }}_id_rsa.pub') }}"
+    key: "{{ lookup('file', '{{ ssh_key_dir }}/{{ deploy_user }}_id_rsa.pub') }}"
 
 - name: Create /etc/sudoers.d directory
   ansible.builtin.file:

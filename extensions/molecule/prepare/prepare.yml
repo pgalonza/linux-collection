@@ -23,3 +23,9 @@
       loop:
         - openssh-server
       when: ansible_facts['os_family'] == "Debian"
+    - name: Generate an OpenSSH keypair
+      community.crypto.openssh_keypair:
+        path: /tmp/{{ item }}
+      loop:
+        - id_rsa
+        - ansible_id_rsa
