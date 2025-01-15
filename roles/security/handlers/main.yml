@@ -17,7 +17,7 @@
 
 - name: Reload crowdsec
   ansible.builtin.systemd:
-    state: reloaded
+    state: restarted
     name: crowdsec
   listen: restart_crowdsec
 
