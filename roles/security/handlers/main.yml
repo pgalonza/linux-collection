@@ -6,6 +6,14 @@
     state: reloaded
     name: sshd
   listen: restart_sshd
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Reload ssh server
+  ansible.builtin.systemd:
+    state: reloaded
+    name: ssh
+  listen: restart_sshd
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Reload crowdsec
   ansible.builtin.systemd:
