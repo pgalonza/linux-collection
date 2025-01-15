@@ -26,8 +26,21 @@
       loop:
         - openssh-server
         - apt-utils
+        - dialog
+        - whiptail
       when: ansible_facts['os_family'] == "Debian"
     - name: Create default gradle file
       ansible.builtin.copy:
         content: 'GRUB_CMDLINE_LINUX=""'
         dest: /etc/default/grub
+        mode: '0600'
+    - name: Create acquis for crowdsec
+      ansible.builtin.copy:
+        content: |
+          filenames:
+          - /var/log/auth.log
+          - /var/log/syslog
+          labels:
+            type: syslog
+        dest: /etc/crowdsec/acquis.yaml
+        mode: '0600'
