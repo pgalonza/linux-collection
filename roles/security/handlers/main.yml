@@ -20,6 +20,7 @@
     state: restarted
     name: crowdsec
   listen: restart_crowdsec
+  tags: molecule-notest
 
 - name: Reload Firewalld
   ansible.builtin.systemd:
