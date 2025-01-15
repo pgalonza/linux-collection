@@ -8,4 +8,5 @@
         name: pgalonza.linux.prepare
         tasks_from: main.yml
       vars:
+        ansible_user: ssh_user
         ssh_key_dir: /tmp

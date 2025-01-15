@@ -23,6 +23,10 @@
       loop:
         - openssh-server
       when: ansible_facts['os_family'] == "Debian"
+    - name: Create test user
+      ansible.builtin.user:
+        name: ssh_user
+        create_home: true
     - name: Generate an OpenSSH keypair
       community.crypto.openssh_keypair:
         path: "/tmp/{{ item }}"
