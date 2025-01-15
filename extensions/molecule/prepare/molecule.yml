@@ -2,24 +2,12 @@
 platforms:
   - name: Almalinux
     image: docker.io/almalinux:8
-    platform: x86_64
-    privileged: true
     pre_build_image: false
-    cgroupns_mode: host
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    command: /usr/sbin/init
-    dockerfile: ../common/Dockerfile-systemd.j2
+    dockerfile: ../common/Dockerfile.j2
   - name: Ubuntu
     image: docker.io/ubuntu:24.04
-    platform: x86_64
-    privileged: true
     pre_build_image: false
-    cgroupns_mode: host
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    command: /sbin/init
-    dockerfile: ../common/Dockerfile-systemd.j2
+    dockerfile: ../common/Dockerfile.j2
 
 driver:
   name: docker
