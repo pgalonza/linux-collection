@@ -9,4 +9,4 @@
         tasks_from: main.yml
       vars:
         ansible_user: ansible
-        ssh_key_dir: /opt
+        ssh_key_dir: /tmp
