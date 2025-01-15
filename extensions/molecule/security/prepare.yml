@@ -34,12 +34,17 @@
         content: 'GRUB_CMDLINE_LINUX=""'
         dest: /etc/default/grub
         mode: '0600'
+    - name: Create crowdsec directory
+      ansible.builtin.file:
+        state: directory
+        path: /etc/crowdsec
+        mode: '0600'
     - name: Create acquis for crowdsec
       ansible.builtin.copy:
         content: |
           filenames:
-          - /var/log/auth.log
-          - /var/log/syslog
+            - /var/log/auth.log
+            - /var/log/syslog
           labels:
             type: syslog
         dest: /etc/crowdsec/acquis.yaml
