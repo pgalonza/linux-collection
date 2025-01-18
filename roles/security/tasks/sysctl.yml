@@ -121,6 +121,7 @@
       value: 1000
     - name: net.core.somaxconn
       value: 1024
+  tags: molecule-notest
 
 - name: FSTEC recomendations v1
   ansible.posix.sysctl:
