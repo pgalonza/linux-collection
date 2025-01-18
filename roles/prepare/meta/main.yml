@@ -8,11 +8,7 @@ galaxy_info:
 
   galaxy_tags:
     - linux
-    - security
-    - sshd
-    - crowdsec
-    - firewalld
-    - auditd
-    - sysctl
+    - firts start
+    - prepare server
 
 dependencies: []

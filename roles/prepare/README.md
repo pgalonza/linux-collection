@@ -6,6 +6,7 @@ Set up a Linux server to use roles for IAC..
 Cinfigure:
 * SSH Keys
 * SSHD
+* Ansible user
 
 Requirements
 ------------
