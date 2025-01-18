@@ -27,10 +27,6 @@
       ansible.builtin.user:
         name: test_user
         create_home: true
-    - name: Remove pwd.lock file
-      ansible.builtin.file:
-        path: /etc/pwd.lock
-        state: absent
     - name: Generate an OpenSSH keypair
       community.crypto.openssh_keypair:
         path: "/tmp/{{ item }}"
