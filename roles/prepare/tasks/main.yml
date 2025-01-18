@@ -20,14 +20,6 @@
     state: present
     key: "{{ lookup('file', '{{ ssh_key_dir }}/{{ deploy_user }}_id_rsa.pub') }}"
 
-- name: Create /etc/sudoers.d directory
-  ansible.builtin.file:
-    path: /etc/sudoers.d
-    state: directory
-    owner: root
-    group: root
-    mode: "0750"
-
 - name: "Deploy user permissions"
   ansible.builtin.copy:
     dest: "/etc/sudoers.d/{{ deploy_user }}"
@@ -36,6 +28,15 @@
     group: root
     mode: "0600"
     validate: "/usr/sbin/visudo --check --file=%s"
+
+- name: Ansible user permissions in sudoers
+  community.general.sudoers:
+    name: Ansible rules
+    host: ALL
+    commands: ALL
+    noexec: false
+    nopassword: true
+    user: "{{ ansible_user }}"
 
 - name: Change SSHD port
   ansible.builtin.lineinfile:
