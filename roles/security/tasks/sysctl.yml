@@ -102,7 +102,7 @@
     - name: kernel.pid_max
       value: 65536
     - name: net.ipv4.ip_local_port_range
-      value: 2000 65000
+      value: 1024 65535
 
 - name: FSTEC recomendations v1
   ansible.posix.sysctl:
