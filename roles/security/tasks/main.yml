@@ -19,7 +19,7 @@
   when: ansible_facts['os_family'] == "Debian"
 
 - name: Install crowdsec in Docker
-  ansible.builtin.import_tasks: crowdsec-install-debian.yml
+  ansible.builtin.import_tasks: crowdsec-docker.yml
   when: crowdsec_in_docker
 
 - name: Configuration crowdsec
