@@ -12,14 +12,13 @@
     state: present
   when: ansible_facts['os_family'] == "RedHat"
 
-
 - name: Base nftables configuration
   ansible.builtin.command:
     cmd: "nft \"{{ item }}\""
   loop:
     - "flush ruleset"
     - "add table inet filter"
-    - "nft add chain inet filter input { type filter hook input priority 0 \\; }"
+    - "add chain inet filter input { type filter hook input priority 0 \\; }"
     - "add rule ip filter input tcp dport {{ sshd_port }} accept"
     - "add rule inet filter input ct state established,related accept"
     - "add chain inet filter input '{ policy drop; }'"
