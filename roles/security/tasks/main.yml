@@ -40,6 +40,9 @@
 - name: Grub configuration
   ansible.builtin.import_tasks: grub.yml
 
-- name: Configure firewalld
+# - name: Configure firewalld
+#   ansible.builtin.import_tasks: firewalld.yml
+#   when: ansible_facts['os_family'] == "RedHat"
+
+- name: Configure nftables
   ansible.builtin.import_tasks: firewalld.yml
-  when: ansible_facts['os_family'] == "RedHat"

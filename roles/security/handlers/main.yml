@@ -27,3 +27,9 @@
     name: firewalld
   listen: restart_firewalld
   when: ansible_facts['os_family'] == "RedHat"
+
+- name: Reload nftables
+  ansible.builtin.systemd:
+    state: reloaded
+    name: nftables
+  listen: restart_nftables
