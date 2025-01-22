@@ -5,7 +5,8 @@ services:
     image: crowdsecurity/crowdsec:v{{ crowdsec_version }}
     restart: always
     environment:
-      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/whitelists"
+      COLLECTIONS: "crowdsecurity/sshd"
+      PARSERS: "crowdsecurity/whitelists"
     volumes:
       - /var/log/auth.log:/logs/auth.log:ro
       - crowdsec-db:/var/lib/crowdsec/data/
