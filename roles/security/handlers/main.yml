@@ -33,3 +33,15 @@
     state: reloaded
     name: nftables
   listen: restart_nftables
+
+- name: Update grub configuration
+  ansible.builtin.command:
+    cmd: "grub-mkconfig -o /boot/grub/grub.cfg"
+    removes: /boot/grub/grub.cfg
+  listen: regenerate_grub
+
+- name: Update grub configuration
+  ansible.builtin.command:
+    cmd: "grub-mkconfig -o /boot/grub/grub.cfg"
+    removes: /boot/grub2/grub.cfg
+  listen: regenerate_grub
