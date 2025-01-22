@@ -20,6 +20,7 @@
     state: restarted
     name: crowdsec
   listen: restart_crowdsec
+  when: not crowdsec_in_docker
 
 - name: Reload Firewalld
   ansible.builtin.systemd:
