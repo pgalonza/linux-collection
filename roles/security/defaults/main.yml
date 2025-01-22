@@ -50,6 +50,4 @@ user_namespace_enabled: true
 icmp_echo_ignore_all: true
 
 # PAM
-wheel_users:
-  - root
-  - "{{ ansible_user }}"
+wheel_users: []
