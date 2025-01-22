@@ -1,11 +1,31 @@
 ---
 # tasks file for crowdsec
 
+- name: Create acquis.d
+  ansible.builtin.file:
+    path: /etc/crowdsec/acquis.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Copy crowdsec acquis
+  ansible.builtin.copy:
+    src: "crowdsec/acquis-{{ item }}"
+    dest: "/etc/crowdsec/acquis.d/{{ item }}"
+    backup: yes
+    owner: root
+    group: root
+    mode: 0600
+  loop:
+    - sshd.yaml
+  notify: restart_crowdsec
+
 - name: Copy crowdsec configuration
   ansible.builtin.template:
     src: crowdsec/config.yaml.j2
     dest: /etc/crowdsec/config.yaml
-    backup: yes
+    backup: true
     owner: root
     group: root
     mode: 0600

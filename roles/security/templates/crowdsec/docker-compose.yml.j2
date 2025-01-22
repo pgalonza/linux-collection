@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:v{{ crowdsec_version }}
+    restart: always
+    environment:
+      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/whitelists"
+    volumes:
+      - /var/log/auth.log:/logs/auth.log:ro
+      - crowdsec-db:/var/lib/crowdsec/data/
+      - crowdsec-config:/etc/crowdsec/
+    ports:
+      - '127.0.0.1:8080:8080'
+    networks:
+        crowdsec:
+          ipv4_address: 172.31.0.2
+
+volumes:
+  crowdsec-db:
+  crowdsec-config:
+
+networks:
+  crowdsec:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.31.0.0/29

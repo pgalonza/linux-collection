@@ -25,6 +25,10 @@ Role Variables
 [Crowdsec documentation](https://doc.crowdsec.net/docs/next/intro)
 * crowdsec_use_wal
 * crowdsec_whitelist
+* crowdsec_in_docker - type of install, docker or hosted.
+* crowdsec_version - crowdsed version.
+* crowdsec_firewall_bouncer_type - type of firewall.
+* crowdsec_firewall_bouncer_version - firewall bouncer version.
 
 [SSHD documentation](https://man.openbsd.org/sshd_config)
 * sshd_log_level
@@ -67,14 +71,6 @@ Sysctl
 * sysctl_unprivileged_bpf_disabled - kernel.unprivileged_bpf_disabled.
 * sysctl_icmp_echo_ignore_all - net.ipv4.icmp_echo_ignore_all
 
-Crowdsec
-
-* crowdsec_package - crowdsed package version.
-* crowdsec_firewall_bouncer_package crowdsec baunce package.
-
-* crowdsec_version - crowdsed package version.
-* crowdsec_firewall_bouncer_redhat_package - crowdsec bounce package for RedHat family.
-* crowdsec_firewall_bouncer_debian_package - crowdsec bounce package for Debian family.
 
 Dependencies
 ------------

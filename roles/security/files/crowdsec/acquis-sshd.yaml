@@ -1,0 +1,4 @@
+filenames:
+  - /log/auth.log
+labels:
+  type: syslog

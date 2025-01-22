@@ -1,0 +1,28 @@
+---
+# tasks file for crowdsec
+
+- name: Add the crowdsec user
+  ansible.builtin.user:
+    name: crowdsec
+    comment: crowdsec
+    create_home: true
+    shell: /usr/sbin/nologin
+    system: true
+    groups:
+      - docker
+
+- name: Copy crowdsec configuration
+  ansible.builtin.template:
+    src: crowdsec/docker-compose.yml.j2
+    dest: /home/crowdsec/docker-compose.yml
+    owner: crowdsec
+    group: crowdsec
+    mode: 0600
+
+- name: Pull images
+  community.docker.docker_compose_v2_pull:
+    project_src: /home/crowdsec
+
+- name: Start services
+  community.docker.docker_compose_v2:
+    project_src: /home/crowdsec

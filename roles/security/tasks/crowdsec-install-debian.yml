@@ -16,8 +16,9 @@
   ansible.builtin.apt:
     name: "crowdsec={{ crowdsec_version }}"
     state: present
+  when: not crowdsec_in_docker
 
 - name: Install crowdsec bouncer
   ansible.builtin.apt:
-    name: "{{ crowdsec_firewall_bouncer_debian_package }}"
+    name: "crowdsec-firewall-bouncer-{{ crowdsec_firewall_bouncer_type }}={{ crowdsec_firewall_bouncer_version }}"
     state: present

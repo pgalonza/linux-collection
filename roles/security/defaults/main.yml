@@ -38,7 +38,10 @@ crowdsec_whitelist:
     reason: "global ipv4/ipv6 ip/ranges"
     ip: []
     cidr: []
-
+crowdsec_in_docker: true
+crowdsec_version: 1.6.4
+crowdsec_firewall_bouncer_type: nftables
+crowdsec_firewall_bouncer_version: 0.0.31
 
 # Sysctl
 unprivileged_bpf_enabled: false
