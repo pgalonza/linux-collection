@@ -10,6 +10,10 @@
 - name: Configure SSHD
   ansible.builtin.import_tasks: sshd.yml
 
+- name: Install crowdsec in Docker
+  ansible.builtin.import_tasks: crowdsec-docker.yml
+  when: crowdsec_in_docker
+
 - name: Install crowdsec RedHat
   ansible.builtin.import_tasks: crowdsec-install-redhat.yml
   when: ansible_facts['os_family'] == "RedHat"
@@ -18,9 +22,6 @@
   ansible.builtin.import_tasks: crowdsec-install-debian.yml
   when: ansible_facts['os_family'] == "Debian"
 
-- name: Install crowdsec in Docker
-  ansible.builtin.import_tasks: crowdsec-docker.yml
-  when: crowdsec_in_docker
 
 - name: Configuration crowdsec
   ansible.builtin.import_tasks: crowdsec-configuration.yml
