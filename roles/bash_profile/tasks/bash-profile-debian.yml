@@ -3,7 +3,7 @@
 
 - name: Add PS1
   ansible.builtin.lineinfile:
-    path: "/home/{{ item }}.profile"
+    path: "/home/{{ item }}/.profile"
     line: "{{ bash_prompt }}"
     regexp: '^PS1=.*$'
     insertafter: '^#\sUser specific environment and startup programs$'
