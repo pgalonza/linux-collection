@@ -3,3 +3,5 @@
 
 bash_server_role: Development
 bash_on_login_message: "This is a {{ bash_server_role }} server"
+bash_prompt_users:
+  - "{{ ansible_user }}"

@@ -13,6 +13,7 @@ Role Variables
 * bash_prompt - prompt template for PS1 variable.
 * bash_server_role - name of server role.
 * bash_on_login_message: - welcome Message for System Logged-in Users.
+* bash_prompt_users - users who need to change prompt.
 
 Dependencies
 ------------

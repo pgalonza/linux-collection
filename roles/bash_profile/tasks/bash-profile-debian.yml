@@ -2,9 +2,9 @@
 # tasks file for bash profile
 
 - name: Add PS1
-  become: false
   ansible.builtin.lineinfile:
-    path: ~/.profile
+    path: "/home/{{ item }}.profile"
     line: "{{ bash_prompt }}"
     regexp: '^PS1=.*$'
     insertafter: '^#\sUser specific environment and startup programs$'
+  loop: "{{ bash_prompt_users }}"
