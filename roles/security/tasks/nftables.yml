@@ -14,7 +14,7 @@
 
 - name: Base nftables configuration
   ansible.builtin.copy:
-    src: nftables.conf
+    src: nftables/nftables.conf
     dest: /etc/sysconfig/nftables.conf
     mode: 0600
     owner: root
@@ -23,7 +23,7 @@
 
 - name: NFTables rules
   ansible.builtin.template:
-    src: nftables.conf.j2
+    src: nftables/general-rules.nft.j2
     dest: /etc/nftables/general-rules.nft
     mode: 0600
     owner: root
