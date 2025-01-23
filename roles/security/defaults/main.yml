@@ -1,9 +1,6 @@
 ---
 # defaults file for security
 
-# Molecule
-docker_molecule: false
-
 # SSHD
 sshd_log_level: VERBOSE
 sshd_port: 22
@@ -44,13 +41,13 @@ crowdsec_firewall_bouncer_type: nftables
 crowdsec_firewall_bouncer_version: 0.0.31
 
 # Sysctl
-unprivileged_bpf_enabled: false
-forwarding_enabled: true
-user_namespace_enabled: true
-icmp_echo_ignore_all: true
+sysctl_unprivileged_bpf_enabled: false
+sysctl_forwarding_enabled: true
+sysctl_user_namespace_enabled: true
+sysctl_icmp_echo_ignore_all: true
 
 # PAM
-wheel_users: []
+pam_wheel_users: []
 
 # nftables
 nftables_allowed_tcp_dports:

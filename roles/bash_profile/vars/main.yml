@@ -2,4 +2,4 @@
 # vars file for bash_profile
 
 bash_prompt: >
-  PS1="\@ \[\033[38;5;42m\]{{ server_role }}\[$(tput sgr0)\]\n[\[$(tput sgr0)\]\[\033[38;5;75m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;42m\]\h\[$(tput sgr0)\] \W]\\$ \[$(tput sgr0)\]"
+  PS1="\@ \[\033[38;5;42m\]{{ bash_server_role }}\[$(tput sgr0)\]\n[\[$(tput sgr0)\]\[\033[38;5;75m\]\u\[$(tput sgr0)\]@\[$(tput sgr0)\]\[\033[38;5;42m\]\h\[$(tput sgr0)\] \W]\\$ \[$(tput sgr0)\]"

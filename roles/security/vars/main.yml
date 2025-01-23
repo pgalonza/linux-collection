@@ -2,7 +2,7 @@
 # vars file for security
 
 # Sysctl
-sysctl_max_user_namespaces: "{% if user_namespace_enabled == true %}28633{% elif user_namespace_enabled == false %}0{% endif %}"
-sysctl_forwarding_enabled: "{% if forwarding_enabled == true %}1{% elif forwarding_enabled == false %}0{% endif %}"
-sysctl_unprivileged_bpf_disabled: "{% if unprivileged_bpf_enabled == true %}0{% elif unprivileged_bpf_enabled == false %}1{% endif %}"
-sysctl_icmp_echo_ignore_all: "{% if icmp_echo_ignore_all == true %}1{% elif icmp_echo_ignore_all == false %}0{% endif %}"
+sysctl_max_user_namespaces: "{% if sysctl_user_namespace_enabled == true %}28633{% elif sysctl_user_namespace_enabled == false %}0{% endif %}"
+sysctl_sysctl_forwarding_enabled: "{% if sysctl_forwarding_enabled == true %}1{% elif sysctl_forwarding_enabled == false %}0{% endif %}"
+sysctl_unprivileged_bpf_disabled: "{% if sysctl_unprivileged_bpf_enabled == true %}0{% elif sysctl_unprivileged_bpf_enabled == false %}1{% endif %}"
+sysctl_sysctl_icmp_echo_ignore_all: "{% if sysctl_icmp_echo_ignore_all == true %}1{% elif sysctl_icmp_echo_ignore_all == false %}0{% endif %}"

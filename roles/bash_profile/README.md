@@ -11,8 +11,8 @@ None
 Role Variables
 --------------
 * bash_prompt - prompt template for PS1 variable.
-* server_role - name of server role.
-* on_login_message: - welcome Message for System Logged-in Users.
+* bash_server_role - name of server role.
+* bash_on_login_message: - welcome Message for System Logged-in Users.
 
 Dependencies
 ------------
@@ -29,7 +29,7 @@ Example Playbook
   roles:
     - role: bash_profile
   vars:
-    server_role: Test
+    bash_server_role: Test
 ```
 
 License

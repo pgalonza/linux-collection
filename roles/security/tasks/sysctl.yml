@@ -73,8 +73,8 @@
       value: 0
     - name: net.ipv4.icmp_ignore_bogus_error_responses
       value: 1
-    - name: net.ipv4.icmp_echo_ignore_all
-      value: "{{ sysctl_icmp_echo_ignore_all }}"
+    - name: net.ipv4.sysctl_icmp_echo_ignore_all
+      value: "{{ sysctl_sysctl_icmp_echo_ignore_all }}"
 
 - name: Configure ip forwarding
   ansible.posix.sysctl:
@@ -86,9 +86,9 @@
     sysctl_file: /etc/sysctl.d/90-forward.conf
   loop:
     - name: net.ipv4.ip_forward
-      value: "{{ sysctl_forwarding_enabled }}"
+      value: "{{ sysctl_sysctl_forwarding_enabled }}"
     - name: net.ipv6.conf.all.forwarding
-      value: "{{ sysctl_forwarding_enabled }}"
+      value: "{{ sysctl_sysctl_forwarding_enabled }}"
 
 - name: Configure limits
   ansible.posix.sysctl:

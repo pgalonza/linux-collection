@@ -25,4 +25,4 @@
     append: true
     groups:
       - wheel
-  loop: "{{ wheel_users }}"
+  loop: "{{ pam_wheel_users }}"
