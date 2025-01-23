@@ -62,6 +62,10 @@ Molecule
 
 * docker - excluding task with error in docker.
 
+NFTables
+
+* nftables_allowed_tcp_dports - allowed tcp ports.
+
 ### Vars
 
 Sysctl

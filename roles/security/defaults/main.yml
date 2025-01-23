@@ -51,3 +51,7 @@ icmp_echo_ignore_all: true
 
 # PAM
 wheel_users: []
+
+# nftables
+nftables_allowed_tcp_dports:
+  - "{{  sshd_port }}"

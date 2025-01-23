@@ -13,26 +13,24 @@
   when: ansible_facts['os_family'] == "RedHat"
 
 - name: Base nftables configuration
-  ansible.builtin.command:
-    cmd: "nft \"{{ item }}\""
-  loop:
-    - "flush ruleset"
-    - "add table inet filter"
-    - "add chain inet filter input { type filter hook input priority 0 \\; }"
-    - "add rule ip filter input tcp dport {{ sshd_port }} accept"
-    - "add rule inet filter input ct state established,related accept"
-    - "add chain inet filter input '{ policy drop; }'"
+  ansible.builtin.copy:
+    src: nftables.conf
+    dest: /etc/sysconfig/nftables.conf
+    mode: 0600
+    owner: root
+    group: root
+  notify: restart_nftables
 
-- name: Save nftables configuration
-  ansible.builtin.command:
-      cmd: "nft list ruleset > /etc/nftables.conf"
+- name: NFTables rules
+  ansible.builtin.template:
+    src: nftables.conf.j2
+    dest: /etc/nftables/general-rules.nft
+    mode: 0600
+    owner: root
+    group: root
+  notify: restart_nftables
 
 - name: Enable nftables
   ansible.builtin.systemd:
     name: nftables
     enabled: true
-
-- name: Enable nftables
-  ansible.builtin.systemd:
-    name: nftables
-    state: started
