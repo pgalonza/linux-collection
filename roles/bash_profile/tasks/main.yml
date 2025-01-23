@@ -11,7 +11,6 @@
   ansible.builtin.template:
     src: on-login-message.sh.j2
     dest: /etc/profile.d/on-login-message.sh
-    backup: yes
     owner: root
     group: root
     mode: 0755
