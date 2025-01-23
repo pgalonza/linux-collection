@@ -1,16 +1,10 @@
 ---
 # tasks file for bash profile
 
-- name: Make sure PS1 not in profile
-  become: false
-  ansible.builtin.lineinfile:
-    path: ~/.bash_profile
-    state: absent
-    regexp: '^PS1=.*$'
-
 - name: Add PS1
   become: false
   ansible.builtin.lineinfile:
     path: ~/.bash_profile
     line: "{{ bash_prompt }}"
+    regexp: '^PS1=.*$'
     insertafter: '^#\sUser specific environment and startup programs$'
