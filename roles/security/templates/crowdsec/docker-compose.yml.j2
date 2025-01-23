@@ -9,6 +9,7 @@ services:
       PARSERS: "crowdsecurity/whitelists"
     volumes:
       - /var/log/auth.log:/logs/auth.log:ro
+      - /var/log/secure:/logs/secure:ro
       - crowdsec-db:/var/lib/crowdsec/data/
       - crowdsec-config:/etc/crowdsec/
     ports:
