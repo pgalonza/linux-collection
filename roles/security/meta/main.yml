@@ -11,8 +11,8 @@ galaxy_info:
     - security
     - sshd
     - crowdsec
-    - firewalld
     - auditd
     - sysctl
+    - nftables
 
 dependencies: []

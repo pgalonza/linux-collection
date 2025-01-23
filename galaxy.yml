@@ -25,6 +25,7 @@ tags:
   - sshd
   - sysctl
   - firewalld
+  - nftables
 
 dependencies:
   community.general: "10.2.0"
