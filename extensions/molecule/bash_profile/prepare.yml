@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: Prepare
   hosts: all
   gather_facts: false
   tasks:
@@ -8,7 +8,7 @@
         gather_subset:
           - '!all'
           - os_family
-    - name: Testing role
-      ansible.builtin.import_role:
-        name: pgalonza.linux.nginx
-        tasks_from: main.yml
+    - name: Create test user
+      ansible.builtin.user:
+        name: test_user
+        create_home: true

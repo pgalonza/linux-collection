@@ -4,3 +4,4 @@
 sshd_port: 22
 ssh_key_dir: ~/.ssh
 deploy_user: ansible
+owner_user: "{{ ansible_user }}"

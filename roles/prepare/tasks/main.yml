@@ -2,7 +2,7 @@
 # tasks file for prepare
 - name: Install user ssh key
   ansible.posix.authorized_key:
-    user: "{{ ansible_user }}"
+    user: "{{ owner_user }}"
     state: present
     key: "{{ lookup('file', '{{ ssh_key_dir }}/id_rsa.pub') }}"
 
@@ -29,22 +29,21 @@
     mode: "0600"
     validate: "/usr/sbin/visudo --check --file=%s"
 
-- name: Ansible user permissions in sudoers
-  community.general.sudoers:
-    name: Ansible rules
-    host: ALL
-    commands: ALL
-    noexec: false
-    nopassword: true
-    user: "{{ ansible_user }}"
+# - name: Ansible user permissions in sudoers
+#   community.general.sudoers:
+#     name: Ansible rules
+#     host: ALL
+#     commands: ALL
+#     noexec: false
+#     nopassword: true
+#     user: "{{ deploy_user }}"
 
 - name: Change SSHD port
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^#Port"
-    line: "Port {{ ssh_port }}"
+    line: "Port {{ sshd_port }}"
     state: present
-    backup: true
-    validate: /usr/sbin/sshd -t -f %s
+    # validate: /usr/sbin/sshd -t -f %s
   notify:
     - restart_sshd

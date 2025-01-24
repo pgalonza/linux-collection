@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: Testing role
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: pgalonza.linux.security
         tasks_from: main.yml
       vars:

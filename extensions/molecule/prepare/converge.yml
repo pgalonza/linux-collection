@@ -4,10 +4,10 @@
   gather_facts: false
   tasks:
     - name: Testing role
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: pgalonza.linux.prepare
         tasks_from: main.yml
       vars:
-        ansible_user: test_user
+        owner_user: test_user
         ssh_key_dir: /tmp
         deploy_user: test_ansible

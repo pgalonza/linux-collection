@@ -7,7 +7,7 @@ def test_massage_file(host):
 def test_profile_file(host):
     distro_name = host.system_info.distribution
     print(distro_name)
-    user_home = host.user().home
+    user_home = host.user('test_user').home
 
     if distro_name in ['debian', 'ubuntu']:
         profile_name = '.profile'

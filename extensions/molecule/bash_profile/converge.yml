@@ -4,6 +4,9 @@
   gather_facts: false
   tasks:
     - name: Testing role
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: pgalonza.linux.bash_profile
         tasks_from: main.yml
+      vars:
+        bash_prompt_users:
+          - test_user

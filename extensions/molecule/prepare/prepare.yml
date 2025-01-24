@@ -32,5 +32,5 @@
         path: "/tmp/{{ item }}"
       loop:
         - id_rsa
-        - ansible_id_rsa
+        - test_ansible_id_rsa
       delegate_to: localhost
