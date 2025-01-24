@@ -13,7 +13,6 @@
   ansible.builtin.copy:
     src: "crowdsec/acquis-{{ item }}"
     dest: "/etc/crowdsec/acquis.d/{{ item }}"
-    backup: yes
     owner: root
     group: root
     mode: 0600
@@ -30,11 +29,12 @@
     group: root
     mode: 0600
   notify: restart_crowdsec
+  when: not crowdsec_in_docker
 
 - name: Create crowdsec whitelist
   ansible.builtin.copy:
     content: "{{ crowdsec_whitelist|ansible.builtin.to_yaml(indent=2, sort_keys=false) }}"
-    dest: /etc/crowdsec/parsers/s02-enrich/whitelists-external.yaml
+    dest: /etc/crowdsec/parsers/s02-enrich/01-whitelists-external.yaml
     backup: yes
     owner: root
     group: root
