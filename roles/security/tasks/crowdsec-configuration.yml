@@ -34,10 +34,30 @@
 - name: Create crowdsec whitelist
   ansible.builtin.copy:
     content: "{{ crowdsec_whitelist|ansible.builtin.to_yaml(indent=2, sort_keys=false) }}"
-    dest: /etc/crowdsec/parsers/s02-enrich/01-whitelists-external.yaml
+    dest: /etc/crowdsec/parsers/s02-enrich/whitelists-external.yaml
     backup: yes
     owner: root
     group: root
     mode: 0600
   notify: restart_crowdsec
   when: crowdsec_whitelist.whitelist.ip or crowdsec_whitelist.whitelist.cidr
+
+- name: Set API KEY
+  ansible.builtin.lineinfile:
+    path: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+    regexp: '^api_key:.*$'
+    line: "api_key: {{ bouncer_api_key }}"
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart_crowdsec_bouncer
+
+- name: Enable crowdsec bouncer
+  ansible.builtin.systemd:
+    name: crowdsec-firewall-bouncer
+    enabled: true
+
+- name: Start crowdsec bouncer
+  ansible.builtin.systemd:
+    name: crowdsec-firewall-bouncer
+    state: started

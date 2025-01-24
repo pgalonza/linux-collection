@@ -1,7 +1,7 @@
 ---
 # handlers file for security
 
-- name: Reload ssh server
+- name: Reload sshd server
   ansible.builtin.systemd:
     state: reloaded
     name: sshd
@@ -14,13 +14,6 @@
     name: ssh
   listen: restart_sshd
   when: ansible_facts['os_family'] == "Debian"
-
-- name: Reload crowdsec
-  ansible.builtin.systemd:
-    state: restarted
-    name: crowdsec
-  listen: restart_crowdsec
-  when: not crowdsec_in_docker
 
 - name: Reload Firewalld
   ansible.builtin.systemd:
@@ -35,13 +28,33 @@
     name: nftables
   listen: restart_nftables
 
-- name: Update grub configuration
+- name: Reload crowdsec
+  ansible.builtin.systemd:
+    state: restarted
+    name: crowdsec
+  listen: restart_crowdsec
+  when: not crowdsec_in_docker
+
+- name: Reload crowdsec container
+  community.docker.docker_compose_v2:
+    project_src: /home/crowdsec
+    state: restarted
+  listen: restart_crowdsec
+  when: crowdsec_in_docker
+
+- name: Reload crowdsec bouncer
+  ansible.builtin.systemd:
+    state: restarted
+    name: crowdsec-firewall-bouncer
+  listen: restart_crowdsec_bouncer
+
+- name: Update grub configuration grub
   ansible.builtin.command:
     cmd: "grub-mkconfig -o /boot/grub/grub.cfg"
     removes: /boot/grub/grub.cfg
   listen: regenerate_grub
 
-- name: Update grub configuration
+- name: Update grub configuration grub2
   ansible.builtin.command:
     cmd: "grub-mkconfig -o /boot/grub/grub.cfg"
     removes: /boot/grub2/grub.cfg

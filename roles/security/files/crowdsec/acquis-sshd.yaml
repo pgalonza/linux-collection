@@ -2,5 +2,6 @@ filenames:
   - /logs/auth.log
   - /logs/secure
   - /logs/syslog
+  # - /logs/audit.log
 labels:
   type: syslog

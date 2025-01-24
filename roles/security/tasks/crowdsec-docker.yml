@@ -11,7 +11,7 @@
     groups:
       - docker
 
-- name: Copy crowdsec configuration
+- name: Copy crowdsec compose
   ansible.builtin.template:
     src: crowdsec/docker-compose.yml.j2
     dest: /home/crowdsec/docker-compose.yml
@@ -26,3 +26,24 @@
 - name: Start services
   community.docker.docker_compose_v2:
     project_src: /home/crowdsec
+
+- name: Check bouncer
+  community.docker.docker_compose_v2_exec:
+    service: crowdsec
+    command: "cscli bouncers inspect --output json {{ inventory_hostname }}"
+    project_src: /home/crowdsec
+  register: bouncer_result
+  failed_when: '"No such" in bouncer_result.stderr'
+  changed_when: false
+
+- name: Generate API KEY
+  ansible.builtin.set_fact:
+    bouncer_api_key: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname, length=42, chars=['ascii_lowercase', 'ascii_uppercase', 'digits']) }}"
+  when: bouncer_result.rc != "0"
+
+- name: Add bouncer
+  community.docker.docker_compose_v2_exec:
+    service: crowdsec
+    command: "cscli bouncers add --output json --key {{ bouncer_api_key }} {{ inventory_hostname }}"
+    project_src: /home/crowdsec
+  when: '"bouncer not found" in bouncer_result.stderr'
