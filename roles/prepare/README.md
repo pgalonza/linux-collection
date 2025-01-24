@@ -1,7 +1,7 @@
 PREPARE
 =========
 
-Set up a Linux server to use roles for IAC..
+Initial linux server configuration to use roles for IAC.
 
 Cinfigure:
 * SSH Keys
