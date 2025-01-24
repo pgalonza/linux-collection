@@ -3,7 +3,7 @@ SECURITY
 
 Linux System security configuration using recommendations and best practices from multiple sources.
 
-Cinfigure:
+Configure:
 * Auditd
 * Firewalld
 * SSHD
