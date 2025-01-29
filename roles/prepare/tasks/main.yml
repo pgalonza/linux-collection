@@ -31,7 +31,7 @@
 
 # - name: Ansible user permissions in sudoers
 #   community.general.sudoers:
-#     name: Ansible rules
+#     name: "{{ deploy_user }}"
 #     host: ALL
 #     commands: ALL
 #     noexec: false
