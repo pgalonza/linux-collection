@@ -13,19 +13,33 @@ table inet filter {
                 elements = { "lo" }
         }
 
+        {% if nftables_allowed_tcp_dports -%}
         # services to allow
         set allowed_tcp_dports {
                 type inet_service
                 elements = { {{ nftables_allowed_tcp_dports | join(',') }} }
         }
 
+        {%- endif %}
+        {% if nftables_allowed_udp_dports -%}
+        set allowed_udp_dports {
+                type inet_service
+                elements = { {{ nftables_allowed_udp_dports | join(',') }} }
+        }
+
+        {%- endif %}
         # this chain gathers all accept conditions
         chain allow {
                 ct state established,related accept
 
                 meta l4proto @allowed_protocols accept
                 iifname @allowed_interfaces accept
+                {% if nftables_allowed_tcp_dports -%}
                 tcp dport @allowed_tcp_dports accept
+                {%- endif %}
+                {% if nftables_allowed_udp_dports -%}
+                udp dport @allowed_udp_dports accept
+                {%- endif %}
         }
 
         # base-chain for traffic to this host

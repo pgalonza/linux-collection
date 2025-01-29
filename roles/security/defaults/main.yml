@@ -52,3 +52,4 @@ pam_wheel_users: []
 # nftables
 nftables_allowed_tcp_dports:
   - "{{  sshd_port }}"
+allowed_udp_dports: []
