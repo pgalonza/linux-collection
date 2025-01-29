@@ -44,7 +44,7 @@ crowdsec_firewall_bouncer_version: 0.0.31
 sysctl_unprivileged_bpf_enabled: false
 sysctl_net_forwarding_enabled: true
 sysctl_user_namespace_enabled: true
-sysctl_icmp_echo_ignore_all_enabled: true
+sysctl_icmp_echo_ignore_all_enabled: false
 
 # PAM
 pam_wheel_users: []
