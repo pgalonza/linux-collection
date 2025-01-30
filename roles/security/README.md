@@ -65,6 +65,7 @@ Molecule
 NFTables
 
 * nftables_allowed_tcp_dports - allowed tcp ports.
+* nftables_allowed_udp_dports - allowed udp ports.
 
 ### Vars
 
