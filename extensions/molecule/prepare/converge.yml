@@ -8,6 +8,6 @@
         name: pgalonza.linux.prepare
         tasks_from: main.yml
       vars:
-        owner_user: test_user
+        admin_user: test_user
         ssh_key_dir: /tmp
-        deploy_user: test_ansible
+        ansible_deploy_user: test_ansible

@@ -21,7 +21,7 @@ Role Variables
 [SSHD documentation](https://man.openbsd.org/sshd_config)
 * sshd_port
 
-* owner_user - personal linux user
+* admin_user - personal linux user
 
 Dependencies
 ------------
