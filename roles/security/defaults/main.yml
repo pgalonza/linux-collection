@@ -53,3 +53,9 @@ pam_wheel_users: []
 nftables_allowed_tcp_dports:
   - "{{  sshd_port }}"
 nftables_allowed_udp_dports: []
+
+# Journald
+journald_system_max_use: 3G
+journald_system_keep_free: 5G
+journald_system_max_file_size: 1G
+journald_max_file_sec: 1month

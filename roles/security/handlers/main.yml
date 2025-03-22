@@ -48,6 +48,12 @@
     name: crowdsec-firewall-bouncer
   listen: restart_crowdsec_bouncer
 
+- name: Reload journald
+  ansible.builtin.systemd:
+    state: restarted
+    name: systemd-journald
+  listen: restart_journald
+
 - name: Update grub configuration grub
   ansible.builtin.command:
     cmd: "grub-mkconfig -o /boot/grub/grub.cfg"

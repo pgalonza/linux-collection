@@ -46,3 +46,6 @@
 
 - name: Configure nftables
   ansible.builtin.import_tasks: nftables.yml
+
+- name: Configure journald
+  ansible.builtin.import_tasks: journald.yml

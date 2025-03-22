@@ -67,6 +67,13 @@ NFTables
 * nftables_allowed_tcp_dports - allowed tcp ports.
 * nftables_allowed_udp_dports - allowed udp ports.
 
+JournalD
+
+* journald_system_max_use - control how much disk space the journal may use up at most.
+* journald_system_keep_free - the amount of free space that should remain on the disk after saving the logs.
+* journald_system_max_file_size - control how large individual journal files may grow at most.
+* journald_max_file_sec - maximum time to store entries in a single journal file before rotating to the next one.
+
 ### Vars
 
 Sysctl

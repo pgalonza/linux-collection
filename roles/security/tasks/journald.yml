@@ -1,0 +1,17 @@
+---
+# tasks file for journald
+
+- name: Add journald configuration
+  ansible.builtin.template:
+    src: templates/journald.conf.j2
+    dst: /etc/systemd/journald.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_journald
+
+- name: Enable journald
+  ansible.builtin.systemd:
+    name: systemd-journald
+    enabled: true
+    state: started
