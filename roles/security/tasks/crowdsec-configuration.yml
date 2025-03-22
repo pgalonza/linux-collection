@@ -17,7 +17,8 @@
     group: root
     mode: 0600
   loop:
-    - sshd.yaml
+    - file.yaml
+    - journalctl.yaml
   notify: restart_crowdsec
 
 - name: Copy crowdsec configuration

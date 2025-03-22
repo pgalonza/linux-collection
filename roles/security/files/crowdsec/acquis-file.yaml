@@ -1,3 +1,4 @@
+source: file
 filenames:
   - /logs/auth.log
   - /logs/secure

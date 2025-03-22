@@ -2,15 +2,16 @@ version: '3'
 
 services:
   crowdsec:
-    image: crowdsecurity/crowdsec:v{{ crowdsec_version }}
+    image: crowdsecurity/crowdsec:v{{ crowdsec_version }}-debian
     restart: always
     environment:
-      COLLECTIONS: "crowdsecurity/sshd"
+      COLLECTIONS: "crowdsecurity/linux"
       # PARSERS: "crowdsecurity/whitelists"
     volumes:
       - /var/log/auth.log:/logs/auth.log:ro
       - /var/log/secure:/logs/secure:ro
       - /var/log/audit/audit.log:/logs/audit.log:ro
+      - /var/log/journal:/logs/journal:ro
       - crowdsec-db:/var/lib/crowdsec/data/
       - crowdsec-config:/etc/crowdsec/
       - /etc/crowdsec/acquis.d/:/etc/crowdsec/acquis.d/
