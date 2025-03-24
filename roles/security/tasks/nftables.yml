@@ -23,8 +23,8 @@
 
 - name: NFTables rules
   ansible.builtin.template:
-    src: nftables/general-rules.nft.j2
-    dest: /etc/nftables/general-rules.nft
+    src: nftables/01-general-rules.nft.j2
+    dest: /etc/nftables/01-general-rules.nft
     mode: 0600
     owner: root
     group: root

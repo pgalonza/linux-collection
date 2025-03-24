@@ -1,3 +1,6 @@
+#
+# {{ ansible_managed }}
+#
 #flush ruleset
 table inet filter {
 
@@ -10,7 +13,7 @@ table inet filter {
        # interfaces to accept any traffic on
         set allowed_interfaces {
                 type ifname
-                elements = { "lo" }
+                elements = { "lo", "docker0" }
         }
 
 {% if nftables_allowed_tcp_dports %}
