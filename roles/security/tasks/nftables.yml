@@ -1,5 +1,19 @@
 # tasks file for nftables
 
+- name: Stop and disable iptables service
+  ansible.builtin.service:
+    name: iptables
+    state: stopped
+    enabled: false
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Stop and disable firewalld service
+  ansible.builtin.service:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when: ansible_facts['os_family'] == "RedHat"
+
 - name: Install nftables Debian
   ansible.builtin.apt:
     name: nftables
