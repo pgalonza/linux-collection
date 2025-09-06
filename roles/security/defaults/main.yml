@@ -38,7 +38,7 @@ crowdsec_whitelist:
 crowdsec_in_docker: true
 crowdsec_version: 1.6.4
 crowdsec_firewall_bouncer_type: nftables
-crowdsec_firewall_bouncer_version: 0.0.31
+crowdsec_firewall_bouncer_version: 0.0.34
 
 # Sysctl
 sysctl_unprivileged_bpf_enabled: false
