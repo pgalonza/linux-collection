@@ -4,4 +4,5 @@
 sshd_port: 22
 ssh_key_dir: ~/.ssh
 ansible_deploy_user: ansible
+admin_ssh_key_name: id_rsa
 admin_user: "root"

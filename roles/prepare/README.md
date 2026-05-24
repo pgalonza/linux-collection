@@ -23,6 +23,8 @@ Role Variables
 
 * admin_user - personal linux user
 
+* admin_ssh_key_name - ssh key file name
+
 Dependencies
 ------------
 
