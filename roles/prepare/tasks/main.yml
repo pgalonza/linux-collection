@@ -16,7 +16,7 @@
   ansible.posix.authorized_key:
     user: "{{ admin_user }}"
     state: present
-    key: "{{ lookup('file', '{{ ssh_key_dir }}/{{ admin_ssh_key_name }}.pub') }}"
+    key: "{{ lookup('file', ssh_key_dir + '/' + admin_ssh_key_name + '.pub') }}"
 
 - name: Add the deploy user
   ansible.builtin.user:
@@ -30,7 +30,7 @@
   ansible.posix.authorized_key:
     user: "{{ ansible_deploy_user }}"
     state: present
-    key: "{{ lookup('file', '{{ ssh_key_dir }}/{{ ansible_deploy_user }}_id_rsa.pub') }}"
+    key: "{{ lookup('file', ssh_key_dir + '/' + ansible_deploy_user + '_id_rsa.pub') }}"
 
 - name: "Deploy user permissions"
   ansible.builtin.copy:
