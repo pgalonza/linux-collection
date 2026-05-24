@@ -24,7 +24,7 @@ jobs:
       - name: Set up Python 3
         uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: '3.13'
       - name: Install Molecule dependencies
         run: pip3 install -r ./extensions/molecule/requirements.txt
       - name: Install requirements
