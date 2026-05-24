@@ -4,7 +4,7 @@
 # SSHD
 sshd_log_level: VERBOSE
 sshd_port: 22
-sshd_address_famaly: any
+sshd_address_family: any
 sshd_login_grace_time: 1m
 sshd_max_auth_tries: 3
 sshd_max_sessions: 10
