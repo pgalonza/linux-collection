@@ -1,5 +1,17 @@
 ---
 # tasks file for prepare
+- name: Add the admin user
+  ansible.builtin.user:
+    name: "{{ admin_user }}"
+    comment: Admin user
+    create_home: true
+    shell: /bin/bash
+    system: false
+    append: true
+    groups:
+      - wheel
+  when: ansible_user == "root"
+
 - name: Install user ssh key
   ansible.posix.authorized_key:
     user: "{{ admin_user }}"
