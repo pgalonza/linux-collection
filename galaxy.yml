@@ -30,7 +30,7 @@ tags:
 dependencies:
   community.general: ">=11.0.0"
   community.crypto: ">=3.0.0"
-  ansible.posix: ">=3.0.0"
+  ansible.posix: ">=2.0.0"
   community.docker: ">=5.0.0"
 
 repository: https://github.com/pgalonza/linux-collection
