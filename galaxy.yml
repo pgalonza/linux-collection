@@ -28,10 +28,10 @@ tags:
   - nftables
 
 dependencies:
-  community.general: "10.2.0"
-  community.crypto: "2.23.0"
-  ansible.posix: "2.0.0"
-  community.docker: "4.3.0"
+  community.general: ">=11.0.0"
+  community.crypto: ">=3.0.0"
+  ansible.posix: ">=3.0.0"
+  community.docker: ">=5.0.0"
 
 repository: https://github.com/pgalonza/linux-collection
 
