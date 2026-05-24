@@ -41,7 +41,7 @@
     group: root
     mode: 0600
   notify: restart_crowdsec
-  when: crowdsec_whitelist.whitelist.ip or crowdsec_whitelist.whitelist.cidr
+  when: crowdsec_whitelist.whitelist.ip | length > 0 or crowdsec_whitelist.whitelist.cidr | length > 0
 
 - name: Set API KEY
   ansible.builtin.lineinfile:
