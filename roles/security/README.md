@@ -26,14 +26,14 @@ Role Variables
 * crowdsec_use_wal
 * crowdsec_whitelist
 * crowdsec_in_docker - type of install, docker or hosted.
-* crowdsec_version - crowdsed version.
+* crowdsec_version - crowdsec version.
 * crowdsec_firewall_bouncer_type - type of firewall.
 * crowdsec_firewall_bouncer_version - firewall bouncer version.
 
 [SSHD documentation](https://man.openbsd.org/sshd_config)
 * sshd_log_level
 * sshd_port
-* sshd_address_famaly
+* sshd_address_family
 * sshd_login_grace_time
 * sshd_max_auth_tries
 * sshd_max_sessions

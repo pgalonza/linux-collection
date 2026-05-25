@@ -125,7 +125,7 @@
       value: 1024
   tags: molecule-notest
 
-- name: FSTEC recomendations v1
+- name: FSTEC recommendations v1
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'
@@ -167,7 +167,7 @@
     - name: kernel.dmesg_restrict
       value: 1
 
-- name: FSTEC recomendations v2
+- name: FSTEC recommendations v2
   ansible.posix.sysctl:
     name: "{{ item.name }}"
     value: '{{ item.value }}'

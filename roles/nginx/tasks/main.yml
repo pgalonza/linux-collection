@@ -21,8 +21,8 @@
     mode: '0600'
   notify: reload_nginx
 
-- name: Recomendations
+- name: Recommendations
   ansible.builtin.debug:
     msg: >
-      Read security recomendations for domain configuration
+      Read security recommendations for domain configuration
       https://notes.evaron.ru/operations/nginx/nginx/#security

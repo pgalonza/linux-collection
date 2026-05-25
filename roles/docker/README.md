@@ -1,7 +1,7 @@
 Docker
 =========
 
-Intsll docker.
+Install docker.
 
 Configure:
 * Docker
@@ -14,7 +14,7 @@ None
 Role Variables
 --------------
 
-Node
+None
 
 Dependencies
 ------------

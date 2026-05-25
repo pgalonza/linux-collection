@@ -1,7 +1,7 @@
 ---
 # tasks file for grub
 
-- name: FSTEC kernel recomendations
+- name: FSTEC kernel recommendations
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX='
