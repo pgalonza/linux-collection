@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Remove audit dir
+    - name: Remove audit directory and its contents
       become: false
       ansible.builtin.file:
         path: "./audit"

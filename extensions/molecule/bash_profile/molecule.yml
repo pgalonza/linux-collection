@@ -1,7 +1,7 @@
 ---
 platforms:
   - name: Almalinux
-    image: docker.io/almalinux:8
+    image: docker.io/almalinux:9
     pre_build_image: false
     dockerfile: ../common/Dockerfile.j2
   - name: Ubuntu

@@ -17,8 +17,8 @@
 
 - name: Configure bash profile RedHat
   ansible.builtin.import_tasks: bash-profile-redhat.yml
-  when: ansible_os_family in ["RedHat"]
+  when: ansible_facts.os_family in ["RedHat"]
 
 - name: Configure bash profile Debian
   ansible.builtin.import_tasks: bash-profile-debian.yml
-  when: ansible_os_family in ["Debian"]
+  when: ansible_facts.os_family in ["Debian"]

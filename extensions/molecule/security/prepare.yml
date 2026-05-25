@@ -29,6 +29,18 @@
         - dialog
         - whiptail
       when: ansible_facts['os_family'] == "Debian"
+    - name: Ensure /etc/sysctl.d directory exists
+      ansible.builtin.file:
+        path: /etc/sysctl.d
+        state: directory
+        mode: '0755'
+    - name: Ensure /etc/nftables directory exists
+      ansible.builtin.file:
+        path: /etc/nftables
+        state: directory
+        mode: 0755
+        owner: root
+        group: root
     - name: Create default gradle file
       ansible.builtin.copy:
         content: 'GRUB_CMDLINE_LINUX=""'

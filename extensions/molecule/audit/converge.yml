@@ -9,4 +9,3 @@
         tasks_from: main.yml
       vars:
         auditor_name: Molecule
-        ansible_user: root

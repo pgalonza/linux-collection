@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  gather_facts: false
   tasks:
     - name: Testing role
       ansible.builtin.import_role:
@@ -11,3 +10,4 @@
         admin_user: test_user
         ssh_key_dir: /tmp
         ansible_deploy_user: test_ansible
+        ansible_user: root

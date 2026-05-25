@@ -24,7 +24,7 @@ RUN \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
   elif [ $(command -v dnf) ]; then \
     dnf makecache \
-    && dnf --assumeyes install bash glibc-common initscripts iproute sudo /usr/bin/dnf-3 /usr/bin/python3 /usr/bin/python3-config openssl findutils \
+    && dnf --assumeyes install bash glibc-common initscripts iproute sudo python3-dnf /usr/bin/dnf-3 /usr/bin/python3 /usr/bin/python3-config openssl findutils \
     && dnf clean all; \
   elif [ $(command -v yum) ]; then \
     yum makecache fast \
@@ -47,7 +47,7 @@ RUN \
     && xbps-remove -O; \
   fi
 
-  RUN find /etc/systemd/system \
+RUN find /etc/systemd/system \
   /lib/systemd/system \
   -path '*.wants/*' \
   -not -name '*journald*' \

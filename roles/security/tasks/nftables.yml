@@ -6,6 +6,8 @@
     state: stopped
     enabled: false
   when: ansible_facts['os_family'] == "Debian"
+  ignore_errors: true
+  failed_when: false
 
 - name: Stop and disable firewalld service
   ansible.builtin.service:
@@ -34,6 +36,7 @@
     owner: root
     group: root
   notify: restart_nftables
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: NFTables rules
   ansible.builtin.template:
@@ -48,8 +51,10 @@
   community.general.alternatives:
     name: iptables
     path: /usr/sbin/iptables-nft
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: Enable nftables
   ansible.builtin.systemd:
     name: nftables
     enabled: true
+

@@ -41,6 +41,16 @@
     bouncer_api_key: "{{ lookup('ansible.builtin.password', '/dev/null', seed=inventory_hostname, length=42, chars=['ascii_lowercase', 'ascii_uppercase', 'digits']) }}"
   when: bouncer_result.rc != "0"
 
+- name: Set API KEY
+  ansible.builtin.lineinfile:
+    path: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+    regexp: '^api_key:.*$'
+    line: "api_key: {{ bouncer_api_key }}"
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart_crowdsec_bouncer
+
 - name: Add bouncer
   community.docker.docker_compose_v2_exec:
     service: crowdsec

@@ -21,7 +21,7 @@ RUN \
     && apt-get clean; \
   elif [ $(command -v dnf) ]; then \
     dnf makecache \
-    && dnf --assumeyes install bash sudo /usr/bin/dnf-3 /usr/bin/python3 /usr/bin/python3-config iproute procps \
+    && dnf --assumeyes install bash sudo python3-dnf /usr/bin/dnf-3 /usr/bin/python3 /usr/bin/python3-config iproute procps \
     && dnf clean all; \
   elif [ $(command -v yum) ]; then \
     yum makecache fast \
