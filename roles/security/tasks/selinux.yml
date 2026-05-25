@@ -1,0 +1,47 @@
+---
+# tasks file for SELinux configuration
+
+- name: Ensure SELinux utilities are installed (RedHat)
+  ansible.builtin.dnf:
+    name:
+      - policycoreutils
+      - policycoreutils-python-utils
+      - selinux-policy-targeted
+    state: present
+
+- name: Set SELinux state
+  ansible.posix.selinux:
+    policy: "{{ selinux_policy }}"
+    state: "{{ selinux_state }}"
+  register: selinux_result
+
+- name: Set SELinux booleans
+  ansible.posix.seboolean:
+    name: "{{ item.name }}"
+    state: "{{ item.state }}"
+    persistent: true
+  loop: "{{ selinux_booleans }}"
+  when: selinux_booleans | length > 0
+
+- name: Set SELinux file contexts
+  ansible.posix.sefcontext:
+    target: "{{ item.target }}"
+    setype: "{{ item.setype }}"
+    state: present
+  loop: "{{ selinux_fcontexts }}"
+  when: selinux_fcontexts | length > 0
+
+- name: Set SELinux ports
+  ansible.posix.seport:
+    ports: "{{ item.ports }}"
+    proto: "{{ item.proto }}"
+    setype: "{{ item.setype }}"
+    state: present
+  loop: "{{ selinux_ports }}"
+  when: selinux_ports | length > 0
+
+- name: Restore SELinux contexts on system
+  ansible.builtin.command:
+    cmd: restorecon -R /
+  when: selinux_result is changed
+  changed_when: false

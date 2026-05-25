@@ -49,13 +49,40 @@ sysctl_icmp_echo_ignore_all_enabled: false
 # PAM
 pam_wheel_users: []
 
-# nftables
-nftables_allowed_tcp_dports:
-  - "{{  sshd_port }}"
-nftables_allowed_udp_dports: []
-
 # Journald
 journald_system_max_use: 3G
 journald_system_keep_free: 5G
 journald_system_max_file_size: 1G
 journald_max_file_sec: 1month
+
+# SELinux
+selinux_state: permissive
+selinux_policy: targeted
+selinux_booleans:
+  - { name: 'httpd_can_network_connect', state: 'off' }
+  - { name: 'ssh_sysadm_login', state: 'on' }
+selinux_fcontexts: []
+selinux_ports:
+  - { ports: "{{ sshd_port }}", proto: 'tcp', setype: 'ssh_port_t' }
+
+# Auditd rules
+auditd_rules:
+  - "-w /etc/passwd -p wa -k identity"
+  - "-w /etc/group -p wa -k identity"
+  - "-w /etc/shadow -p wa -k identity"
+  - "-w /etc/sudoers -p wa -k sudoers"
+  - "-w /var/log/auth.log -p wa -k authlog"
+  - "-w /etc/ssh/sshd_config -p wa -k sshd"
+  - "-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+  - "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod"
+auditd_config:
+  log_file: /var/log/audit/audit.log
+  max_log_file: 50
+  num_logs: 5
+  flush: incremental
+  freq: 20
+
+# NFTables advanced configuration
+nftables_allowed_tcp_dports:
+  - "{{  sshd_port }}"
+nftables_allowed_udp_dports: []

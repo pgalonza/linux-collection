@@ -1,0 +1,21 @@
+# Audit rules configuration file
+# Managed by Ansible role
+
+# First rule - delete all existing rules
+-D
+
+# Increase the buffers to survive stress events.
+-b 8192
+
+# Set failure mode to syslog
+-f 1
+
+# Make the configuration immutable - reboot is required to change audit rules
+-e 2
+
+# Custom rules
+{% for rule in auditd_rules %}
+{{ rule }}
+{% endfor %}
+
+# End of configuration

@@ -28,6 +28,10 @@
 - name: Install auditd
   ansible.builtin.import_tasks: auditd.yml
 
+- name: Configure SELinux
+  ansible.builtin.import_tasks: selinux.yml
+  when: ansible_facts['os_family'] == "RedHat"
+
 - name: Configure sysctl
   ansible.builtin.import_tasks: sysctl.yml
 
