@@ -2,3 +2,9 @@
 # defaults file for audit
 
 auditor_name: "{{ ansible_user }}"
+
+# OpenSCAP configuration
+openscap_report_dir: /tmp/openscap-reports
+openscap_cis_profile: "xccdf_org.ssgproject.content_profile_cis"
+# Timeout for OpenSCAP scan in seconds
+openscap_scan_timeout: 1800

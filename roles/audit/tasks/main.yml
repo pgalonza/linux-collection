@@ -15,6 +15,10 @@
 - name: Execute lynis
   ansible.builtin.import_tasks: lynis.yml
 
+- name: Execute OpenSCAP
+  ansible.builtin.import_tasks: openscap.yml
+  tags: molecule-notest
+
 - name: Execute kvrt
   ansible.builtin.import_tasks: kvrt.yml
   tags: molecule-notest

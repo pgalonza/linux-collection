@@ -1,0 +1,122 @@
+---
+# tasks file for OpenSCAP integration
+
+- name: Install OpenSCAP packages (RedHat)
+  ansible.builtin.package:
+    name:
+      - openscap-scanner
+      - scap-security-guide
+    state: present
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Install OpenSCAP packages (Debian)
+  ansible.builtin.package:
+    name:
+      - openscap-scanner
+      - ssg-base
+      - ssg-debian
+      - ssg-debderived
+    state: present
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Create OpenSCAP report directory on target
+  ansible.builtin.file:
+    path: "{{ openscap_report_dir }}"
+    state: directory
+    mode: '0700'
+
+- name: Determine CIS profile based on OS
+  ansible.builtin.set_fact:
+    openscap_cis_profile: "xccdf_org.ssgproject.content_profile_cis"
+    openscap_report_prefix: "{{ inventory_hostname }}-{{ ansible_facts['distribution']|lower }}-{{ ansible_facts['distribution_major_version'] }}"
+
+- name: Run OpenSCAP CIS scan (HTML report)
+  ansible.builtin.command:
+    cmd: >
+      oscap xccdf eval
+      --profile {{ openscap_cis_profile }}
+      --results {{ openscap_report_dir }}/{{ openscap_report_prefix }}-results.xml
+      --report {{ openscap_report_dir }}/{{ openscap_report_prefix }}-report.html
+      --fetch-remote-resources
+      /usr/share/xml/scap/ssg/content/ssg-{{ ansible_facts['distribution']|lower }}{{ ansible_facts['distribution_major_version'] }}-ds.xml
+  register: openscap_scan
+  changed_when: false
+  failed_when: openscap_scan.rc > 1  # Allow rc=1 (scan completed with failures)
+
+- name: Run OpenSCAP CIS scan (ARF report)
+  ansible.builtin.command:
+    cmd: >
+      oscap xccdf eval
+      --profile {{ openscap_cis_profile }}
+      --results-arf {{ openscap_report_dir }}/{{ openscap_report_prefix }}-arf.xml
+      --fetch-remote-resources
+      /usr/share/xml/scap/ssg/content/ssg-{{ ansible_facts['distribution']|lower }}{{ ansible_facts['distribution_major_version'] }}-ds.xml
+  register: openscap_arf
+  changed_when: false
+  failed_when: openscap_arf.rc > 1
+
+- name: Extract OpenSCAP compliance score
+  ansible.builtin.shell:
+    cmd: >
+      oscap xccdf generate report
+      {{ openscap_report_dir }}/{{ openscap_report_prefix }}-results.xml |
+      grep -oP 'Compliance: \K[0-9.]+%' || echo "0%"
+  register: openscap_compliance
+  changed_when: false
+
+- name: Create OpenSCAP summary file
+  become: false
+  ansible.builtin.copy:
+    dest: "{{ audit_dir }}/openscap-summary.txt"
+    content: |
+      OpenSCAP CIS Compliance Scan Results
+      =====================================
+      Host: {{ inventory_hostname }}
+      OS: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}
+      Profile: {{ openscap_cis_profile }}
+      Scan time: {{ ansible_date_time.iso8601 }}
+      
+      Compliance score: {{ openscap_compliance.stdout }}
+      
+      Reports generated:
+      - HTML: {{ openscap_report_prefix }}-report.html
+      - XML Results: {{ openscap_report_prefix }}-results.xml
+      - ARF: {{ openscap_report_prefix }}-arf.xml
+      
+      Scan command exit code: {{ openscap_scan.rc }}
+      {% if openscap_scan.rc == 0 %}
+      Status: Scan completed successfully (all checks passed)
+      {% elif openscap_scan.rc == 1 %}
+      Status: Scan completed with failures (some checks failed)
+      {% else %}
+      Status: Scan failed with errors
+      {% endif %}
+      
+      Raw output preview:
+      {{ openscap_scan.stdout[:500] }}...
+    mode: '0600'
+  delegate_to: localhost
+
+- name: Fetch OpenSCAP HTML report
+  become: false
+  ansible.builtin.fetch:
+    src: "{{ openscap_report_dir }}/{{ openscap_report_prefix }}-report.html"
+    dest: "{{ audit_dir }}/{{ openscap_report_prefix }}-report.html"
+    flat: yes
+    mode: '0600'
+
+- name: Fetch OpenSCAP XML results
+  become: false
+  ansible.builtin.fetch:
+    src: "{{ openscap_report_dir }}/{{ openscap_report_prefix }}-results.xml"
+    dest: "{{ audit_dir }}/{{ openscap_report_prefix }}-results.xml"
+    flat: yes
+    mode: '0600'
+
+- name: Fetch OpenSCAP ARF report
+  become: false
+  ansible.builtin.fetch:
+    src: "{{ openscap_report_dir }}/{{ openscap_report_prefix }}-arf.xml"
+    dest: "{{ audit_dir }}/{{ openscap_report_prefix }}-arf.xml"
+    flat: yes
+    mode: '0600'
