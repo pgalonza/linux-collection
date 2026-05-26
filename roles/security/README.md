@@ -190,14 +190,17 @@ The role supports the following tags for selective execution:
 
 - `security` – all tasks
 - `sshd` – SSH configuration tasks
-- `sysctl` – sysctl tuning
+- `crowdsec` – CrowdSec installation and configuration (includes Docker, installation, and configuration)
 - `auditd` – auditd setup
 - `selinux` – SELinux configuration
-- `crowdsec` – CrowdSec installation and configuration
-- `nftables` – NFTables firewall rules
-- `systemd` – systemd security settings
-- `journald` – journald configuration
+- `sysctl` – sysctl tuning
 - `pam` – PAM configuration
+- `file-permissions` – file permissions hardening
+- `grub` – GRUB configuration
+- `nftables` – NFTables firewall rules
+- `journald` – journald configuration
+- `systemd` – systemd security settings
+- `bash` – bash security settings (session timeout)
 
 Example:
 

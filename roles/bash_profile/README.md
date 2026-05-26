@@ -104,14 +104,12 @@ None.
 
 The role supports the following tags:
 
-- `bash_profile` – all tasks
-- `prompt` – prompt customization tasks only
-- `motd` – login message tasks only
+- `bash-profile` – all tasks (prompt customization and login message)
 
 Example:
 
 ```bash
-ansible-playbook -i inventory playbook.yml --tags prompt
+ansible-playbook -i inventory playbook.yml --tags bash-profile
 ```
 
 ## License

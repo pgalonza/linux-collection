@@ -1,0 +1,10 @@
+---
+# tasks file for bash-related security settings
+
+- name: Configure session timeout
+  ansible.builtin.template:
+    src: autologout.sh.j2
+    dest: /etc/profile.d/autologout.sh
+    mode: 0644
+    owner: root
+    group: root

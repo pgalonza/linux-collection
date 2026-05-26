@@ -95,6 +95,21 @@ The role generates the following reports in the `audit_dir`:
     auditor_name: "CIS Auditor"
 ```
 
+## Using Tags
+
+The role supports the following tags for selective execution:
+
+- `audit` – basic security checks
+- `lynis` – Lynis system audit
+- `openscap` – OpenSCAP CIS compliance scanning (also includes `molecule-notest` tag)
+- `kvrt` – Kaspersky Virus Removal Tool scan (also includes `molecule-notest` tag)
+
+Example:
+
+```bash
+ansible-playbook -i inventory playbook.yml --tags "lynis,openscap"
+```
+
 ## License
 
 Apache‑2.0

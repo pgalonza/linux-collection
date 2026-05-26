@@ -11,14 +11,20 @@
 
 - name: Execute audit
   ansible.builtin.import_tasks: audit.yml
+  tags: audit
 
 - name: Execute lynis
   ansible.builtin.import_tasks: lynis.yml
+  tags: lynis
 
 - name: Execute OpenSCAP
   ansible.builtin.import_tasks: openscap.yml
-  tags: molecule-notest
+  tags:
+    - openscap
+    - molecule-notest
 
 - name: Execute kvrt
   ansible.builtin.import_tasks: kvrt.yml
-  tags: molecule-notest
+  tags:
+    - kvrt
+    - molecule-notest
