@@ -1,0 +1,19 @@
+---
+# Pin packages using apt-mark or dnf versionlock
+- name: Pin packages
+  block:
+    - name: Pin packages using apt-mark (Debian/Ubuntu)
+      ansible.builtin.command: "apt-mark hold {{ item }}"
+      loop: "{{ package_pin_list }}"
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - package_pin_list | length > 0
+
+    - name: Pin packages using dnf versionlock (RedHat 8+)
+      ansible.builtin.command: "dnf versionlock add {{ item }}"
+      loop: "{{ package_pin_list }}"
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+        - package_pin_list | length > 0
+  when: package_pin_list | length > 0

@@ -1,0 +1,24 @@
+---
+# Show pinned packages status
+- name: Show pinned packages status
+  block:
+    - name: Show apt held packages
+      ansible.builtin.command: apt-mark showhold
+      register: apt_held_packages
+      changed_when: false
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Show dnf versionlock list
+      ansible.builtin.command: dnf versionlock list
+      register: dnf_versionlock_list
+      changed_when: false
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+
+    - name: Display pinned packages
+      ansible.builtin.debug:
+        msg: |
+          Debian/Ubuntu held packages: {{ (apt_held_packages.stdout_lines | default([])) if apt_held_packages is defined else [] }}
+          RedHat 8+ versionlock: {{ (dnf_versionlock_list.stdout_lines | default([])) if dnf_versionlock_list is defined else [] }}
+  when: package_pin_list | length > 0 or package_unpin_list | length > 0

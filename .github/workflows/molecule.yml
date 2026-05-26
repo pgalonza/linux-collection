@@ -18,6 +18,7 @@ jobs:
           - nginx
           - security
           - prepare
+          - package_updates
     steps:
       - name: Checkout
         uses: actions/checkout@v6

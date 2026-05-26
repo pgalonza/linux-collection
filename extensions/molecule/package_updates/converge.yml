@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  collections:
+    - pgalonza.linux
+  roles:
+    - package_updates
+  vars:
+    package_updates_mode: "security"
+    package_pin_list:
+      - python3

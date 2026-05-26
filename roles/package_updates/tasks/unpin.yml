@@ -1,0 +1,19 @@
+---
+# Unpin packages using apt-mark or dnf versionlock
+- name: Unpin packages
+  block:
+    - name: Unpin packages using apt-mark (Debian/Ubuntu)
+      ansible.builtin.command: "apt-mark unhold {{ item }}"
+      loop: "{{ package_unpin_list }}"
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - package_unpin_list | length > 0
+
+    - name: Unpin packages using dnf versionlock (RedHat 8+)
+      ansible.builtin.command: "dnf versionlock delete {{ item }}"
+      loop: "{{ package_unpin_list }}"
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+        - package_unpin_list | length > 0
+  when: package_unpin_list | length > 0

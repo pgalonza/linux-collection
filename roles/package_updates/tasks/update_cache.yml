@@ -1,0 +1,17 @@
+---
+# Update package cache for Debian/Ubuntu and RedHat/CentOS
+- name: Update package cache
+  block:
+    - name: Update apt cache (Debian/Ubuntu)
+      ansible.builtin.apt:
+        update_cache: "{{ update_cache | bool }}"
+        cache_valid_time: 3600
+      when: ansible_facts['os_family'] == "Debian"
+
+    - name: Update dnf cache (RedHat/CentOS 8+)
+      ansible.builtin.dnf:
+        update_cache: "{{ update_cache | bool }}"
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+  when: package_updates_mode != "none" and update_cache | bool

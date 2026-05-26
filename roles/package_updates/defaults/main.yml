@@ -1,0 +1,17 @@
+---
+# defaults file for package_updates - simplified version
+
+# Update mode:
+#   "all" - update all packages
+#   "security" - update security packages only
+#   "none" - don't update packages (pinning/unpinning only)
+package_updates_mode: "security"
+
+# List of packages to pin (prevent updates)
+package_pin_list: []
+
+# List of packages to unpin (allow updates)
+package_unpin_list: []
+
+# Update package cache before updating
+update_cache: true

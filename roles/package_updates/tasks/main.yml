@@ -1,0 +1,38 @@
+---
+# tasks file for package_updates - refactored with imports
+# Only package updates, pinning and unpinning
+
+- name: Collect OS facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - os_family
+      - distribution
+      - distribution_major_version
+  tags: always
+
+- name: Import update cache tasks
+  ansible.builtin.import_tasks: update_cache.yml
+  tags: package-updates
+
+- name: Import install plugins tasks
+  ansible.builtin.import_tasks: install_plugins.yml
+  tags: package-updates
+
+- name: Import unpin packages tasks
+  ansible.builtin.import_tasks: unpin.yml
+  tags: package-unpin
+
+- name: Import package updates tasks
+  ansible.builtin.import_tasks: updates.yml
+  tags:
+    - package-update-all
+    - package-update-security
+
+- name: Import pin packages tasks
+  ansible.builtin.import_tasks: pin.yml
+  tags: package-pin
+
+- name: Import show pinned packages tasks
+  ansible.builtin.import_tasks: show_pinned.yml
+  tags: package-list-pinned

@@ -1,0 +1,39 @@
+---
+# Perform package updates (security or all)
+- name: Perform package updates
+  block:
+    - name: Update security packages (Debian/Ubuntu)
+      ansible.builtin.apt:
+        upgrade: safe
+        update_cache: no
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - package_updates_mode == "security"
+
+    - name: Update all packages (Debian/Ubuntu)
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: no
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - package_updates_mode == "all"
+
+    - name: Update security packages (RedHat 8+)
+      ansible.builtin.dnf:
+        name: '*'
+        security: yes
+        state: latest
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+        - package_updates_mode == "security"
+
+    - name: Update all packages (RedHat 8+)
+      ansible.builtin.dnf:
+        name: '*'
+        state: latest
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+        - package_updates_mode == "all"
+  when: package_updates_mode != "none"

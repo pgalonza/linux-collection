@@ -1,0 +1,34 @@
+---
+platforms:
+  - name: Almalinux
+    image: docker.io/almalinux:9
+    pre_build_image: false
+    dockerfile: ../common/Dockerfile.j2
+  - name: Ubuntu
+    image: docker.io/ubuntu:24.04
+    pre_build_image: false
+    dockerfile: ../common/Dockerfile.j2
+
+driver:
+  name: docker
+dependency:
+  name: galaxy
+provisioner:
+  name: ansible
+verifier:
+  name: testinfra
+
+scenario:
+  test_sequence:
+    - dependency
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy
