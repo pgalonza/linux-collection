@@ -10,17 +10,17 @@ permissions:
 
 jobs:
   molecule-workflow:
-    uses: ./.github/workflows/molecule.yaml
+    uses: ./.github/workflows/molecule.yml
   create-release:
     runs-on: ubuntu-latest
     needs: molecule-workflow
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Generate a changelog
-        uses: orhun/git-cliff-action@v3
+        uses: orhun/git-cliff-action@v4
         with:
           config: ./configs/cliff.toml
           args: --verbose
