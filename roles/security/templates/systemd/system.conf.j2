@@ -1,0 +1,101 @@
+#
+# {{ ansible_managed }}
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it under the
+#  terms of the GNU Lesser General Public License as published by the Free
+#  Software Foundation; either version 2.1 of the License, or (at your option)
+#  any later version.
+#
+# Entries in this file show the compile time defaults. Local configuration
+# should be created by either modifying this file, or by creating "drop-ins" in
+# the system.conf.d/ subdirectory. The latter is generally recommended.
+# Defaults can be restored by simply deleting this file and all drop-ins.
+#
+# Use 'systemd-analyze cat-config systemd/system.conf' to display the full config.
+#
+# See systemd-system.conf(5) for details.
+
+[Manager]
+# Limit core dumps
+DefaultLimitCORE={{ systemd_default_limit_core }}
+
+# Limit number of open files
+DefaultLimitNOFILE={{ systemd_default_limit_nofile }}
+
+# Limit number of processes
+DefaultLimitNPROC={{ systemd_default_limit_nproc }}
+
+# Limit number of tasks
+DefaultTasksMax={{ systemd_default_tasks_max }}
+
+# Timeout for start
+DefaultTimeoutStartSec={{ systemd_default_timeout_start_sec }}
+
+# Timeout for stop
+DefaultTimeoutStopSec={{ systemd_default_timeout_stop_sec }}
+
+# Restart delay
+DefaultRestartSec={{ systemd_default_restart_sec }}
+
+# Standard output
+DefaultStandardOutput={{ systemd_default_standard_output }}
+
+# Standard error
+DefaultStandardError={{ systemd_default_standard_error }}
+
+# CPU accounting
+DefaultCPUAccounting={{ systemd_default_cpu_accounting }}
+
+# Memory accounting
+DefaultMemoryAccounting={{ systemd_default_memory_accounting }}
+
+# Block I/O accounting
+DefaultBlockIOAccounting={{ systemd_default_blockio_accounting }}
+
+# IP accounting
+DefaultIPAccounting={{ systemd_default_ip_accounting }}
+
+# OOM policy
+DefaultOOMPolicy={{ systemd_default_oom_policy }}
+
+# Enable core dump forwarding
+{% if systemd_dump_core != '' %}
+DumpCore={{ systemd_dump_core }}
+{% else %}
+#DumpCore=
+{% endif %}
+
+# Crash change VT
+{% if systemd_crash_change_vt != '' %}
+CrashChangeVT={{ systemd_crash_change_vt }}
+{% else %}
+#CrashChangeVT=
+{% endif %}
+
+# CPU affinity
+{% if systemd_cpu_affinity != '' %}
+CPUAffinity={{ systemd_cpu_affinity }}
+{% else %}
+#CPUAffinity=
+{% endif %}
+
+# Join controllers
+{% if systemd_join_controllers != '' %}
+JoinControllers={{ systemd_join_controllers }}
+{% else %}
+#JoinControllers=
+{% endif %}
+
+# Runtime watchdogs
+{% if systemd_runtime_watchdog_sec != '' %}
+RuntimeWatchdogSec={{ systemd_runtime_watchdog_sec }}
+{% else %}
+#RuntimeWatchdogSec=
+{% endif %}
+{% if systemd_shutdown_watchdog_sec != '' %}
+ShutdownWatchdogSec={{ systemd_shutdown_watchdog_sec }}
+{% else %}
+#ShutdownWatchdogSec=
+{% endif %}

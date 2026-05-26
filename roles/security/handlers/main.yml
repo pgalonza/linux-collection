@@ -65,3 +65,8 @@
     cmd: "grub-mkconfig -o /boot/grub/grub.cfg"
     removes: /boot/grub2/grub.cfg
   listen: regenerate_grub
+
+- name: reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  listen: reload_systemd

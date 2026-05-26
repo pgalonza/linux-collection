@@ -1,0 +1,55 @@
+---
+- name: Ensure systemd drop-in directory exists
+  ansible.builtin.file:
+    path: /etc/systemd/system.conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Deploy systemd security drop-in configuration
+  ansible.builtin.template:
+    src: systemd/system.conf.j2
+    dest: /etc/systemd/system.conf.d/99-security.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload_systemd
+
+- name: Create override directory for SSH service
+  ansible.builtin.file:
+    path: /etc/systemd/system/{{ sshd_service_name }}.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  vars:
+    sshd_service_name: "{{ 'sshd' if ansible_facts['os_family'] == 'RedHat' else 'ssh' }}"
+
+- name: Deploy SSH override
+  ansible.builtin.template:
+    src: systemd/sshd.conf.j2
+    dest: /etc/systemd/system/{{ sshd_service_name }}.d/99-security.conf
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    sshd_service_name: "{{ 'sshd' if ansible_facts['os_family'] == 'RedHat' else 'ssh' }}"
+  notify: restart_sshd
+
+- name: Create override directory for Docker service
+  ansible.builtin.file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Deploy Docker override
+  ansible.builtin.template:
+    src: systemd/docker.conf.j2
+    dest: /etc/systemd/system/docker.service.d/99-security.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload_systemd

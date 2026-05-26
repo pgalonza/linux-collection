@@ -54,6 +54,10 @@
 - name: Configure journald
   ansible.builtin.import_tasks: journald.yml
 
+- name: Configure systemd system.conf
+  ansible.builtin.import_tasks: systemd.yml
+  when: ansible_facts['service_mgr'] == 'systemd'
+
 - name: Configure session timeout
   ansible.builtin.template:
     src: autologout.sh.j2

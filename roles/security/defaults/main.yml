@@ -55,6 +55,30 @@ journald_system_keep_free: 5G
 journald_system_max_file_size: 1G
 journald_max_file_sec: 1month
 
+# Systemd system.conf security settings (CIS Benchmark)
+systemd_default_limit_core: 0
+systemd_default_limit_nofile: 1024
+systemd_default_limit_nproc: 64
+systemd_default_tasks_max: 512
+systemd_default_timeout_start_sec: "90s"
+systemd_default_timeout_stop_sec: "90s"
+systemd_default_restart_sec: "100ms"
+systemd_default_standard_output: "journal"
+systemd_default_standard_error: "journal"
+systemd_default_cpu_accounting: "yes"
+systemd_default_memory_accounting: "yes"
+systemd_default_blockio_accounting: "yes"
+systemd_default_ip_accounting: "yes"
+systemd_default_oom_policy: "stop"
+
+# Additional systemd parameters (commented out by default)
+systemd_dump_core: ""
+systemd_crash_change_vt: ""
+systemd_cpu_affinity: ""
+systemd_join_controllers: ""
+systemd_runtime_watchdog_sec: ""
+systemd_shutdown_watchdog_sec: ""
+
 # SELinux
 selinux_state: permissive
 selinux_policy: targeted
