@@ -24,7 +24,7 @@
   when: selinux_booleans | length > 0
 
 - name: Set SELinux file contexts
-  ansible.posix.sefcontext:
+  community.general.sefcontext:
     target: "{{ item.target }}"
     setype: "{{ item.setype }}"
     state: present
@@ -32,7 +32,7 @@
   when: selinux_fcontexts | length > 0
 
 - name: Set SELinux ports
-  ansible.posix.seport:
+  community.general.seport:
     ports: "{{ item.ports }}"
     proto: "{{ item.proto }}"
     setype: "{{ item.setype }}"
