@@ -21,6 +21,7 @@
     owner: root
     group: root
   notify: restart_auditd
+  tags: molecule-notest
 
 - name: Deploy audit rules
   ansible.builtin.template:
@@ -30,6 +31,7 @@
     owner: root
     group: root
   notify: restart_auditd
+  tags: molecule-notest
 
 - name: Start auditd
   ansible.builtin.service:

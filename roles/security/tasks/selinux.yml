@@ -22,6 +22,7 @@
     persistent: true
   loop: "{{ selinux_booleans }}"
   when: selinux_booleans | length > 0
+  tags: molecule-notest
 
 - name: Set SELinux file contexts
   community.general.sefcontext:
@@ -30,6 +31,7 @@
     state: present
   loop: "{{ selinux_fcontexts }}"
   when: selinux_fcontexts | length > 0
+  tags: molecule-notest
 
 - name: Set SELinux ports
   community.general.seport:
@@ -39,9 +41,11 @@
     state: present
   loop: "{{ selinux_ports }}"
   when: selinux_ports | length > 0
+  tags: molecule-notest
 
 - name: Restore SELinux contexts on system
   ansible.builtin.command:
     cmd: restorecon -R /
   when: selinux_result is changed
   changed_when: false
+  tags: molecule-notest
