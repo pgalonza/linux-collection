@@ -70,3 +70,9 @@
   ansible.builtin.systemd:
     daemon_reload: yes
   listen: reload_systemd
+
+- name: Restart auditd
+  ansible.builtin.systemd:
+    state: restarted
+    name: auditd
+  listen: restart_auditd
