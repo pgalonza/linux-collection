@@ -1,5 +1,5 @@
 ---
-# Perform package updates (security or all)
+# Perform package updates (security, all, or specific)
 - name: Perform package updates
   block:
     - name: Update security packages (Debian/Ubuntu)
@@ -17,6 +17,17 @@
       when:
         - ansible_facts['os_family'] == "Debian"
         - package_updates_mode == "all"
+
+    - name: Update specific packages (Debian/Ubuntu)
+      ansible.builtin.apt:
+        name: "{{ item.name }}={{ item.version }}"
+        state: present
+        update_cache: no
+      loop: "{{ package_specific_list }}"
+      when:
+        - ansible_facts['os_family'] == "Debian"
+        - package_updates_mode == "specific"
+        - package_specific_list | length > 0
 
     - name: Update security packages (RedHat 8+)
       ansible.builtin.dnf:
@@ -36,4 +47,16 @@
         - ansible_facts['os_family'] == "RedHat"
         - ansible_facts['distribution_major_version'] >= "8"
         - package_updates_mode == "all"
+
+    - name: Update specific packages (RedHat 8+)
+      ansible.builtin.dnf:
+        name: "{{ item.name }}"
+        version: "{{ item.version }}"
+        state: present
+      loop: "{{ package_specific_list }}"
+      when:
+        - ansible_facts['os_family'] == "RedHat"
+        - ansible_facts['distribution_major_version'] >= "8"
+        - package_updates_mode == "specific"
+        - package_specific_list | length > 0
   when: package_updates_mode != "none"

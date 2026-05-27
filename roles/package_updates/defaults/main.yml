@@ -4,6 +4,7 @@
 # Update mode:
 #   "all" - update all packages
 #   "security" - update security packages only
+#   "specific" - update specific packages to specified versions
 #   "none" - don't update packages (pinning/unpinning only)
 package_updates_mode: "security"
 
@@ -12,6 +13,16 @@ package_pin_list: []
 
 # List of packages to unpin (allow updates)
 package_unpin_list: []
+
+# List of packages to update to specific versions (only when mode is "specific")
+# Format: list of dictionaries with "name" and "version" keys
+# Example:
+#   package_specific_list:
+#     - name: nginx
+#       version: 1.18.0
+#     - name: docker-ce
+#       version: 5:20.10.7
+package_specific_list: []
 
 # Update package cache before updating
 update_cache: true

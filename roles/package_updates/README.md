@@ -4,10 +4,11 @@ Simple role for managing package updates with version pinning capability.
 
 ## Purpose
 
-The role performs three main functions:
+The role performs four main functions:
 1. **Package updates** - all packages or security updates only
-2. **Version pinning** - preventing updates of specified packages
-3. **Unpinning** - allowing updates of specified packages
+2. **Specific version updates** - update specific packages to specified versions
+3. **Version pinning** - preventing updates of specified packages
+4. **Unpinning** - allowing updates of specified packages
 
 ## Supported Distributions
 
@@ -19,9 +20,10 @@ The role performs three main functions:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `package_updates_enabled` | `true` | Enable/disable the role |
-| `package_updates_mode` | `"security"` | Mode: `all` (all packages), `security` (security only), `none` (pinning only) |
+| `package_updates_mode` | `"security"` | Mode: `all` (all packages), `security` (security only), `specific` (specific packages), `none` (pinning only) |
 | `package_pin_list` | `[]` | List of packages to pin |
 | `package_unpin_list` | `[]` | List of packages to unpin |
+| `package_specific_list` | `[]` | List of packages to update to specific versions (only when mode is `specific`). Format: list of dictionaries with `name` and `version` keys. |
 | `update_cache` | `true` | Update package cache before updating |
 | `package_updates_dry_run` | `false` | Simulation mode (no actual changes) |
 | `package_updates_install_plugins` | `true` | Automatic installation of versionlock plugins for RedHat/CentOS |
@@ -74,11 +76,26 @@ The role performs three main functions:
       - php
 ```
 
+### Example 5: Update specific packages to specified versions
+```yaml
+- hosts: servers
+  roles:
+    - package_updates
+  vars:
+    package_updates_mode: "specific"
+    package_specific_list:
+      - name: nginx
+        version: 1.18.0
+      - name: docker-ce
+        version: 5:20.10.7
+```
+
 ## Tags
 
 - `package-updates` - all tasks
 - `package-update-all` - update all packages
 - `package-update-security` - security updates
+- `package-update-specific` - update specific packages to specified versions
 - `package-pin` - pin packages
 - `package-unpin` - unpin packages
 - `package-list-pinned` - show pinned packages
