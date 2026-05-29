@@ -28,4 +28,5 @@
   ansible.builtin.fetch:
     src: /var/log/lynis-report.dat
     dest: "{{ audit_dir }}/lynis-report.dat"
+    flat: yes
     mode: '0600'
