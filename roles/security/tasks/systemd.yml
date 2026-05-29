@@ -47,13 +47,13 @@
     group: root
     mode: 0755
 
-- name: Deploy Docker override
-  ansible.builtin.template:
-    src: systemd/docker.conf.j2
-    dest: /etc/systemd/system/docker.service.d/99-security.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - reload_systemd
-    - restart_docker
+# - name: Deploy Docker override
+#   ansible.builtin.template:
+#     src: systemd/docker.conf.j2
+#     dest: /etc/systemd/system/docker.service.d/99-security.conf
+#     owner: root
+#     group: root
+#     mode: 0644
+#   notify:
+#     - reload_systemd
+#     - restart_docker

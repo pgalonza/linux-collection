@@ -76,7 +76,7 @@
     cmd: "auditctl --signal reload"
   listen: restart_auditd
 
-- name: Reload ssh server
+- name: Restart docker
   ansible.builtin.systemd:
     state: restarted
     name: docker
