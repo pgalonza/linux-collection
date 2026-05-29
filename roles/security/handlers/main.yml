@@ -78,6 +78,6 @@
 
 - name: Reload ssh server
   ansible.builtin.systemd:
-    state: docker
-    name: ssh
+    state: restarted
+    name: docker
   listen: restart_docker
