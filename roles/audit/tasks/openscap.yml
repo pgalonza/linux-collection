@@ -23,7 +23,7 @@
   ansible.builtin.file:
     path: "{{ openscap_report_dir }}"
     state: directory
-    mode: '0700'
+    mode: '0755'
 
 - name: Run OpenSCAP CIS scan (HTML report)
   ansible.builtin.command:
@@ -35,7 +35,17 @@
       --fetch-remote-resources
       /usr/share/xml/scap/ssg/content/ssg-{{ ansible_facts['distribution']|lower }}{{ ansible_facts['distribution_major_version'] }}-ds.xml
   changed_when: false
-  failed_when: openscap_scan.rc > 1  # Allow rc=1 (scan completed with failures)
+  register: openscap_scan
+  failed_when: openscap_scan.rc == 1 # Allow rc=1 (scan completed with failures)
+
+- name: Report permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: file
+    mode: '0644'
+  loop:
+    - "{{ openscap_report_dir }}/report.html"
+    - "{{ openscap_report_dir }}/results.xml"
 
 - name: Fetch OpenSCAP HTML report
   become: false
