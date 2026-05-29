@@ -24,7 +24,6 @@
     comment: Deploy user
     create_home: true
     shell: /bin/bash
-    system: true
 
 - name: Install deploy user ssh key
   ansible.posix.authorized_key:
