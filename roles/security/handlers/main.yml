@@ -72,7 +72,6 @@
   listen: reload_systemd
 
 - name: Restart auditd
-  ansible.builtin.systemd:
-    state: restarted
-    name: auditd
+  ansible.builtin.command:
+    cmd: "auditctl --signal reload"
   listen: restart_auditd
