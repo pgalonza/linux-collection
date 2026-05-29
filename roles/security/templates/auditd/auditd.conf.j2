@@ -1,30 +1,30 @@
 # Auditd configuration file
 # {{ ansible_managed }}
 
-log_file: {{ auditd_config.log_file }}
-log_format: RAW
-log_group: root
-priority_boost: 4
-flush: {{ auditd_config.flush }}
-freq: {{ auditd_config.freq }}
-num_logs: {{ auditd_config.num_logs }}
-disp_qos: lossy
-dispatcher: /sbin/audispd
-name_format: NONE
-max_log_file: {{ auditd_config.max_log_file }}
-max_log_file_action: ROTATE
-space_left: 75
-space_left_action: SYSLOG
-action_mail_acct: root
-admin_space_left: 50
-admin_space_left_action: SUSPEND
-disk_full_action: SUSPEND
-disk_error_action: SUSPEND
-tcp_listen_port: 0
-tcp_listen_queue: 5
-tcp_max_per_addr: 1
-tcp_client_ports: 1024-65535
-use_libwrap: yes
-tcp_client_max_idle: 0
-enable_krb5: no
-krb5_principal: auditd
+log_file = {{ auditd_config.log_file }}
+log_format = RAW
+log_group = root
+priority_boost = 4
+flush = {{ auditd_config.flush }}
+freq = {{ auditd_config.freq }}
+num_logs = {{ auditd_config.num_logs }}
+disp_qos = lossy
+dispatcher = /sbin/audispd
+name_format = NONE
+max_log_file = {{ auditd_config.max_log_file }}
+max_log_file_action = ROTATE
+space_left = 75
+space_left_action = SYSLOG
+action_mail_acct = root
+admin_space_left = 50
+admin_space_left_action = SUSPEND
+disk_full_action = SUSPEND
+disk_error_action = SUSPEND
+tcp_listen_port = 0
+tcp_listen_queue = 5
+tcp_max_per_addr = 1
+tcp_client_ports = 1024-65535
+use_libwrap = yes
+tcp_client_max_idle = 0
+enable_krb5 = no
+krb5_principal = auditd
