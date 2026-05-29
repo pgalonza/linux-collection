@@ -14,7 +14,9 @@
     owner: root
     group: root
     mode: 0644
-  notify: reload_systemd
+  notify:
+    - reload_systemd
+    - restart_sshd
 
 - name: Create override directory for SSH service
   ansible.builtin.file:
@@ -52,4 +54,6 @@
     owner: root
     group: root
     mode: 0644
-  notify: reload_systemd
+  notify:
+    - reload_systemd
+    - restart_docker

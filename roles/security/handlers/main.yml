@@ -1,6 +1,11 @@
 ---
 # handlers file for security
 
+- name: reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: yes
+  listen: reload_systemd
+
 - name: Reload sshd server
   ansible.builtin.systemd:
     state: reloaded
@@ -66,12 +71,13 @@
     removes: /boot/grub2/grub.cfg
   listen: regenerate_grub
 
-- name: reload systemd
-  ansible.builtin.systemd:
-    daemon_reload: yes
-  listen: reload_systemd
-
 - name: Restart auditd
   ansible.builtin.command:
     cmd: "auditctl --signal reload"
   listen: restart_auditd
+
+- name: Reload ssh server
+  ansible.builtin.systemd:
+    state: docker
+    name: ssh
+  listen: restart_docker
