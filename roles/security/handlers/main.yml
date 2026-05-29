@@ -62,7 +62,7 @@
 
 - name: Update grub configuration grub2
   ansible.builtin.command:
-    cmd: "grub-mkconfig -o /boot/grub/grub.cfg"
+    cmd: "grub2-mkconfig -o /boot/grub2/grub.cfg"
     removes: /boot/grub2/grub.cfg
   listen: regenerate_grub
 
