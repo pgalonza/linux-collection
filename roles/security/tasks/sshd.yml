@@ -12,7 +12,7 @@
   notify: restart_sshd
 
 - name: Copy shardening
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: "sshd/{{ item }}"
     dest: "/etc/ssh/sshd_config.d/{{ item }}"
     owner: root
