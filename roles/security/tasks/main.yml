@@ -72,6 +72,10 @@
   tags: systemd
   when: ansible_facts['service_mgr'] == 'systemd'
 
+- name: Configure sudoers
+  ansible.builtin.import_tasks: sudoers.yml
+  tags: sudoers
+
 - name: Configure bash security settings
   ansible.builtin.import_tasks: bash.yml
   tags: bash

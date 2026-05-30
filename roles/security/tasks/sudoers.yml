@@ -1,0 +1,7 @@
+- name: Sudo use_pty
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers"
+    line: "Defaults use_pty"
+    regexp: '^Defaults use_pty$'
+    insertafter: '^#\sDefaults specification$'
+    validate: "/usr/sbin/visudo --check --file=%s"
