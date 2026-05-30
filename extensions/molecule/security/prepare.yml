@@ -61,3 +61,26 @@
             type: syslog
         dest: /etc/crowdsec/acquis.yaml
         mode: '0600'
+    - name: Ensure SSH host keys exist (AlmaLinux)
+      block:
+        - name: Generate SSH host keys
+          ansible.builtin.command: ssh-keygen -t {{ item }} -f /etc/ssh/ssh_host_{{ item }}_key -N ''
+          with_items:
+            - rsa
+            - ecdsa
+            - ed25519
+        - name: Set correct permissions
+          ansible.builtin.file:
+            path: "{{ item }}"
+            mode: "0600"
+          with_fileglob:
+            - /etc/ssh/ssh_host_*
+      when: ansible_os_family == "RedHat"
+    - name: Create SSH privilege separation directory (Ubuntu)
+      ansible.builtin.file:
+        path: /run/sshd
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+      when: ansible_os_family == "Debian"
