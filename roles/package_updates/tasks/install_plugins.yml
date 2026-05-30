@@ -1,11 +1,9 @@
 ---
 # Install versionlock plugins for RedHat/CentOS
-- name: Install versionlock plugins
-  block:
-    - name: Install python3-dnf-plugin-versionlock for RedHat 8+
-      ansible.builtin.package:
-        name: python3-dnf-plugin-versionlock
-        state: present
-      when:
-        - ansible_facts['os_family'] == "RedHat"
-        - ansible_facts['distribution_major_version'] >= "8"
+- name: Install python3-dnf-plugin-versionlock for RedHat 8+
+  ansible.builtin.package:
+    name: python3-dnf-plugin-versionlock
+    state: present
+  when:
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution_major_version'] >= "8"
