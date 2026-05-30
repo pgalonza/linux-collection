@@ -8,5 +8,5 @@
     line: >
       GRUB_CMDLINE_LINUX="tsx=off debugfs=no-mount vsyscall=none
       randomize_kstack_offset=1 iommu=force iommu.strict=1 iommu.passthrough=0
-      init_on_alloc=1 slab_nomerge"
+      init_on_alloc=1 slab_nomerge audit=1 audit_backlog_limit=8192"
   notify: regenerate_grub

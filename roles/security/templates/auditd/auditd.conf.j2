@@ -1,23 +1,23 @@
 # Auditd configuration file
 # {{ ansible_managed }}
 
-log_file = {{ auditd_config.log_file }}
+log_file = {{ auditd_log_file }}
 log_format = RAW
 log_group = root
 priority_boost = 4
-flush = {{ auditd_config.flush }}
-freq = {{ auditd_config.freq }}
-num_logs = {{ auditd_config.num_logs }}
+flush = {{ auditd_flush }}
+freq = {{ auditd_freq }}
+num_logs = {{ auditd_num_logs }}
 name_format = none
-max_log_file = {{ auditd_config.max_log_file }}
-max_log_file_action = rotate
+max_log_file = {{ auditd_max_log_file }}
+max_log_file_action = {{ auditd_max_log_file_action }}
 space_left = 75
-space_left_action = syslog
+space_left_action = {{ auditd_space_left_action }}
 action_mail_acct = root
 admin_space_left = 50
-admin_space_left_action = suspend
-disk_full_action = suspend
-disk_error_action = suspend
+admin_space_left_action = {{ auditd_admin_space_left_action }}
+disk_full_action = {{ auditd_disk_full_action }}
+disk_error_action = {{ auditd_disk_error_action }}
 ## tcp_listen_port = 60
 tcp_listen_queue = 5
 tcp_max_per_addr = 1

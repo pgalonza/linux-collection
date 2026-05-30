@@ -16,6 +16,7 @@ sshd_tcp_keep_alive: 'yes'
 sshd_client_alive_interval: 300
 sshd_client_alive_count_max: 3
 sshd_use_dns: 'no'
+sshd_max_startups: 10:30:60
 sshd_allow_users:
   - "{{ ansible_user }}"
 sshd_sftp_server_path: /usr/libexec/openssh/sftp-server
@@ -100,12 +101,17 @@ auditd_rules:
   - "-w /etc/ssh/sshd_config -p wa -k sshd"
   - "-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid>=1000 -F auid!=4294967295 -k perm_mod"
   - "-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid>=1000 -F auid!=4294967295 -k perm_mod"
-auditd_config:
-  log_file: /var/log/audit/audit.log
-  max_log_file: 50
-  num_logs: 5
-  flush: incremental
-  freq: 20
+
+auditd_log_file: /var/log/audit/audit.log
+auditd_max_log_file: 50
+auditd_num_logs: 5
+auditd_flush: incremental
+auditd_freq: 20
+auditd_max_log_file_action: keep_logs # rotate
+auditd_space_left_action: suspend # syslog
+auditd_admin_space_left_action: single # suspend
+auditd_disk_full_action: single # suspend
+auditd_disk_error_action: single # suspend
 
 # NFTables advanced configuration
 nftables_allowed_tcp_dports:

@@ -109,13 +109,10 @@ ClientAliveInterval {{ sshd_client_alive_interval }}
 ClientAliveCountMax {{ sshd_client_alive_count_max }}
 UseDNS {{ sshd_use_dns }}
 #PidFile /var/run/sshd.pid
-MaxStartups 10:30:100
+MaxStartups {{ sshd_max_startups }}
 PermitTunnel no
 #ChrootDirectory none
 #VersionAddendum none
-
-# no default banner path
-Banner /etc/ssh/ssh-banner
 
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*

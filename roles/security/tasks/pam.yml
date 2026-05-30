@@ -26,3 +26,15 @@
     groups:
       - wheel
   loop: "{{ pam_wheel_users }}"
+
+- name: Ensure nullok is removed from /etc/pam.d/system-auth
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/system-auth
+    regexp: '^\s*.*nullok\b'
+    state: absent
+
+- name: Ensure nullok is removed from /etc/pam.d/password-auth
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/password-auth
+    regexp: '^\s*.*nullok\b'
+    state: absent
