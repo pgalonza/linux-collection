@@ -6,6 +6,17 @@
     insertafter: '^#\sDefaults specification$'
     validate: "/usr/sbin/visudo --check --file=%s"
 
+- name: Copy hardening
+  ansible.builtin.template:
+    src: "sudoers/{{ item }}.j2"
+    dest: "/etc/sudoers.d/{{ item }}"
+    owner: root
+    group: root
+    mode: 0600
+    validate: "/usr/sbin/visudo --check --file=%s"
+  loop:
+    - 00-complianceascode-hardening.conf
+
 - name: Comment all lines with wheel
   block:
     - ansible.builtin.lineinfile:

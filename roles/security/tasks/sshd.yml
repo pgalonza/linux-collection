@@ -11,7 +11,7 @@
     mode: 0600
   notify: restart_sshd
 
-- name: Copy shardening
+- name: Copy hardening
   ansible.builtin.copy:
     src: "sshd/{{ item }}"
     dest: "/etc/ssh/sshd_config.d/{{ item }}"
