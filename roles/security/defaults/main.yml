@@ -118,4 +118,4 @@ nftables_allowed_tcp_dports:
   - "{{  sshd_port }}"
 nftables_allowed_udp_dports: []
 
-sudoers_sudo_nopasswd: true
+sudoers_sudo_nopasswd: false

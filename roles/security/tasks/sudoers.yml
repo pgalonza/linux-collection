@@ -10,13 +10,15 @@
   block:
     - ansible.builtin.lineinfile:
         path: "/etc/sudoers"
-        line: "#%wheel ALL=(ALL)       ALL"
-        regexp: '^%wheel ALL=(ALL)       ALL$'
+        line: "# %wheel ALL=(ALL)       ALL"
+        regexp: '^%wheel\s*ALL=(ALL)\s*ALL$'
+        backrefs: true
         validate: "/usr/sbin/visudo --check --file=%s"
     - ansible.builtin.lineinfile:
         path: "/etc/sudoers"
-        line: "#%wheel  ALL=(ALL)       NOPASSWD: ALL"
-        regexp: '^%wheel  ALL=(ALL)       NOPASSWD: ALL$'
+        line: "# %wheel  ALL=(ALL)       NOPASSWD: ALL"
+        regexp: '^%wheel\s*ALL=(ALL)\s*NOPASSWD:\s*ALL$'
+        backrefs: true
         validate: "/usr/sbin/visudo --check --file=%s"
   when: sudoers_sudo_nopasswd
 
@@ -25,11 +27,13 @@
     - ansible.builtin.lineinfile:
         path: "/etc/sudoers"
         line: "%wheel ALL=(ALL)       ALL"
-        regexp: '^#%wheel ALL=(ALL)       ALL$'
+        regexp: '^#\s%wheel\s*ALL=(ALL)\s*ALL$'
+        backrefs: true
         validate: "/usr/sbin/visudo --check --file=%s"
     - ansible.builtin.lineinfile:
         path: "/etc/sudoers"
-        line: "#%wheel  ALL=(ALL)       NOPASSWD: ALL"
-        regexp: '^%wheel  ALL=(ALL)       NOPASSWD: ALL$'
+        line: "# %wheel  ALL=(ALL)       NOPASSWD: ALL"
+        regexp: '^%wheel\s*ALL=(ALL)\s*NOPASSWD:\s*ALL$'
+        backrefs: true
         validate: "/usr/sbin/visudo --check --file=%s"
   when: not sudoers_sudo_nopasswd
