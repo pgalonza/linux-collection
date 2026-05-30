@@ -51,6 +51,16 @@
     mode: 0600
   notify: restart_crowdsec_bouncer
 
+- name: Set API URL
+  ansible.builtin.lineinfile:
+    path: /etc/crowdsec/bouncers/crowdsec-firewall-bouncer.yaml
+    regexp: '^api_url:.*$'
+    line: "api_url: http://{{ crowdsec_server_address }}:8080/"
+    owner: root
+    group: root
+    mode: 0600
+  notify: restart_crowdsec_bouncer
+
 - name: Add bouncer
   community.docker.docker_compose_v2_exec:
     service: crowdsec

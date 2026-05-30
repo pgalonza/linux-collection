@@ -18,7 +18,7 @@ services:
       - '127.0.0.1:8080:8080'
     networks:
         crowdsec:
-          ipv4_address: 172.31.0.2
+          ipv4_address: {{ crowdsec_server_address }}
 
 volumes:
   crowdsec-db:
