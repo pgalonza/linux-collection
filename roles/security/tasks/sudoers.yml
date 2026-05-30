@@ -5,3 +5,31 @@
     regexp: '^Defaults use_pty$'
     insertafter: '^#\sDefaults specification$'
     validate: "/usr/sbin/visudo --check --file=%s"
+
+- name: Comment all lines with wheel
+  block:
+    - ansible.builtin.lineinfile:
+        path: "/etc/sudoers"
+        line: "#%wheel ALL=(ALL)       ALL"
+        regexp: '^%wheel ALL=(ALL)       ALL$'
+        validate: "/usr/sbin/visudo --check --file=%s"
+    - ansible.builtin.lineinfile:
+        path: "/etc/sudoers"
+        line: "#%wheel  ALL=(ALL)       NOPASSWD: ALL"
+        regexp: '^%wheel  ALL=(ALL)       NOPASSWD: ALL$'
+        validate: "/usr/sbin/visudo --check --file=%s"
+  when: sudoers_sudo_nopasswd
+
+- name: Set sudo with password
+  block:
+    - ansible.builtin.lineinfile:
+        path: "/etc/sudoers"
+        line: "%wheel ALL=(ALL)       ALL"
+        regexp: '^#%wheel ALL=(ALL)       ALL$'
+        validate: "/usr/sbin/visudo --check --file=%s"
+    - ansible.builtin.lineinfile:
+        path: "/etc/sudoers"
+        line: "#%wheel  ALL=(ALL)       NOPASSWD: ALL"
+        regexp: '^%wheel  ALL=(ALL)       NOPASSWD: ALL$'
+        validate: "/usr/sbin/visudo --check --file=%s"
+  when: not sudoers_sudo_nopasswd
