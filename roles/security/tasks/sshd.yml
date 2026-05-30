@@ -22,17 +22,6 @@
     - 00-complianceascode-hardening.conf
   notify: restart_sshd
 
-- name: Copy sshd_config
-  ansible.builtin.template:
-    src: sshd/sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    backup: yes
-    owner: root
-    group: root
-    mode: 0600
-    # validate: /usr/sbin/sshd -t -f %s
-  notify: restart_sshd
-
 - name: Search for files
   ansible.builtin.find:
     paths: /etc/ssh/sshd_config.d/
@@ -46,4 +35,15 @@
     state: absent
   loop: "{{ files_to_delete.files }}"
   when: files_to_delete.files | length > 0
+  notify: restart_sshd
+
+- name: Copy sshd_config
+  ansible.builtin.template:
+    src: sshd/sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    backup: yes
+    owner: root
+    group: root
+    mode: 0600
+    validate: /usr/sbin/sshd -t -f %s
   notify: restart_sshd
