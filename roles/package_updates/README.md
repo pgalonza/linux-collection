@@ -19,14 +19,11 @@ The role performs four main functions:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `package_updates_enabled` | `true` | Enable/disable the role |
 | `package_updates_mode` | `"security"` | Mode: `all` (all packages), `security` (security only), `specific` (specific packages), `none` (pinning only) |
 | `package_pin_list` | `[]` | List of packages to pin |
 | `package_unpin_list` | `[]` | List of packages to unpin |
 | `package_specific_list` | `[]` | List of packages to update to specific versions (only when mode is `specific`). Format: list of dictionaries with `name` and `version` keys. |
 | `update_cache` | `true` | Update package cache before updating |
-| `package_updates_dry_run` | `false` | Simulation mode (no actual changes) |
-| `package_updates_install_plugins` | `true` | Automatic installation of versionlock plugins for RedHat/CentOS |
 
 ## Usage Examples
 
@@ -115,9 +112,7 @@ The role performs four main functions:
 ## Notes
 
 1. For pinning to work on RedHat/CentOS, the following plugins are required:
-   - RedHat 7: `yum-plugin-versionlock`
    - RedHat 8+: `python3-dnf-plugin-versionlock`
-   The role automatically installs these plugins when `package_updates_install_plugins: true` (default).
 
 2. Dry-run mode allows checking what would be done without actual changes (plugin installation is also skipped in dry-run).
 
