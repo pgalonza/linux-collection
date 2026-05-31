@@ -47,18 +47,13 @@
     - "{{ openscap_report_dir }}/report.html"
     - "{{ openscap_report_dir }}/results.xml"
 
-- name: Fetch OpenSCAP HTML report
+- name: Fetch OpenSCAP reports
   become: false
   ansible.builtin.fetch:
-    src: "{{ openscap_report_dir }}/report.html"
-    dest: "{{ audit_dir }}/report.html"
+    src: "{{ openscap_report_dir }}/{{ item }}"
+    dest: "{{ audit_dir }}/{{ item }}"
     flat: yes
     mode: '0600'
-
-- name: Fetch OpenSCAP XML results
-  become: false
-  ansible.builtin.fetch:
-    src: "{{ openscap_report_dir }}/results.xml"
-    dest: "{{ audit_dir }}/results.xml"
-    flat: yes
-    mode: '0600'
+  loop:
+    - report.html
+    - results.xml
