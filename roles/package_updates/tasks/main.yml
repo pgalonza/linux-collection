@@ -17,7 +17,10 @@
 
 - name: Import install plugins tasks
   ansible.builtin.import_tasks: install_plugins.yml
-  tags: package-updates
+  tags:
+    - package-unpin
+    - package-pin
+    - package-list-pinned
 
 - name: Import unpin packages tasks
   ansible.builtin.import_tasks: unpin.yml

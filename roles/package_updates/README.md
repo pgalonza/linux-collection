@@ -111,9 +111,7 @@ The role performs four main functions:
 1. For pinning to work on RedHat/CentOS, the following plugins are required:
    - RedHat 8+: `python3-dnf-plugin-versionlock`
 
-2. Dry-run mode allows checking what would be done without actual changes (plugin installation is also skipped in dry-run).
-
-3. The role does not restart services or reboot the system after updates.
+2. The role does not restart services or reboot the system after updates.
 
 ## Author
 
