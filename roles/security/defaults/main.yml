@@ -108,7 +108,7 @@ auditd_num_logs: 5
 auditd_flush: incremental
 auditd_freq: 20
 auditd_max_log_file_action: keep_logs # rotate
-auditd_space_left_action: suspend # syslog
+auditd_space_left_action: email # syslog
 auditd_admin_space_left_action: single # suspend
 auditd_disk_full_action: single # suspend
 auditd_disk_error_action: single # suspend
