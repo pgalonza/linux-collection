@@ -21,4 +21,3 @@
         msg: |
           Debian/Ubuntu held packages: {{ (apt_held_packages.stdout_lines | default([])) if apt_held_packages is defined else [] }}
           RedHat 8+ versionlock: {{ (dnf_versionlock_list.stdout_lines | default([])) if dnf_versionlock_list is defined else [] }}
-  when: package_pin_list | length > 0 or package_unpin_list | length > 0

@@ -26,8 +26,7 @@
 - name: Import package updates tasks
   ansible.builtin.import_tasks: updates.yml
   tags:
-    - package-update-all
-    - package-update-security
+    - package-updates
 
 - name: Import pin packages tasks
   ansible.builtin.import_tasks: pin.yml

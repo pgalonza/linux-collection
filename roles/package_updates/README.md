@@ -89,10 +89,7 @@ The role performs four main functions:
 
 ## Tags
 
-- `package-updates` - all tasks
-- `package-update-all` - update all packages
-- `package-update-security` - security updates
-- `package-update-specific` - update specific packages to specified versions
+- `package-updates` - update all packages
 - `package-pin` - pin packages
 - `package-unpin` - unpin packages
 - `package-list-pinned` - show pinned packages
