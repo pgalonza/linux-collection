@@ -52,7 +52,8 @@ ansible-galaxy collection install -r requirements.yml
 1. Install the collection:
 
    ```bash
-   ansible-galaxy collection install pgalonza.linux
+   ansible-galaxy collection install git+https://github.com/pgalonza/linux-collection.git
+   ansible-galaxy install -r ~/.ansible/collections/ansible_collections/pgalonza/linux/requirements.yml
    ```
 
 2. Create a playbook (e.g., `site.yml`) that includes the roles you need:
