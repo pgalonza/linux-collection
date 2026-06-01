@@ -52,6 +52,15 @@ All variables correspond to `sshd_config` directives. Refer to the [SSHD documen
 | `sshd_listen_address_ipv4` | `0.0.0.0` | IPv4 listen address |
 | `sshd_listen_address_ipv6` | `::` | IPv6 listen address |
 | `sshd_deny_users` | `["root", "admin", "sa"]` | List of denied users |
+| `sshd_root_login` | `false` | Allow (`true`) or deny (`false`) root login via SSH |
+
+### SSHD Root Login Hardening
+
+When `sshd_root_login` is set to `false` (default), the role performs additional hardening:
+
+- **Scans and removes conflicting configs** — searches `/etc/ssh/sshd_config.d/` for files containing `PermitRootLogin yes` or `GSSAPIAuthentication yes` and deletes them. This reverts any changes made by support staff that could re-enable root login.
+- **Removes root SSH keys** — deletes `/root/.ssh/authorized_keys` to prevent key-based root access.
+- **Hardcoded `PermitRootLogin no`** — the `sshd_config.j2` template sets `PermitRootLogin no` directly, ensuring root login is always disabled regardless of other configuration fragments.
 
 ### CrowdSec
 

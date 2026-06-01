@@ -4,11 +4,13 @@ Simple role for managing package updates with version pinning capability.
 
 ## Purpose
 
-The role performs four main functions:
-1. **Package updates** - all packages or security updates only
-2. **Specific version updates** - update specific packages to specified versions
-3. **Version pinning** - preventing updates of specified packages
-4. **Unpinning** - allowing updates of specified packages
+The role performs six main functions:
+1. **Update cache** - refresh the package manager cache before updates
+2. **Package updates** - all packages or security updates only
+3. **Specific version updates** - update specific packages to specified versions
+4. **Version pinning** - preventing updates of specified packages
+5. **Unpinning** - allowing updates of specified packages
+6. **Show pinned** - display the list of currently pinned packages
 
 ## Supported Distributions
 
@@ -94,6 +96,19 @@ The role performs four main functions:
 - `package-unpin` - unpin packages
 - `package-list-pinned` - show pinned packages
 
+## Task Structure
+
+The role's `main.yml` uses `import_tasks` to include modular task files, executed in the following order:
+
+| Task file | Tags | Description |
+|-----------|------|-------------|
+| [`update_cache.yml`](tasks/update_cache.yml) | `package-updates` | Refreshes the package manager cache (apt or dnf) |
+| [`install_plugins.yml`](tasks/install_plugins.yml) | `package-unpin`, `package-pin`, `package-list-pinned` | Installs `python3-dnf-plugin-versionlock` on RedHat 8+ |
+| [`unpin.yml`](tasks/unpin.yml) | `package-unpin` | Unpins packages using `apt-mark unhold` or `dnf versionlock delete` |
+| [`updates.yml`](tasks/updates.yml) | `package-updates` | Performs package updates (security, all, or specific versions) |
+| [`pin.yml`](tasks/pin.yml) | `package-pin` | Pins packages using `apt-mark hold` or `dnf versionlock add` |
+| [`show_pinned.yml`](tasks/show_pinned.yml) | `package-list-pinned` | Displays currently pinned packages |
+
 ## How It Works
 
 ### For Debian/Ubuntu:
@@ -101,17 +116,19 @@ The role performs four main functions:
 - Unpin: `apt-mark unhold <package>`
 - Show pinned: `apt-mark showhold`
 
-### For RedHat/CentOS:
-- Pin: `yum versionlock add <package>` or `dnf versionlock add <package>`
-- Unpin: `yum versionlock delete <package>` or `dnf versionlock delete <package>`
-- Show pinned: `yum versionlock list` or `dnf versionlock list`
+### For RedHat/CentOS (8+):
+- Pin: `dnf versionlock add <package>`
+- Unpin: `dnf versionlock delete <package>`
+- Show pinned: `dnf versionlock list`
 
 ## Notes
 
 1. For pinning to work on RedHat/CentOS, the following plugins are required:
-   - RedHat 8+: `python3-dnf-plugin-versionlock`
+   - RedHat 8+: `python3-dnf-plugin-versionlock` (installed automatically by the role)
 
 2. The role does not restart services or reboot the system after updates.
+
+3. The `update_cache` variable controls whether the package cache is refreshed before updates. Cache is only updated when `package_updates_mode` is not `none`.
 
 ## Author
 

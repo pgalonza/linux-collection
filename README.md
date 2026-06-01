@@ -40,12 +40,13 @@ ansible-galaxy collection install -r requirements.yml
 
 | Role | Purpose | Key Features |
 |------|---------|--------------|
-| **security** | System‑wide security hardening | Configures SSH, firewalld/nftables, sysctl, auditd, SELinux, PAM, journald, CrowdSec intrusion detection, and systemd security parameters. |
+| **security** | System‑wide security hardening | Configures SSH (including root login hardening), firewalld/nftables, sysctl, auditd, SELinux, PAM, journald, CrowdSec intrusion detection, and systemd security parameters. |
 | **audit** | Security compliance scanning | Runs OpenSCAP (CIS profiles), Lynis, Kaspersky Virus Removal Tool (KVRT), and basic security checks. Generates detailed reports. |
 | **prepare** | Initial server provisioning | Sets up SSH keys, configures SSHD, creates an Ansible user, and prepares the system for infrastructure‑as‑code management. |
 | **bash_profile** | Shell environment customization | Customizes the bash prompt with server role information and displays a welcome message on login. |
 | **docker** | Docker Engine installation | Installs Docker CE and configures daemon options. |
 | **nginx** | Nginx web server installation | Installs and secures Nginx using the `nginxinc.nginx` role. |
+| **package_updates** | Package management and version pinning | Updates packages (security, all, or specific versions), pins/unpins packages, shows pinned packages, and manages package cache. |
 
 ## Quick Start
 
@@ -87,6 +88,7 @@ Each role contains its own detailed README with variable descriptions, examples,
 - `roles/bash_profile/README.md`
 - `roles/docker/README.md`
 - `roles/nginx/README.md`
+- `roles/package_updates/README.md`
 
 ## Example Playbooks
 
