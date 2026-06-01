@@ -22,20 +22,27 @@
     - 00-complianceascode-hardening.conf
   notify: restart_sshd
 
-- name: Search for files
+- name: Search for files with access for tech support
   ansible.builtin.find:
     paths: /etc/ssh/sshd_config.d/
     contains: 'PermitRootLogin yes|GSSAPIAuthentication yes'
     file_type: file
   register: files_to_delete
+  when: not sshd_root_login
 
-- name: Delete files
+- name: Delete founded files
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   loop: "{{ files_to_delete.files }}"
   when: files_to_delete.files | length > 0
   notify: restart_sshd
+
+- name: Delete root ssh key
+  ansible.builtin.file:
+    path: "/root/.ssh/authorized_keys"
+    state: absent
+  when: not sshd_root_login
 
 - name: Copy sshd_config
   ansible.builtin.template:
