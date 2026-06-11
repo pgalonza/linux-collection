@@ -21,6 +21,10 @@ graph TB
     B --> F[Role: nginx]
     B --> G[Role: docker]
     B --> H[Role: prepare]
+    B --> I[Role: monitoring]
+    B --> J[Role: package_updates]
+
+    I --> I1[Yandex Unified Agent]
     
     C --> C1[CrowdSec]
     C --> C2[Firewalld]
@@ -97,6 +101,18 @@ Each role in the collection can be considered as a specialized "agent" performin
   - Ansible user creation
   - Basic system preparation
 
+### 7. **Monitoring Agent (monitoring)**
+**Responsibility:** Linux system monitoring configuration
+- **Components:**
+  - Unified Agent (Monium) — Yandex Cloud metrics collection
+
+### 8. **Package Updates Agent (package_updates)**
+**Responsibility:** Manage package updates with version pinning
+- **Functions:**
+  - Security and full system updates
+  - Package version pinning and unpinning
+  - Multi-distribution support (apt/yum/dnf)
+
 ## Agent Interaction
 
 ### Execution Sequence
@@ -104,16 +120,24 @@ Each role in the collection can be considered as a specialized "agent" performin
 2. **security** → Comprehensive security configuration
 3. **bash_profile** → User interface customization
 4. **audit** → Verification and reporting
-5. **nginx/docker** → Additional software installation (as needed)
+5. **monitoring** → System monitoring configuration
+6. **nginx/docker** → Additional software installation (as needed)
 
 ### Dependencies
 - `nginx` role depends on external collection `nginxinc.nginx_core.nginx`
 - All roles are independent but logically connected through common playbook
+- `package_updates` role supports apt (Debian/Ubuntu) and yum/dnf (RHEL/CentOS)
 
 ## Variables and Configuration
 
 ### Key Variables for AI Agents
 Each role provides a set of customization variables:
+
+#### Monitoring Agent
+```yaml
+ua_poll_period: "15s"
+ua_linux_metrics_detalization: "basic"
+```
 
 #### Security Agent
 ```yaml
@@ -176,6 +200,7 @@ bash_on_login_message: "Welcome to secured server"
 ## Testing with Molecule
 
 The collection includes Molecule tests for each role:
+- **monitoring** - tests for Unified Agent deployment
 - **security** - tests for CrowdSec, firewalld, SSH, PAM
 - **audit** - tests for Lynis and general audit
 - **bash_profile** - tests for prompt and messages
@@ -193,7 +218,6 @@ The collection includes Molecule tests for each role:
 
 ### What this collection does NOT do:
 - Does not manage upper-level applications
-- Does not configure monitoring (except CrowdSec)
 - Does not manage cloud resources
 - Does not provide full compliance for specific standards
 

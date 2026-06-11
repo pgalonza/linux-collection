@@ -1,0 +1,12 @@
+services:
+  unified_agent:
+    image: cr.yandex/yc/unified-agent:latest
+    entrypoint: unified_agent
+    container_name: unified-agent
+    volumes:
+      - /proc:/ua_proc
+      - {{ ua.config_path }}:/etc/yandex/unified_agent/config.yml
+      - {{ ua.jwt_params_path }}:/etc/yandex/unified_agent/jwt_params.json
+    environment:
+      FOLDER_ID: {{ ua.folder_id }}
+    uts: host

@@ -46,6 +46,7 @@ ansible-galaxy collection install -r requirements.yml
 | **bash_profile** | Shell environment customization | Customizes the bash prompt with server role information and displays a welcome message on login. |
 | **docker** | Docker Engine installation | Installs Docker CE and configures daemon options. |
 | **nginx** | Nginx web server installation | Installs and secures Nginx using the `nginxinc.nginx` role. |
+| **monitoring** | Linux system monitoring configuration | Deploys Yandex Cloud Unified Agent (Monium) for collecting and sending system metrics (CPU, memory, network, storage, I/O, kernel) to Yandex Monitoring. Extensible for additional monitoring providers. |
 | **package_updates** | Package management and version pinning | Updates packages (security, all, or specific versions), pins/unpins packages, shows pinned packages, and manages package cache. |
 
 ## Quick Start
@@ -88,6 +89,7 @@ Each role contains its own detailed README with variable descriptions, examples,
 - `roles/bash_profile/README.md`
 - `roles/docker/README.md`
 - `roles/nginx/README.md`
+- `roles/monitoring/README.md`
 - `roles/package_updates/README.md`
 
 ## Example Playbooks

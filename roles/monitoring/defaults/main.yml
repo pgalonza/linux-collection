@@ -1,0 +1,10 @@
+---
+# defaults file for ./roles/monitoring
+
+ua:
+  config_path: ./config.yml
+  jwt_params_path: ./jwt_params.json
+  folder_id: "{{ lookup('env', 'YC_FOLDER_ID') }}"
+ua_poll_period: 15s
+ua_linux_metrics_detalization: basic
+ua_local_jwt_params_path: "{{ lookup('env', 'PWD') }}/jwt_params.json"

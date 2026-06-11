@@ -1,0 +1,51 @@
+- name: Add the monium user
+  ansible.builtin.user:
+    name: monium
+    comment: monium
+    create_home: true
+    shell: /usr/sbin/nologin
+    system: true
+    groups:
+      - docker
+
+- name: Create unified-agent directory
+  ansible.builtin.file:
+    path: /home/monium/unified-agent
+    state: directory
+    owner: monium
+    group: monium
+    mode: "0700"
+
+- name: Unified Agent configuration
+  ansible.builtin.template:
+    src: unified-agent/config.yml.j2
+    dest: /home/monium/unified-agent/config.yml
+    owner: monium
+    group: monium
+    mode: "0600"
+  notify: restart_ua
+
+- name: Copy service account jwt
+  ansible.builtin.copy:
+    src: "{{ ua_local_jwt_params_path }}"
+    dest: /home/monium/unified-agent/jwt_params.json
+    owner: monium
+    group: monium
+    mode: "0600"
+  notify: restart_ua
+
+- name: Copy unified-agent compose
+  ansible.builtin.template:
+    src: unified-agent/docker-compose.yml.j2
+    dest: /home/monium/unified-agent/docker-compose.yml
+    owner: monium
+    group: monium
+    mode: "0600"
+
+- name: Pull images
+  community.docker.docker_compose_v2_pull:
+    project_src: /home/monium/unified-agent
+
+- name: Start services
+  community.docker.docker_compose_v2:
+    project_src: /home/monium/unified-agent
