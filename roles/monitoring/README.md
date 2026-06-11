@@ -22,6 +22,36 @@ The `monitoring` role provides tools for configuring system monitoring on Linux 
 - Yandex Cloud service account with JWT authorization (for Monium)
 - Environment variable `YC_FOLDER_ID` or set `ua.folder_id` explicitly
 
+**Prerequisites (for Monium)**
+
+Before using the Monium provider, create a service account and obtain a JWT file in Yandex Cloud:
+
+1. Create a service account:
+   ```bash
+   yc iam service-account create --name sa-monitoring
+   ```
+
+2. Assign the `monitoring.editor` role to the service account for your folder:
+   ```bash
+   yc resource-manager folder add-access-binding <folder_id> \
+     --role monitoring.editor \
+     --subject serviceAccount:<sa_id>
+   ```
+
+3. Create a JSON Web Token (JWT) for authentication:
+   ```bash
+   yc iam key create \
+     --service-account-name sa-monitoring \
+     --output jwt_params.json
+   ```
+
+4. Set the environment variable so the role can find your folder:
+   ```bash
+   export YC_FOLDER_ID="<folder_id>"
+   ```
+
+5. Either place `jwt_params.json` in the playbook directory, or set `ua_local_jwt_params_path` to its location.
+
 **Role Variables**
 
 | Variable | Default | Description |
