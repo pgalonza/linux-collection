@@ -1,6 +1,7 @@
 services:
   unified_agent:
     image: cr.yandex/yc/unified-agent:latest
+    restart: always
     entrypoint: unified_agent
     container_name: unified-agent
     volumes:
