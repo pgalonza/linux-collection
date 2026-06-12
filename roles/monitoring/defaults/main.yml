@@ -1,18 +1,18 @@
 ---
 # defaults file for ./roles/monitoring
 
-ua:
+yua:
   config_path: ./config.yml
   jwt_params_path: ./jwt_params.json
   folder_id: "{{ lookup('env', 'YC_FOLDER_ID') }}"
-ua_linux_metrics_detalization:
+yua_linux_metrics_detalization:
   cpu: advanced
   memory: basic
   network: basic
   storage: basic
   io: basic
   kernel: basic
-ua_poll_period: 15s
-ua_local_jwt_params_path: "{{ lookup('env', 'PWD') }}/jwt_params.json"
-ua_labels:
+yua_poll_period: 15s
+yua_local_jwt_params_path: "{{ lookup('env', 'PWD') }}/jwt_params.json"
+yua_labels:
   - inventory_hostname: "{{ inventory_hostname }}"

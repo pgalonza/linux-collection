@@ -27,7 +27,7 @@
 
 - name: Copy service account jwt
   ansible.builtin.copy:
-    src: "{{ ua_local_jwt_params_path }}"
+    src: "{{ yua_local_jwt_params_path }}"
     dest: /home/monium/unified-agent/jwt_params.json
     owner: monium
     group: monium

@@ -135,8 +135,8 @@ Each role provides a set of customization variables:
 
 #### Monitoring Agent
 ```yaml
-ua_poll_period: "15s"
-ua_linux_metrics_detalization: "basic"
+yua_poll_period: "15s"
+yua_linux_metrics_detalization: "basic"
 ```
 
 #### Security Agent

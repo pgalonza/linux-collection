@@ -20,7 +20,7 @@ The `monitoring` role provides tools for configuring system monitoring on Linux 
 - Docker installed on target host (for Monium)
 - `community.docker` collection (for Monium)
 - Yandex Cloud service account with JWT authorization (for Monium)
-- Environment variable `YC_FOLDER_ID` or set `ua.folder_id` explicitly
+- Environment variable `YC_FOLDER_ID` or set `yua.folder_id` explicitly
 
 **Prerequisites (for Monium)**
 
@@ -50,18 +50,18 @@ Before using the Monium provider, create a service account and obtain a JWT file
    export YC_FOLDER_ID="<folder_id>"
    ```
 
-5. Either place `jwt_params.json` in the playbook directory, or set `ua_local_jwt_params_path` to its location.
+5. Either place `jwt_params.json` in the playbook directory, or set `yua_local_jwt_params_path` to its location.
 
 **Role Variables**
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `ua.folder_id` | `{{ lookup('env', 'YC_FOLDER_ID') }}` | Yandex Cloud folder ID |
-| `ua.config_path` | `./config.yml` | Path to Unified Agent config on target |
-| `ua.jwt_params_path` | `./jwt_params.json` | Path to JWT params on target |
-| `ua_local_jwt_params_path` | `{{ lookup('env', 'PWD') }}/jwt_params.json` | Local path to JWT file (for copying to target) |
-| `ua_poll_period` | `15s` | Metrics poll period |
-| `ua_linux_metrics_detalization` | `basic` | Metrics detail level (`basic` or `detailed`) |
+| `yua.folder_id` | `{{ lookup('env', 'YC_FOLDER_ID') }}` | Yandex Cloud folder ID |
+| `yua.config_path` | `./config.yml` | Path to Unified Agent config on target |
+| `yua.jwt_params_path` | `./jwt_params.json` | Path to JWT params on target |
+| `yua_local_jwt_params_path` | `{{ lookup('env', 'PWD') }}/jwt_params.json` | Local path to JWT file (for copying to target) |
+| `yua_poll_period` | `15s` | Metrics poll period |
+| `yua_linux_metrics_detalization` | `basic` | Metrics detail level (`basic` or `detailed`) |
 
 **Dependencies**
 

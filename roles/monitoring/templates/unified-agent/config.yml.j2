@@ -22,7 +22,7 @@ channels:
         plugin: yc_metrics
         config:
           url: https://monitoring.api.cloud.yandex.net/monitoring/v2/data/write
-          folder_id: {{ ua.folder_id }}
+          folder_id: {{ yua.folder_id }}
           iam:
             jwt:
               file: "/etc/yandex/unified_agent/jwt_params.json"
@@ -31,24 +31,24 @@ routes:
   - input:
       plugin: linux_metrics
       config:
-        poll_period: {{ ua_poll_period }}
+        poll_period: {{ yua_poll_period }}
         namespace: sys
         proc_directory: /ua_proc
         sys_directory: /ua_sys
         resources:
-          cpu: {{ ua_linux_metrics_detalization.cpu }}
-          memory: {{ ua_linux_metrics_detalization.memory }}
-          network: {{ ua_linux_metrics_detalization.network }}
-          storage: {{ ua_linux_metrics_detalization.storage }}
-          io: {{ ua_linux_metrics_detalization.io }}
-          kernel: {{ ua_linux_metrics_detalization.kernel }}
+          cpu: {{ yua_linux_metrics_detalization.cpu }}
+          memory: {{ yua_linux_metrics_detalization.memory }}
+          network: {{ yua_linux_metrics_detalization.network }}
+          storage: {{ yua_linux_metrics_detalization.storage }}
+          io: {{ yua_linux_metrics_detalization.io }}
+          kernel: {{ yua_linux_metrics_detalization.kernel }}
     channel:
       pipe:
         - filter:
             plugin: transform_metric_labels
             config:
               labels:
-{% for label in ua_labels %}
+{% for label in yua_labels %}
                 - {{ label|to_yaml -}}
 {% endfor %}
       channel_ref:
@@ -57,7 +57,7 @@ routes:
   - input:
       plugin: agent_metrics
       config:
-        poll_period: {{ ua_poll_period }}
+        poll_period: {{ yua_poll_period }}
         namespace: ua
     channel:
       pipe:
