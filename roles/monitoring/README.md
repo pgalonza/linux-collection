@@ -61,7 +61,7 @@ Before using the Monium provider, create a service account and obtain a JWT file
 | `yua.jwt_params_path` | `./jwt_params.json` | Path to JWT params on target |
 | `yua_local_jwt_params_path` | `{{ lookup('env', 'PWD') }}/jwt_params.json` | Local path to JWT file (for copying to target) |
 | `yua_poll_period` | `15s` | Metrics poll period |
-| `yua_linux_metrics_detalization` | `basic` | Metrics detail level (`basic` or `detailed`) |
+| `yua_linux_metrics_detalization` | `basic` | Metrics detail level (`basic` or `advanced`) |
 
 **Dependencies**
 
