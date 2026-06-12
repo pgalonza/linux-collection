@@ -34,15 +34,23 @@ routes:
         poll_period: {{ ua_poll_period }}
         namespace: sys
         proc_directory: /ua_proc
-        sys_directory: /sys
+        sys_directory: /ua_sys
         resources:
-          cpu: {{ ua_linux_metrics_detalization }}
-          memory: {{ ua_linux_metrics_detalization }}
-          network: {{ ua_linux_metrics_detalization }}
-          storage: {{ ua_linux_metrics_detalization }}
-          io: {{ ua_linux_metrics_detalization }}
-          kernel: {{ ua_linux_metrics_detalization }}
+          cpu: {{ ua_linux_metrics_detalization.cpu }}
+          memory: {{ ua_linux_metrics_detalization.memory }}
+          network: {{ ua_linux_metrics_detalization.network }}
+          storage: {{ ua_linux_metrics_detalization.storage }}
+          io: {{ ua_linux_metrics_detalization.io }}
+          kernel: {{ ua_linux_metrics_detalization.kernel }}
     channel:
+      pipe:
+        - filter:
+            plugin: transform_metric_labels
+            config:
+              labels:
+{% for label in ua_labels %}
+                - {{ label|to_yaml -}}
+{% endfor %}
       channel_ref:
         name: cloud_monitoring
 
