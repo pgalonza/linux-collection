@@ -12,3 +12,12 @@ services:
     environment:
       FOLDER_ID: {{ yua.folder_id }}
     uts: host
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.31.0.16/29
