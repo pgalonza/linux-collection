@@ -27,6 +27,18 @@ channels:
             jwt:
               file: "/etc/yandex/unified_agent/jwt_params.json"
 
+pipes:
+  - name: general_labels
+    pipe:
+      - filter:
+          plugin: transform_metric_labels
+          config:
+            labels:
+{% for label in yua_labels %}
+              - {{ label|to_yaml -}}
+{% endfor %}
+      
+
 routes:
   - input:
       plugin: linux_metrics
@@ -44,13 +56,8 @@ routes:
           kernel: {{ yua_linux_metrics_detalization.kernel }}
     channel:
       pipe:
-        - filter:
-            plugin: transform_metric_labels
-            config:
-              labels:
-{% for label in yua_labels %}
-                - {{ label|to_yaml -}}
-{% endfor %}
+        - pipe_ref:
+            name: general_labels
       channel_ref:
         name: cloud_monitoring
 
@@ -65,6 +72,8 @@ routes:
             plugin: filter_metrics
             config:
               match: "{scope=health}"
+        - pipe_ref:
+            name: general_labels
       channel_ref:
         name: cloud_monitoring
 

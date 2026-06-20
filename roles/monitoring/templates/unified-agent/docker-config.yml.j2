@@ -1,0 +1,26 @@
+routes:
+  - input:
+      plugin: metrics_pull
+      config:
+        url: {{ yua_docker_metrics.url }}
+        format:
+          prometheus: {}
+        # metric_name_label: docker
+        poll_period: {{ yua_poll_period }}
+        namespace: docker
+        retry_count: 0
+        retry_delay: 1s
+        timeout: 5s
+        http_method: GET
+    channel:
+      pipe:
+        - pipe_ref:
+            name: general_labels
+{% for filter in yua_docker_metrics_filters %}
+        - filter:
+            plugin: filter_metrics
+            config:
+              {{ filter|to_nice_yaml -}}
+{% endfor %}
+      channel_ref:
+        name: cloud_monitoring

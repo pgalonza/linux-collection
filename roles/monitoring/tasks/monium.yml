@@ -16,6 +16,14 @@
     group: monium
     mode: "0700"
 
+- name: Create unified-agent conf.d directory
+  ansible.builtin.file:
+    path: /home/monium/unified-agent/conf.d
+    state: directory
+    owner: monium
+    group: monium
+    mode: "0700"
+
 - name: Unified Agent configuration
   ansible.builtin.template:
     src: unified-agent/config.yml.j2
@@ -24,6 +32,16 @@
     group: monium
     mode: "0600"
   notify: restart_ua
+
+- name: Unified Agent docker configuration
+  ansible.builtin.template:
+    src: unified-agent/docker-config.yml.j2
+    dest: /home/monium/unified-agent/conf.d/docker-config.yml
+    owner: monium
+    group: monium
+    mode: "0600"
+  notify: restart_ua
+  when: yua_docker_metrics.enabled
 
 - name: Copy service account jwt
   ansible.builtin.copy:

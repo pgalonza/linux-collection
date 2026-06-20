@@ -8,6 +8,7 @@ services:
       - /proc:/ua_proc:ro
       - /sys:/ua_sys:ro
       - {{ yua.config_path }}:/etc/yandex/unified_agent/config.yml
+      - {{ yua.confd_path }}/:/etc/yandex/unified_agent/conf.d/
       - {{ yua.jwt_params_path }}:/etc/yandex/unified_agent/jwt_params.json
     environment:
       FOLDER_ID: {{ yua.folder_id }}
