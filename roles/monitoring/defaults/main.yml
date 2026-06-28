@@ -18,7 +18,7 @@ yua_local_jwt_params_path: "{{ lookup('env', 'PWD') }}/jwt_params.json"
 yua_labels:
   - inventory_hostname: "{{ inventory_hostname }}"
 yua_docker_metrics:
-  url: http://172.31.0.17:9323/metrics
+  url: http://localhost:9323/metrics
   enabled: false
 yua_docker_metrics_filters:
   - match: "{name=docker.engine_daemon_container_states_containers|docker.process_open_fds}"

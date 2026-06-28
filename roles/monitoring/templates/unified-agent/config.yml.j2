@@ -1,8 +1,8 @@
 status:
   port: "16241"
-  host: null
+  host: localhost
 agent_log:
-  priority: NOTICE
+  priority: INFO
 
 storages:
   - name: main
@@ -37,7 +37,7 @@ pipes:
 {% for label in yua_labels %}
               - {{ label|to_yaml -}}
 {% endfor %}
-      
+
 
 routes:
   - input:
