@@ -17,9 +17,10 @@ The `pgalonza.linux` collection provides a set of Ansible roles to automate Linu
 
 ## Requirements
 
-- Ansible 2.9 or higher
+- Ansible 13.x or higher
 - Target systems: Linux (RedHat/CentOS 7+, Debian/Ubuntu 18.04+)
-- Python 3.6+
+- Python 3.12+
+- [uv](https://docs.astral.sh/uv/) package manager (recommended for development)
 
 ### Collection Dependencies
 
@@ -139,12 +140,26 @@ ansible-playbook -i inventory site.yml --tags "security,configure"
 
 ## Testing
 
-The collection includes Molecule test scenarios for each role (located in `extensions/molecule/`). To run the tests:
+The collection includes Molecule test scenarios for each role (located in `extensions/molecule/`). To set up the development environment and run tests:
 
 ```bash
-cd extensions/molecule/<role>
-molecule test
+# Install uv (if not already installed)
+# See https://docs.astral.sh/uv/getting-started/installation/
+
+# Install Python dependencies (Ansible, Molecule, etc.)
+uv sync
+
+# Install external Ansible roles
+ansible-galaxy install -r requirements.yml
+
+# Install the collection locally
+ansible-galaxy collection install ./
+
+# Run a specific scenario
+cd extensions && molecule test -s <scenario>
 ```
+
+Where `<scenario>` is one of: `audit`, `bash_profile`, `nginx`, `package_updates`, `prepare`, `security`.
 
 ## Contributing
 
