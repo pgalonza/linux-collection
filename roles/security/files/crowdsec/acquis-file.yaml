@@ -1,8 +1,8 @@
 source: file
 filenames:
-  - /logs/auth.log
-  - /logs/secure
-  - /logs/syslog
-  - /logs/audit.log
+  - /logs/host/auth.log
+  - /logs/host/secure
+  - /logs/host/syslog
+  - /logs/host/audit/audit.log
 labels:
   type: syslog
