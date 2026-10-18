@@ -1,7 +1,7 @@
 ---
 roles:
   - name: nginxinc.nginx
-    version: 0.25.0
+    version: 0.26.0
   - name: geerlingguy.docker
     version: 8.0.0
 ...
