@@ -15,7 +15,7 @@
     mode: 0600
     validate: "/usr/sbin/visudo --check --file=%s"
   loop:
-    - 00-complianceascode-hardening.conf
+    - 00-complianceascode-hardening
 
 - name: Comment all lines with wheel
   block:
