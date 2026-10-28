@@ -1,7 +1,14 @@
 ---
 # tasks file for PAM
 
-- name: PAM wheel
+# - name: Remove existing pam_wheel auth rules from /etc/pam.d/su
+#   ansible.builtin.lineinfile:
+#     path: /etc/pam.d/su
+#     regexp: '^auth\s+.*\s+pam_wheel\.so'
+#     state: absent
+#     backup: yes
+
+- name: Restrict su to wheel group
   community.general.pamd:
     name: su
     type: auth
@@ -10,7 +17,7 @@
     new_type: auth
     new_control: required
     new_module_path: pam_wheel.so
-    module_arguments: 'use_uid'
+    module_arguments: use_uid group=wheel
     state: after
 
 - name: Ensure group "wheel" exists
@@ -27,14 +34,25 @@
       - wheel
   loop: "{{ pam_wheel_users }}"
 
-- name: Ensure nullok is removed from /etc/pam.d/system-auth
-  ansible.builtin.lineinfile:
-    path: /etc/pam.d/system-auth
-    regexp: '^\s*.*nullok\b'
-    state: absent
+- name: Ensure nullok is removed from authselect profile (RedHat)
+  block:
+    - name: Create authselect custom profile
+      ansible.builtin.command:
+        cmd: "authselect create-profile {{ pam_authselect_custom_profile }} --base-on {{ pam_authselect_base_profile }}"
+        creates: "/etc/authselect/custom/{{ pam_authselect_custom_profile }}"
 
-- name: Ensure nullok is removed from /etc/pam.d/password-auth
-  ansible.builtin.lineinfile:
-    path: /etc/pam.d/password-auth
-    regexp: '^\s*.*nullok\b'
-    state: absent
+    - name: Select authselect custom profile
+      ansible.builtin.command:
+        cmd: "authselect select custom/{{ pam_authselect_custom_profile }}"
+      changed_when: false
+
+    - name: Remove nullok from authselect custom profile
+      ansible.builtin.replace:
+        path: "/etc/authselect/custom/{{ pam_authselect_custom_profile }}/{{ item }}-auth"
+        regexp: 'nullok'
+        replace: ''
+      loop:
+        - system
+        - password
+      notify: update_authselect
+  when: ansible_facts['os_family'] == "RedHat"

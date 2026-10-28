@@ -99,9 +99,13 @@ The role applies the following sysctl parameter groups:
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `pam_wheel_users` | `[]` | List of users allowed to use `su` via wheel group |
+| `pam_authselect_custom_profile` | `security-smart` | authselect custom profile name (RedHat) |
+| `pam_authselect_base_profile` | `sssd` | Base authselect profile created from (RedHat) |
 
-Additional PAM hardening (no variables required):
-- Removes `nullok` from `/etc/pam.d/system-auth` and `/etc/pam.d/password-auth`
+Additional PAM hardening:
+
+- **Restricts `su` to the `wheel` group** — inserts `auth required pam_wheel.so use_uid group=wheel` after `pam_rootok.so` in `/etc/pam.d/su`.
+- **Removes `nullok` from PAM modules** — on RedHat 8+ (authselect-based) it creates a custom authselect profile, selects it, and removes `nullok` from the profile's `system-auth` and `password-auth` files (see [authselect documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_authentication_and_authorization_in_rhel/getting-started-with-authselect_configuring-authentication-and-authorization-in-rhel)).
 
 ### Sudoers
 

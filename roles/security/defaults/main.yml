@@ -51,6 +51,8 @@ sysctl_icmp_echo_ignore_all_enabled: false
 
 # PAM
 pam_wheel_users: []
+pam_authselect_custom_profile: security-smart
+pam_authselect_base_profile: sssd
 
 # Journald
 journald_system_max_use: 3G

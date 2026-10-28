@@ -6,6 +6,11 @@
     daemon_reload: yes
   listen: reload_systemd
 
+- name: Apply authselect changes
+  ansible.builtin.command:
+    cmd: authselect apply-changes
+  listen: update_authselect
+
 - name: Reload sshd server
   ansible.builtin.systemd:
     state: reloaded
