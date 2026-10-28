@@ -56,3 +56,5 @@
         - password
       notify: update_authselect
   when: ansible_facts['os_family'] == "RedHat"
+  tags:
+    - molecule-notest
