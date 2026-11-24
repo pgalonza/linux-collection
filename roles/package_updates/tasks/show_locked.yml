@@ -1,0 +1,23 @@
+---
+# Show configured and actual versionlock state.
+
+- name: Get current versionlock entries
+  ansible.builtin.command:
+    cmd: dnf -q versionlock list
+  register: package_updates_versionlock_list
+  changed_when: false
+  check_mode: false
+
+- name: Store actual versionlock entries
+  ansible.builtin.set_fact:
+    package_updates_locked_actual: "{{ package_updates_versionlock_list.stdout_lines | default([]) }}"
+
+- name: Display lock state
+  ansible.builtin.debug:
+    msg:
+      - >-
+        Configured lock list:
+        {{ package_updates_lock_list | join(', ') if package_updates_lock_list | length > 0 else '(empty)' }}
+      - >-
+        Actual versionlock entries:
+        {{ package_updates_locked_actual | join(', ') if package_updates_locked_actual | length > 0 else '(empty)' }}

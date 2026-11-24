@@ -1,28 +1,42 @@
 ---
-# defaults file for package_updates - simplified version
+# Package updates role defaults.
+#
+# Supported platforms for this iteration: RHEL / AlmaLinux / Rocky 8-9.
+# Debian/Ubuntu support is being reworked separately.
 
-# Update mode:
-#   "all" - update all packages
-#   "security" - update security packages only
-#   "specific" - update specific packages to specified versions
-#   "none" - don't update packages (pinning/unpinning only)
+# What to update:
+#   "all"      - all available package updates
+#   "security" - security updates only
+#   "specific" - only packages from package_updates_specific_list
+#   "none"     - no updates, only lock management
 package_updates_mode: "security"
 
-# List of packages to pin (prevent updates)
-package_pin_list: []
+# How to treat packages from package_updates_lock_list:
+#   "exclude" - do not update locked packages
+#   "include" - update all selected packages, including locked ones,
+#               then restore locks
+#   "only"    - update only locked packages, then restore locks
+package_updates_locked_policy: "exclude"
 
-# List of packages to unpin (allow updates)
-package_unpin_list: []
+# Packages to lock before updating. These packages are the single source of
+# truth for lock management; versionlock entries that are not present in the
+# lock or unlock lists are not modified by the role.
+package_updates_lock_list: []
 
-# List of packages to update to specific versions (only when mode is "specific")
-# Format: list of dictionaries with "name" and "version" keys
-# Example:
-#   package_specific_list:
-#     - name: nginx
-#       version: 1.18.0
-#     - name: docker-ce
-#       version: 5:20.10.7
-package_specific_list: []
+# Packages whose locks should be removed before updating.
+# A package must not be present in both lock and unlock lists.
+package_updates_unlock_list: []
 
-# Update package cache before updating
-update_cache: true
+# Packages to update when package_updates_mode is "specific".
+# Items can be package names or dictionaries with "name" and optional "version":
+#   package_updates_specific_list:
+#     - nginx
+#     - name: openssl
+#       version: "3.0.13-1ubuntu1.1"
+package_updates_specific_list: []
+
+# Refresh the package manager metadata cache before running package operations.
+package_updates_refresh_cache: true
+
+# When true, only already installed packages are updated in "specific" mode.
+package_updates_only_installed: true

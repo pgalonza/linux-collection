@@ -1,0 +1,8 @@
+---
+# Lock configured packages before updating.
+
+- name: Lock packages
+  community.general.dnf_versionlock:
+    name: "{{ package_updates_lock_list }}"
+    state: present
+  when: package_updates_lock_list | length > 0

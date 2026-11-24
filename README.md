@@ -48,7 +48,7 @@ ansible-galaxy collection install -r requirements.yml
 | **docker** | Docker Engine installation | Installs Docker CE and configures daemon options. |
 | **nginx** | Nginx web server installation | Installs and secures Nginx using the `nginxinc.nginx` role. |
 | **monitoring** | Linux system monitoring configuration | Deploys Yandex Cloud Unified Agent (Monium) for collecting and sending system metrics (CPU, memory, network, storage, I/O, kernel) to Yandex Monitoring. Extensible for additional monitoring providers. |
-| **package_updates** | Package management and version pinning | Updates packages (security, all, or specific versions), pins/unpins packages, shows pinned packages, and manages package cache. |
+| **package_updates** | Package management and version locking (RHEL 8–9) | Updates all, security, or specific packages; supports exclude/include/only policies for locked packages; manages DNF versionlock and package cache. Debian/Ubuntu support is being reworked separately. |
 
 ## Quick Start
 

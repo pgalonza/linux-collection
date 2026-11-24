@@ -8,5 +8,5 @@
     - package_updates
   vars:
     package_updates_mode: "security"
-    package_pin_list:
+    package_updates_lock_list:
       - python3

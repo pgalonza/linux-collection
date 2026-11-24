@@ -1,0 +1,8 @@
+---
+# Remove configured package locks before updating.
+
+- name: Unlock packages
+  community.general.dnf_versionlock:
+    name: "{{ package_updates_unlock_list }}"
+    state: absent
+  when: package_updates_unlock_list | length > 0

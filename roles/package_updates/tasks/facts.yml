@@ -1,0 +1,24 @@
+---
+# Gather facts required by the role and validate the target platform.
+
+- name: Collect OS facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - os_family
+      - distribution
+      - distribution_major_version
+  tags: always
+
+- name: Validate supported platform
+  ansible.builtin.assert:
+    that:
+      - ansible_facts['os_family'] == 'RedHat'
+      - ansible_facts['distribution_major_version'] >= "8"
+    fail_msg: >-
+      package_updates: Debian/Ubuntu support is being reworked separately.
+      Currently supported platforms: RHEL/AlmaLinux/Rocky 8-9.
+    success_msg: >-
+      package_updates: supported platform detected
+      ({{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_major_version'] }})
+  tags: always

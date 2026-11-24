@@ -1,40 +1,43 @@
 ---
-# tasks file for package_updates - refactored with imports
-# Only package updates, pinning and unpinning
+# Package updates role entry point.
+# Supported platforms for this iteration: RHEL / AlmaLinux / Rocky 8-9.
 
-- name: Collect OS facts
-  ansible.builtin.setup:
-    gather_subset:
-      - '!all'
-      - os_family
-      - distribution
-      - distribution_major_version
+- name: Import facts tasks
+  ansible.builtin.import_tasks: facts.yml
   tags: always
 
 - name: Import update cache tasks
   ansible.builtin.import_tasks: update_cache.yml
-  tags: package-updates
+  tags:
+    - package-updates
+    - package-lock
+    - package-unlock
+    - package-locked
 
 - name: Import install plugins tasks
   ansible.builtin.import_tasks: install_plugins.yml
   tags:
-    - package-unpin
-    - package-pin
-    - package-list-pinned
+    - package-updates
+    - package-lock
+    - package-unlock
+    - package-locked
 
-- name: Import unpin packages tasks
-  ansible.builtin.import_tasks: unpin.yml
-  tags: package-unpin
+- name: Import unlock packages tasks
+  ansible.builtin.import_tasks: unlock.yml
+  tags:
+    - package-updates
+    - package-unlock
+
+- name: Import lock packages tasks
+  ansible.builtin.import_tasks: lock.yml
+  tags:
+    - package-updates
+    - package-lock
 
 - name: Import package updates tasks
   ansible.builtin.import_tasks: updates.yml
-  tags:
-    - package-updates
+  tags: package-updates
 
-- name: Import pin packages tasks
-  ansible.builtin.import_tasks: pin.yml
-  tags: package-pin
-
-- name: Import show pinned packages tasks
-  ansible.builtin.import_tasks: show_pinned.yml
-  tags: package-list-pinned
+- name: Import show locked packages tasks
+  ansible.builtin.import_tasks: show_locked.yml
+  tags: package-locked

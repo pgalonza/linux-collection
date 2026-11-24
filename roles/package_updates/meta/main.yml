@@ -1,26 +1,15 @@
 ---
 galaxy_info:
   author: Peter Galonza
-  description: Package updates management with version pinning to prevent accidental updates
+  description: Package update management with declarative version locking for RHEL-based systems
   company: "Personal"
   license: MIT
-  min_ansible_version: "2.9"
+  min_ansible_version: "2.15"
   platforms:
     - name: EL
       versions:
         - "8"
         - "9"
-    - name: Ubuntu
-      versions:
-        - bionic
-        - focal
-        - jammy
-        - noble
-    - name: Debian
-      versions:
-        - buster
-        - bullseye
-        - bookworm
   galaxy_tags:
     - system
     - packages
@@ -28,5 +17,6 @@ galaxy_info:
     - security
     - automation
     - management
+    - versionlock
 
 dependencies: []

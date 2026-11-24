@@ -107,11 +107,13 @@ Each role in the collection can be considered as a specialized "agent" performin
   - Unified Agent (Monium) — Yandex Cloud metrics collection
 
 ### 8. **Package Updates Agent (package_updates)**
-**Responsibility:** Manage package updates with version pinning
+**Responsibility:** Manage package updates with declarative version locking
 - **Functions:**
   - Security and full system updates
-  - Package version pinning and unpinning
-  - Multi-distribution support (apt/yum/dnf)
+  - Specific package updates to the latest or an exact version
+  - Declarative lock management with `exclude`, `include`, and `only` policies
+  - DNF versionlock support on RHEL / AlmaLinux / Rocky 8-9
+- **Current limitation:** Debian/Ubuntu support is being reworked separately
 
 ## Agent Interaction
 
@@ -126,7 +128,6 @@ Each role in the collection can be considered as a specialized "agent" performin
 ### Dependencies
 - `nginx` role depends on external collection `nginxinc.nginx_core.nginx`
 - All roles are independent but logically connected through common playbook
-- `package_updates` role supports apt (Debian/Ubuntu) and yum/dnf (RHEL/CentOS)
 
 ## Variables and Configuration
 
@@ -172,6 +173,17 @@ bash_server_role: "Production"
 bash_on_login_message: "Welcome to secured server"
 ```
 
+#### Package Updates Agent
+```yaml
+package_updates_mode: "security"          # all | security | specific | none
+package_updates_locked_policy: "exclude"  # exclude | include | only
+package_updates_lock_list: []
+package_updates_unlock_list: []
+package_updates_specific_list: []
+package_updates_refresh_cache: true
+package_updates_only_installed: true
+```
+
 ## Collection Usage
 
 ### Basic Playbook
@@ -206,6 +218,7 @@ The collection includes Molecule tests for each role:
 - **bash_profile** - tests for prompt and messages
 - **prepare** - tests for SSH configuration
 - **nginx** - tests for NGINX installation
+- **package_updates** - tests for lock policies and DNF versionlock (AlmaLinux 8,9)
 
 ## For AI Agents: Usage Context
 

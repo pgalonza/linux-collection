@@ -1,134 +1,205 @@
 # Package Updates
 
-Simple role for managing package updates with version pinning capability.
+Role for managing package updates and declarative version locks on RHEL-based systems.
 
-## Purpose
+## Supported Platforms
 
-The role performs six main functions:
-1. **Update cache** - refresh the package manager cache before updates
-2. **Package updates** - all packages or security updates only
-3. **Specific version updates** - update specific packages to specified versions
-4. **Version pinning** - preventing updates of specified packages
-5. **Unpinning** - allowing updates of specified packages
-6. **Show pinned** - display the list of currently pinned packages
+- RHEL / AlmaLinux / Rocky Linux 8
+- RHEL / AlmaLinux / Rocky Linux 9
 
-## Supported Distributions
+> Debian/Ubuntu support is being reworked separately. The role fails with an
+> explicit error on non-RHEL systems.
 
-- **Debian/Ubuntu** (apt)
-- **RedHat/CentOS** (yum/dnf)
+## How It Works
+
+The role separates two concerns:
+
+1. **What to update** — `package_updates_mode`
+2. **How to treat locked packages** — `package_updates_locked_policy`
+
+Locked packages are defined exclusively by `package_updates_lock_list`.
+The role manages these locks itself; `dnf versionlock` entries that are not
+present in the lock or unlock lists are not modified.
+
+### Update modes
+
+| Mode | Description |
+|------|-------------|
+| `all` | Update all available packages |
+| `security` | Update security advisories only |
+| `specific` | Update packages from `package_updates_specific_list` |
+| `none` | Do not update anything, only manage locks |
+
+### Locked-package policies
+
+| Policy | Description |
+|--------|-------------|
+| `exclude` | Locked packages are not updated |
+| `include` | All selected packages are updated, including locked ones; all configured locks are released during the run and restored afterwards |
+| `only` | Only locked packages are updated; all configured locks are released during the run and restored afterwards |
+
+### Mode and policy matrix
+
+| Mode | `exclude` | `include` | `only` |
+|------|-----------|-----------|--------|
+| `all` | All except locked | All, including locked | Only locked |
+| `security` | Security except locked | All security, including locked | Security for locked only |
+| `specific` | Listed packages except locked | Listed packages, including locked | Locked packages from the list |
+
+For `specific`, a locked package is skipped when the policy is `exclude`.
+To update a locked package explicitly, use `package_updates_locked_policy: include`.
 
 ## Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `package_updates_mode` | `"security"` | Mode: `all` (all packages), `security` (security only), `specific` (specific packages), `none` (pinning only) |
-| `package_pin_list` | `[]` | List of packages to pin |
-| `package_unpin_list` | `[]` | List of packages to unpin |
-| `package_specific_list` | `[]` | List of packages to update to specific versions (only when mode is `specific`). Format: list of dictionaries with `name` and `version` keys. |
-| `update_cache` | `true` | Update package cache before updating |
+| `package_updates_mode` | `"security"` | `all`, `security`, `specific`, or `none` |
+| `package_updates_locked_policy` | `"exclude"` | `exclude`, `include`, or `only` |
+| `package_updates_lock_list` | `[]` | Packages to lock before updating |
+| `package_updates_unlock_list` | `[]` | Packages whose locks should be removed |
+| `package_updates_specific_list` | `[]` | Packages for `specific` mode; strings or dictionaries with `name` and optional `version` |
+| `package_updates_refresh_cache` | `true` | Refresh DNF metadata before package operations |
+| `package_updates_only_installed` | `true` | In `specific` mode, update only already installed packages |
 
-## Usage Examples
+`package_updates_lock_list` and `package_updates_unlock_list` should not contain
+the same package. Validation is intentionally minimal: only the two option
+variables are checked, and `package_updates_lock_list` is verified against
+installed packages. Malformed list types surface as task failures.
 
-### Example 1: Security updates with package pinning
+## Examples
+
+### Update everything except locked packages
+
 ```yaml
 - hosts: servers
+  become: true
+  collections:
+    - pgalonza.linux
   roles:
-    - package_updates
-  vars:
-    package_updates_mode: "security"
-    package_pin_list:
-      - nginx
-      - postgresql
-      - docker-ce
+    - role: package_updates
+      vars:
+        package_updates_mode: "all"
+        package_updates_locked_policy: "exclude"
+        package_updates_lock_list:
+          - kernel
+          - docker-ce
 ```
 
-### Example 2: Full update of all packages
+### Update everything, including locked packages
+
 ```yaml
 - hosts: servers
+  become: true
+  collections:
+    - pgalonza.linux
   roles:
-    - package_updates
-  vars:
-    package_updates_mode: "all"
+    - role: package_updates
+      vars:
+        package_updates_mode: "all"
+        package_updates_locked_policy: "include"
+        package_updates_lock_list:
+          - kernel
+          - docker-ce
 ```
 
-### Example 3: Package pinning only (no updates)
+`kernel` and `docker-ce` are temporarily unlocked, updated, and locked again at
+their new installed versions.
+
+### Update only locked packages
+
 ```yaml
 - hosts: servers
+  become: true
+  collections:
+    - pgalonza.linux
   roles:
-    - package_updates
-  vars:
-    package_updates_mode: "none"
-    package_pin_list:
-      - kernel
-      - openssl
+    - role: package_updates
+      vars:
+        package_updates_mode: "all"
+        package_updates_locked_policy: "only"
+        package_updates_lock_list:
+          - kernel
+          - docker-ce
 ```
 
-### Example 4: Unpinning and updating
+### Update specific packages
+
 ```yaml
 - hosts: servers
+  become: true
+  collections:
+    - pgalonza.linux
   roles:
-    - package_updates
-  vars:
-    package_updates_mode: "all"
-    package_unpin_list:
-      - nginx
-      - php
+    - role: package_updates
+      vars:
+        package_updates_mode: "specific"
+        package_updates_specific_list:
+          - nginx
+          - name: openssl
+            version: "3.0.13-1.el9"
 ```
 
-### Example 5: Update specific packages to specified versions
+A string updates the package to the latest available version. A dictionary with
+`version` installs that exact version.
+
+### Only manage locks
+
 ```yaml
 - hosts: servers
+  become: true
+  collections:
+    - pgalonza.linux
   roles:
-    - package_updates
-  vars:
-    package_updates_mode: "specific"
-    package_specific_list:
-      - name: nginx
-        version: 1.18.0
-      - name: docker-ce
-        version: 5:20.10.7
+    - role: package_updates
+      vars:
+        package_updates_mode: "none"
+        package_updates_lock_list:
+          - kernel
 ```
 
 ## Tags
 
-- `package-updates` - update all packages
-- `package-pin` - pin packages
-- `package-unpin` - unpin packages
-- `package-list-pinned` - show pinned packages
+| Tag | Description |
+|-----|-------------|
+| `package-updates` | Refresh cache, apply locks/unlocks, and perform updates |
+| `package-lock` | Apply `package_updates_lock_list` only |
+| `package-unlock` | Apply `package_updates_unlock_list` only |
+| `package-locked` | Show configured and actual versionlock entries |
 
-## Task Structure
+## Lock Management
 
-The role's `main.yml` uses `import_tasks` to include modular task files, executed in the following order:
+The role uses:
 
-| Task file | Tags | Description |
-|-----------|------|-------------|
-| [`update_cache.yml`](tasks/update_cache.yml) | `package-updates` | Refreshes the package manager cache (apt or dnf) |
-| [`install_plugins.yml`](tasks/install_plugins.yml) | `package-unpin`, `package-pin`, `package-list-pinned` | Installs `python3-dnf-plugin-versionlock` on RedHat 8+ |
-| [`unpin.yml`](tasks/unpin.yml) | `package-unpin` | Unpins packages using `apt-mark unhold` or `dnf versionlock delete` |
-| [`updates.yml`](tasks/updates.yml) | `package-updates` | Performs package updates (security, all, or specific versions) |
-| [`pin.yml`](tasks/pin.yml) | `package-pin` | Pins packages using `apt-mark hold` or `dnf versionlock add` |
-| [`show_pinned.yml`](tasks/show_pinned.yml) | `package-list-pinned` | Displays currently pinned packages |
+- `community.general.dnf_versionlock` to add and remove version locks;
+- `python3-dnf-plugin-versionlock` as the required DNF plugin.
 
-## How It Works
+The lock list is not validated against installed packages. Names in
+`package_updates_lock_list` that are not installed are passed to
+`dnf_versionlock`, which may lock available (not installed) versions of those
+packages.
 
-### For Debian/Ubuntu:
-- Pin: `apt-mark hold <package>`
-- Unpin: `apt-mark unhold <package>`
-- Show pinned: `apt-mark showhold`
+For `include` and `only` policies, every configured lock is temporarily
+released for the duration of the update transaction and restored in an `always`
+block, including when the update fails.
 
-### For RedHat/CentOS (8+):
-- Pin: `dnf versionlock add <package>`
-- Unpin: `dnf versionlock delete <package>`
-- Show pinned: `dnf versionlock list`
+## Check Mode
+
+Check mode works for validation and read-only tasks. For `include` and `only`
+policies the simulation is approximate: version locks cannot be temporarily
+removed non-destructively in check mode, so locked packages may not appear in
+the simulated update transaction.
 
 ## Notes
 
-1. For pinning to work on RedHat/CentOS, the following plugins are required:
-   - RedHat 8+: `python3-dnf-plugin-versionlock` (installed automatically by the role)
-
-2. The role does not restart services or reboot the system after updates.
-
-3. The `update_cache` variable controls whether the package cache is refreshed before updates. Cache is only updated when `package_updates_mode` is not `none`.
+1. The role does not restart services or reboot the system after updates.
+2. A kernel update may require a reboot; this is not handled by the role.
+3. On RHEL-based systems `dnf` is used. `yum` and `dnf5` are not supported.
+4. On EL8, configure a Python interpreter supported by your Ansible version
+   (3.8 or newer) together with matching DNF Python bindings. The default EL8
+   Python 3.6 is not supported by Ansible 2.20.
+5. The role is not idempotent in terms of changed-task reporting for `include`
+   and `only` policies, because locks are intentionally removed and restored on
+   every run.
 
 ## Author
 

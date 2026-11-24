@@ -6,4 +6,5 @@
     - security
     - bash_profile
     - audit
+    # package_updates currently supports RHEL / AlmaLinux / Rocky 8-9 only.
     - package_updates

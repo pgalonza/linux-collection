@@ -1,12 +1,14 @@
 ---
-# test.yml for package_updates role - simplified version
+# Manual test playbook for the package_updates role.
+# Run only on RHEL / AlmaLinux / Rocky 8-9.
 
-- name: Test security updates with pinning
+- name: Test package lock management
   hosts: localhost
   remote_user: root
   gather_facts: false
   vars:
-    package_updates_mode: "security"
-    package_pin_list:
+    package_updates_mode: "none"
+    package_updates_lock_list:
       - python3
-
+  roles:
+    - package_updates
